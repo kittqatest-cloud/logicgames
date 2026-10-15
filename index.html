@@ -433,6 +433,13 @@ body.night .overlay{background:rgba(5,8,30,.62)}
 body.night .pbody input,body.night .welcome input{background:#3A428C;border-color:#0E1238}
 body.night .owl svg{filter:drop-shadow(0 0 14px rgba(255,230,140,.28))}
 body.night .title .l{text-shadow:2px 0 0 #0E1238,-2px 0 0 #0E1238,0 2px 0 #0E1238,0 -2px 0 #0E1238,2px 2px 0 #0E1238,-2px 2px 0 #0E1238,2px -2px 0 #0E1238,-2px -2px 0 #0E1238,0 4px 0 #0E1238,1px 6px 0 #0E1238,-1px 6px 0 #0E1238,1px 8px 0 #0E1238,-1px 8px 0 #0E1238,0 0 22px rgba(255,230,140,.35)}
+
+/* rooms: things stand in fixed places on shelves, tables and the floor */
+.pic.room{display:block;position:relative;aspect-ratio:3/2;background-size:100% 100%}
+.cell.slot{position:absolute;left:calc(var(--x) * 1% - var(--s) * .7cqw);top:calc(var(--y) * 1% - var(--s) * 1.3cqw);width:calc(var(--s) * 1.4cqw);height:calc(var(--s) * 1.4cqw);font-size:calc(var(--s) * 1cqw);align-items:flex-end}
+.cell.slot .it{transform-origin:50% 100%}
+.cell.slot .it.big{transform:scale(1.4)}
+@media (max-width:640px){.diff{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -807,7 +814,11 @@ forest: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveA
 sea: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDF3FC"/><stop offset="1" stop-color="#A3D6F1"/></linearGradient></defs><rect width="300" height="200" fill="url(#w)"/><path d="M40 0 H66 L30 150 H12Z M140 0 H160 L132 140 H116Z M230 0 H250 L222 150 H206Z" fill="#fff" opacity=".28"/><path d="M0 170 Q60 156 120 167 T240 164 T300 162 V200 H0Z" fill="#F4E3B6"/><g fill="none" stroke="#fff" stroke-width="2" opacity=".8"><circle cx="70" cy="60" r="5"/><circle cx="78" cy="44" r="3"/><circle cx="200" cy="90" r="4"/><circle cx="260" cy="40" r="6"/></g></svg>`,
 farm: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9E8FF"/><stop offset=".5" stop-color="#F0F9FF"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3F8D8"/><stop offset="1" stop-color="#DCE8A9"/></linearGradient></defs><rect width="300" height="200" fill="url(#s)"/><circle cx="40" cy="34" r="16" fill="#FFE48A"/><path d="M0 96 C60 70 130 74 180 92 C230 108 270 84 300 86 V200 H0Z" fill="#CFEAB4"/><rect y="118" width="300" height="82" fill="url(#g)"/><g fill="#E6C69A" stroke="#C9A06E" stroke-width="1.5"><rect x="0" y="104" width="300" height="5"/><rect x="0" y="113" width="300" height="5"/><rect x="12" y="98" width="6" height="24"/><rect x="62" y="98" width="6" height="24"/><rect x="112" y="98" width="6" height="24"/><rect x="162" y="98" width="6" height="24"/><rect x="212" y="98" width="6" height="24"/><rect x="262" y="98" width="6" height="24"/></g></svg>`,
 space: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="s" cx=".25" cy=".2" r="1"><stop offset="0" stop-color="#4A3F8E"/><stop offset="1" stop-color="#18153D"/></radialGradient></defs><rect width="300" height="200" fill="url(#s)"/><g fill="#fff" opacity=".75"><circle cx="20" cy="30" r="1.4"/><circle cx="64" cy="14" r="1"/><circle cx="110" cy="40" r="1.6"/><circle cx="150" cy="18" r="1"/><circle cx="196" cy="34" r="1.3"/><circle cx="240" cy="12" r="1.6"/><circle cx="284" cy="44" r="1"/><circle cx="34" cy="96" r="1"/><circle cx="90" cy="120" r="1.5"/><circle cx="140" cy="88" r="1"/><circle cx="186" cy="140" r="1.4"/><circle cx="228" cy="104" r="1"/><circle cx="270" cy="150" r="1.3"/><circle cx="52" cy="170" r="1.3"/><circle cx="120" cy="184" r="1"/><circle cx="210" cy="190" r="1.4"/></g><circle cx="262" cy="168" r="30" fill="#7A6AD8" opacity=".45"/><ellipse cx="262" cy="168" rx="46" ry="10" fill="none" stroke="#B9AEF0" stroke-width="3" opacity=".45"/></svg>`,
-kitchen: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#FFF3E8"/><path d="M0 25H300M0 50H300M0 75H300M0 100H300M0 125H300M25 0V150M50 0V150M75 0V150M100 0V150M125 0V150M150 0V150M175 0V150M200 0V150M225 0V150M250 0V150M275 0V150" stroke="#F4DECD" stroke-width="2"/><rect y="146" width="300" height="10" fill="#D9A06C"/><defs><linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6D3AD"/><stop offset="1" stop-color="#D9A26E"/></linearGradient></defs><rect y="156" width="300" height="44" fill="url(#c)"/></svg>`
+kidsroom: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><pattern id="p" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.4" fill="#F6D9E6"/><circle cx="18" cy="18" r="2.4" fill="#F6D9E6"/></pattern></defs><rect width="300" height="200" fill="#FDF0F5"/><rect width="300" height="150" fill="url(#p)"/><rect y="150" width="300" height="50" fill="#EBCB9F"/><path d="M0 166H300M0 183H300M60 150V166M150 166V183M230 150V166M90 183V200M200 183V200" stroke="#DDB98A" stroke-width="1.5"/><rect y="145" width="300" height="6" fill="#F4E2CC"/><rect x="18" y="22" width="70" height="66" rx="4" fill="#CFEAFB" stroke="#C9B3A0" stroke-width="3"/><circle cx="70" cy="40" r="7" fill="#FFE48A"/><path d="M53 22V88M18 55H88" stroke="#C9B3A0" stroke-width="3"/><rect x="4" y="13" width="98" height="4" rx="2" fill="#C9A07A"/><path d="M8 16H28Q22 55 25 90H8Z M98 16H78Q84 55 81 90H98Z" fill="#F4A9C4"/><rect x="12" y="88" width="82" height="6" rx="2" fill="#F4E2CC" stroke="#D8BFA4" stroke-width="1.5"/><rect x="118" y="58" width="104" height="6" rx="2" fill="#D9A86E" stroke="#BF8D57" stroke-width="1.5"/><path d="M130 64l8 10M210 64l-8 10" stroke="#BF8D57" stroke-width="3" stroke-linecap="round"/><rect x="104" y="118" width="66" height="6" rx="2" fill="#9FD3C7" stroke="#7DB6A9" stroke-width="1.5"/><path d="M110 124V150M164 124V150" stroke="#7DB6A9" stroke-width="4" stroke-linecap="round"/><rect x="268" y="84" width="30" height="66" rx="6" fill="#B98CD9" stroke="#9A6FBE" stroke-width="2"/><rect x="196" y="114" width="104" height="24" rx="6" fill="#A9C7F5" stroke="#86A8DD" stroke-width="2"/><rect x="198" y="136" width="100" height="8" fill="#86A8DD"/><path d="M202 144V152M292 144V152" stroke="#9A6FBE" stroke-width="4"/><ellipse cx="135" cy="176" rx="72" ry="13" fill="#F7D46B" opacity=".55"/></svg>`,
+livingroom: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><pattern id="p" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="10" height="20" fill="#E4EFE1"/></pattern></defs><rect width="300" height="200" fill="#EEF6EC"/><rect width="300" height="150" fill="url(#p)"/><rect y="150" width="300" height="50" fill="#D9B58C"/><path d="M0 168H300M0 186H300M40 150V168M120 168V186M210 150V168M260 186V200" stroke="#C9A277" stroke-width="1.5"/><rect y="145" width="300" height="6" fill="#F1E6D3"/><rect x="96" y="160" width="160" height="28" rx="13" fill="#8FC9C0" opacity=".7"/><rect x="10" y="28" width="86" height="122" rx="3" fill="#C99A66" stroke="#AD7F4E" stroke-width="2"/><rect x="16" y="34" width="74" height="110" fill="#E9C99F"/><path d="M16 64H90M16 98H90M16 132H90" stroke="#AD7F4E" stroke-width="4"/><rect x="168" y="96" width="122" height="36" rx="10" fill="#F2A07B" stroke="#D9825B" stroke-width="2"/><rect x="168" y="122" width="122" height="20" rx="6" fill="#F6B190" stroke="#D9825B" stroke-width="2"/><rect x="160" y="110" width="16" height="34" rx="6" fill="#F2A07B" stroke="#D9825B" stroke-width="2"/><rect x="282" y="110" width="16" height="34" rx="6" fill="#F2A07B" stroke="#D9825B" stroke-width="2"/><path d="M172 142V151M286 142V151" stroke="#9C6A45" stroke-width="4"/><rect x="104" y="134" width="56" height="5" rx="2" fill="#B98454" stroke="#9C6A45" stroke-width="1.5"/><path d="M110 139V152M154 139V152" stroke="#9C6A45" stroke-width="3"/></svg>`,
+kitchen: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#FFF3E8"/><path d="M0 25H300M0 50H300M0 75H300M0 100H300M0 125H300M25 0V138M50 0V138M75 0V138M100 0V138M125 0V138M150 0V138M175 0V138M200 0V138M225 0V138M250 0V138M275 0V138" stroke="#F4DECD" stroke-width="1.5"/><rect x="196" y="20" width="80" height="58" rx="4" fill="#CFEAFB" stroke="#D2B59A" stroke-width="3"/><path d="M236 20V78M196 49H276" stroke="#D2B59A" stroke-width="3"/><rect x="190" y="78" width="92" height="6" rx="2" fill="#F1DCC5" stroke="#D8BFA4" stroke-width="1.5"/><rect x="24" y="56" width="112" height="5" rx="2" fill="#D9A06C" stroke="#BF8550" stroke-width="1.5"/><path d="M36 61l7 9M124 61l-7 9" stroke="#BF8550" stroke-width="3" stroke-linecap="round"/><defs><linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6D3AD"/><stop offset="1" stop-color="#D9A26E"/></linearGradient></defs><rect y="138" width="300" height="8" fill="#D9A06C"/><rect y="146" width="300" height="54" fill="url(#c)"/><path d="M75 150V200M150 150V200M225 150V200" stroke="#C98F5C" stroke-width="2"/><g fill="#B8794A"><circle cx="66" cy="164" r="2.5"/><circle cx="84" cy="164" r="2.5"/><circle cx="141" cy="164" r="2.5"/><circle cx="159" cy="164" r="2.5"/><circle cx="216" cy="164" r="2.5"/><circle cx="234" cy="164" r="2.5"/></g></svg>`,
+bathroom: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#E9F5FA"/><path d="M0 22H300M0 44H300M0 66H300M0 88H300M0 110H300M0 132H300M0 154H300M22 0V156M44 0V156M66 0V156M88 0V156M110 0V156M132 0V156M154 0V156M176 0V156M198 0V156M220 0V156M242 0V156M264 0V156M286 0V156" stroke="#D6EAF3" stroke-width="1.5"/><rect y="156" width="300" height="44" fill="#CFE2EE"/><path d="M0 178H300M50 156V200M110 156V200M170 156V200M230 156V200" stroke="#BCD5E4" stroke-width="1.5"/><ellipse cx="236" cy="56" rx="26" ry="32" fill="#DDF1FB" stroke="#B9D3E0" stroke-width="3"/><path d="M222 40q8-10 18-10" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/><path d="M204 112H268Q266 134 236 136Q206 134 204 112Z" fill="#FFFFFF" stroke="#B9D3E0" stroke-width="2.5"/><rect x="228" y="134" width="16" height="22" fill="#FFFFFF" stroke="#B9D3E0" stroke-width="2"/><path d="M236 112V103h9" stroke="#A8B8C4" stroke-width="3" fill="none"/><rect x="92" y="66" width="80" height="4" rx="2" fill="#CFEAF5" stroke="#9FC6D6" stroke-width="1.5"/><path d="M8 110H156V122Q156 150 130 152H34Q8 150 8 122Z" fill="#FFFFFF" stroke="#B9D3E0" stroke-width="2.5"/><rect x="6" y="106" width="152" height="8" rx="4" fill="#FFFFFF" stroke="#B9D3E0" stroke-width="2.5"/><path d="M30 152l-4 6M134 152l4 6" stroke="#B9D3E0" stroke-width="4"/><circle cx="285" cy="62" r="2.5" fill="#A8B8C4"/><rect x="180" y="172" width="70" height="14" rx="7" fill="#F6C7D6" opacity=".7"/></svg>`,
+bedroom: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><pattern id="p" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="8" height="16" fill="#ECE4F6"/></pattern></defs><rect width="300" height="200" fill="#F4EEFA"/><rect width="300" height="150" fill="url(#p)"/><rect y="150" width="300" height="50" fill="#DDB990"/><path d="M0 168H300M0 186H300M30 150V168M140 168V186M250 150V168M90 186V200" stroke="#CBA57A" stroke-width="1.5"/><rect y="145" width="300" height="6" fill="#EFE3D2"/><rect x="8" y="40" width="62" height="110" rx="3" fill="#E3C49A" stroke="#C8A274" stroke-width="2"/><path d="M39 44V146" stroke="#C8A274" stroke-width="2"/><circle cx="34" cy="96" r="2.5" fill="#B8865A"/><circle cx="44" cy="96" r="2.5" fill="#B8865A"/><rect x="228" y="26" width="62" height="60" rx="4" fill="#C8DDF7" stroke="#C3B0C9" stroke-width="3"/><path d="M259 26V86M228 56H290" stroke="#C3B0C9" stroke-width="3"/><circle cx="276" cy="40" r="5" fill="#FFF3B0"/><rect x="222" y="86" width="74" height="6" rx="2" fill="#EFE3D2" stroke="#D3C2B3" stroke-width="1.5"/><rect x="110" y="78" width="98" height="72" rx="8" fill="#A8C3E8" stroke="#86A2CC" stroke-width="2"/><rect x="104" y="116" width="110" height="30" rx="7" fill="#F5D0DA" stroke="#DCAAB8" stroke-width="2"/><path d="M110 146V153M208 146V153" stroke="#86A2CC" stroke-width="4"/><rect x="80" y="118" width="22" height="32" rx="2" fill="#E3C49A" stroke="#C8A274" stroke-width="1.5"/><rect x="216" y="118" width="22" height="32" rx="2" fill="#E3C49A" stroke="#C8A274" stroke-width="1.5"/><ellipse cx="160" cy="176" rx="62" ry="12" fill="#C9B6E4" opacity=".55"/></svg>`
 };
 
 document.querySelectorAll('[data-owl]').forEach(n => { n.innerHTML = OWL; });
@@ -1448,35 +1459,70 @@ const SCENES = [
   {art:'sea', items:['🐟','🐠','🐙','🦀','🐚','🐳','⛵','🐬','🦈','🐡','⚓','🦑']},
   {art:'farm', items:['🐄','🐷','🐔','🐑','🌻','🚜','🏠','🥕','🐴','🐣','🌽','🐕']},
   {art:'space', dark:true, items:['🚀','🌙','⭐','🪐','👽','🛸','☄️','🌍','🛰️','☀️','🌟','🔭']},
-  {art:'kitchen', items:['🍎','🥛','🍞','🧀','🍳','🥄','🍌','🍪','🥕','🍉','🍯','☕']}
+  {art:'kidsroom', slots:[[134,58,6.5],[158,58,6.5],[182,58,6.5],[206,58,6.5],[40,88,6],[66,88,6],[250,72,7,"w"],[120,118,7],[152,118,7],[220,114,7.5],[248,114,7.5],[36,180,8.5],[92,192,8.5],[178,194,8.5],[250,186,8.5]], items:['🧸','⚽','🚗','🎲','🪁','🎈','📚','🖍️','🪆','🤖','🧩','🚂','⏰','🪴','🦖','🥁','🦆','🎨'], wall:['🖼️','⏰','⭐','🌈']},
+  {art:'livingroom', slots:[[30,28,6],[72,28,6],[30,64,6],[53,64,6],[76,64,6],[34,98,6],[70,98,6],[34,132,6],[70,132,6],[118,134,6.5],[146,134,6.5],[196,122,7.5],[262,122,7.5],[130,82,7,"w"],[229,86,8,"w"],[40,190,8],[176,194,8]], items:['📚','🪴','💐','☕','🍎','🧶','🐱','📻','🎁','🌵','🍊','🔑','📖','🎸','🧸','🍪','🎈','🎀'], wall:['🖼️','⏰','🪞']},
+  {art:'kitchen', slots:[[40,56,6],[68,56,6],[96,56,6],[122,56,6],[210,78,6],[238,78,6],[264,78,6],[24,138,7.5],[62,138,7.5],[100,138,7.5],[140,138,7.5],[180,138,7.5],[222,138,7.5],[264,138,7.5]], items:['🍎','🥛','🍞','🧀','🍳','🥄','🍌','🍪','🥕','🍉','🍯','☕','🍋','🧂','🥣','🍐','🥚','🫖']},
+  {art:'bathroom', slots:[[106,66,6],[132,66,6],[158,66,6],[26,106,7],[66,106,7],[106,106,7],[144,106,6.5],[212,112,5.5],[262,112,5.5],[70,194,8],[172,192,8],[272,194,8]], items:['🧼','🪥','🧴','🧽','🦆','🫧','🧺','🩴','🪣','🐳','🌸','🐠','⭐','🧸']},
+  {art:'bedroom', slots:[[22,40,6.5],[54,40,6.5],[91,118,6.5],[227,118,6.5],[134,116,7],[160,116,7],[186,116,7],[159,70,8,"w"],[244,86,6],[272,86,6],[40,188,8],[120,194,8],[200,194,8],[270,188,8]], items:['⏰','📖','🧸','🪴','👓','🧦','🩴','👕','🎀','💐','🥛','🐱','👟','📚','🪆'], wall:['🖼️','⏰','⭐','🌙']}
 ];
 function mountDiff(api){
-  const cfg = [{c: 4, r: 3, d: 3}, {c: 5, r: 4, d: 5}, {c: 6, r: 4, d: 7}][api.level - 1];
-  const sc = fromBag('scene', SCENES), N = cfg.c * cfg.r, bg = svgUrl(SCENE_ART[sc.art]);
+  const lv = api.level, d = [3, 5, 7][lv - 1];
+  const sc = fromBag('scene', SCENES), bg = svgUrl(SCENE_ART[sc.art]), room = !!sc.slots;
+  const cfg = room ? null : [{c: 4, r: 3}, {c: 5, r: 4}, {c: 6, r: 4}][lv - 1];
+  const N = room ? sc.slots.length : cfg.c * cfg.r;
   const thing = () => ({e: pick(sc.items), jx: rnd(30) - 15, jy: rnd(30) - 15, rot: rnd(24) - 12, s: 1});
   const left = range(N).map(() => null);
-  sample(range(N), Math.round(N * 0.62)).forEach(i => { left[i] = thing(); });
-  const right = left.map(s => s ? Object.assign({}, s) : null);
-  const diffs = sample(range(N), cfg.d);
-  diffs.forEach(i => {
-    const s = right[i];
-    if (!s){ right[i] = thing(); return; }
-    const t = pick(['remove', 'replace', 'grow']);
-    if (t === 'remove') right[i] = null;
-    else if (t === 'replace'){ let e; do { e = pick(sc.items); } while (e === s.e); right[i] = Object.assign({}, s, {e}); }
-    else right[i] = Object.assign({}, s, {s: 1.55});
-  });
+  // in a room every thing is different, and a place on the wall takes only things that hang
+  const used = new Set(), poolFor = (i) => (sc.slots[i][3] === 'w' ? sc.wall : sc.items);
+  const take = (i) => { const free = poolFor(i).filter(e => !used.has(e)); if (!free.length) return null; const e = pick(free); used.add(e); return e; };
+  if (room){
+    const filled = Math.min(N, Math.max(d + 1, Math.round(N * [0.6, 0.75, 0.9][lv - 1])));
+    sample(range(N), filled).forEach(i => { const e = take(i); if (e) left[i] = {e}; });
+  } else sample(range(N), Math.round(N * 0.62)).forEach(i => { left[i] = thing(); });
+  const right = left.map(t => t ? Object.assign({}, t) : null);
+  // a place becomes a difference only if it can really change: when a room has no free thing left,
+  // an empty place is skipped and a replacement turns into a bigger thing
+  const diffs = [];
+  for (const i of shuffle(range(N))){
+    if (diffs.length === d) break;
+    const t = right[i];
+    if (!t){
+      if (!room){ right[i] = thing(); diffs.push(i); continue; }
+      const e = take(i); if (!e) continue;
+      right[i] = {e}; diffs.push(i); continue;
+    }
+    let kind = pick(['remove', 'replace', 'grow']);
+    if (kind === 'replace'){
+      if (room){ const e = take(i); if (e) right[i] = {e}; else kind = 'grow'; }
+      else { let e; do { e = pick(sc.items); } while (e === t.e); right[i] = Object.assign({}, t, {e}); }
+    }
+    if (kind === 'remove') right[i] = null;
+    else if (kind === 'grow') right[i] = Object.assign({}, t, room ? {big: true} : {s: 1.55});
+    diffs.push(i);
+  }
   const found = new Set();
   let misses = 0;
   const counter = el('div', {class: 'counter'});
-  const updCounter = () => { counter.textContent = `Найдено: ${found.size} из ${cfg.d}`; };
+  const updCounter = () => { counter.textContent = `Найдено: ${found.size} из ${d}`; };
   function makePic(arr, label){
+    if (room){
+      const p = el('div', {class: 'pic room', role: 'group', 'aria-label': label});
+      p.style.backgroundImage = bg;
+      sc.slots.forEach((sl, i) => {
+        const t = arr[i];
+        const c = el('button', {class: 'cell slot', type: 'button', 'aria-label': 'Место ' + (i + 1), style: `--x:${(sl[0] / 3).toFixed(2)};--y:${(sl[1] / 2).toFixed(2)};--s:${sl[2]}`});
+        if (t) c.append(el('span', {class: 'it' + (t.big ? ' big' : '')}, t.e));
+        c.addEventListener('click', () => tap(i, c));
+        p.append(c);
+      });
+      return p;
+    }
     const p = el('div', {class: 'pic' + (sc.dark ? ' dark' : ''), role: 'group', 'aria-label': label,
       style: `--cols:${cfg.c};grid-template-columns:repeat(${cfg.c},1fr);grid-template-rows:repeat(${cfg.r},1fr);aspect-ratio:${cfg.c}/${cfg.r}`});
     p.style.backgroundImage = bg;
-    arr.forEach((s, i) => {
+    arr.forEach((t, i) => {
       const c = el('button', {class: 'cell', type: 'button', 'aria-label': 'Место ' + (i + 1)});
-      if (s) c.append(el('span', {class: 'it', style: `transform:translate(${s.jx}%,${s.jy}%) rotate(${s.rot}deg) scale(${s.s})`}, s.e));
+      if (t) c.append(el('span', {class: 'it', style: `transform:translate(${t.jx}%,${t.jy}%) rotate(${t.rot}deg) scale(${t.s})`}, t.e));
       c.addEventListener('click', () => tap(i, c));
       p.append(c);
     });
@@ -1485,13 +1531,13 @@ function mountDiff(api){
   const L = makePic(left, 'Первая картинка'), R = makePic(right, 'Вторая картинка');
   api.stage.append(el('div', {class: 'diff'}, L, R));
   api.controls.append(counter); updCounter();
-  api.hint(PH.diff(cfg.d));
+  api.hint(PH.diff(d));
   function tap(i, c){
     if (found.has(i)) return;
     if (diffs.includes(i)){
       found.add(i); L.children[i].classList.add('found'); R.children[i].classList.add('found');
       sfx.ok(); updCounter();
-      if (found.size === cfg.d) setTimeout(() => api.done('Все отличия найдены!', cfg.d), 450);
+      if (found.size === d) setTimeout(() => api.done('Все отличия найдены!', d), 450);
     } else {
       api.mistake(); restart(c, 'miss'); misses++;
       if (misses % 3 === 0){ const h = pick(diffs.filter(i => !found.has(i))); if (h != null){ flashHint(L.children[h]); flashHint(R.children[h]); api.say(PH.hintHere); } }
