@@ -1,0 +1,1503 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Девять обучающих игр для детей 5–7 лет: лабиринты, отличия, память, пары, рисование по точкам, тени, лишнее, ряды и счёт. Сова читает задания вслух.">
+<meta name="theme-color" content="#8ED2F6">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hoot Quest">
+<meta property="og:description" content="Девять обучающих игр для детей 5–7 лет: лабиринты, отличия, память, пары, рисование по точкам, тени, лишнее, ряды и счёт. Сова читает задания вслух.">
+<meta property="og:image" content="https://kittqatest-cloud.github.io/logicgames/preview.png">
+<meta property="og:url" content="https://kittqatest-cloud.github.io/logicgames/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cellipse%20cx%3D%2732%27%20cy%3D%2736%27%20rx%3D%2724%27%20ry%3D%2725%27%20fill%3D%27%23C98A55%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%273%27/%3E%3Cellipse%20cx%3D%2732%27%20cy%3D%2744%27%20rx%3D%2714%27%20ry%3D%2714%27%20fill%3D%27%23FFE7C2%27/%3E%3Ccircle%20cx%3D%2723%27%20cy%3D%2730%27%20r%3D%279%27%20fill%3D%27%23fff%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%272.5%27/%3E%3Ccircle%20cx%3D%2741%27%20cy%3D%2730%27%20r%3D%279%27%20fill%3D%27%23fff%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%272.5%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2731%27%20r%3D%274.5%27%20fill%3D%27%2326305E%27/%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%2731%27%20r%3D%274.5%27%20fill%3D%27%2326305E%27/%3E%3Cpath%20d%3D%27M28%2038%20L36%2038%20L32%2044%20Z%27%20fill%3D%27%23FFB12E%27/%3E%3Cpath%20d%3D%27M32%204%20L58%2013%20L32%2022%20L6%2013%20Z%27%20fill%3D%27%234A5BB8%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%272.5%27%20stroke-linejoin%3D%27round%27/%3E%3C/svg%3E">
+<title>Hoot Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Pangolin&display=swap">
+<style>
+:root{
+  /* Layout: a storybook meadow under an open sky; the games are picture cards laid on the grass, and the owl teacher speaks every task from her bubble */
+  --sky-top:#8ED2F6;
+  --sky-low:#DDF3FF;
+  --hill-far:#B8E39C;
+  --hill-mid:#93D277;
+  --hill-near:#6EBF5E;
+  --ink:#26305E;
+  --ink-soft:#56608A;
+  --cream:#FFFCF4;
+  --white:#FFFFFF;
+  --coral:#FF7657;
+  --sun:#FFC53D;
+  --leaf:#43B562;
+  --sky:#3BA7F0;
+  --grape:#9466E0;
+  --berry:#EE5C9B;
+  --teal:#22ADA5;
+  --orange:#FF9A3C;
+  --blue:#4D7CF0;
+  --good-bg:#DDF5E4;
+  --bad-bg:#FFE0DA;
+  --hint-bg:#FFF4D2;
+  --shade:rgba(38,48,94,.18);
+  --font-display:'Nunito','Trebuchet MS',system-ui,sans-serif;
+  --font-hand:'Pangolin','Comic Sans MS','Trebuchet MS',sans-serif;
+  --font-body:'Nunito','Trebuchet MS',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--sky-low)}
+body{margin:0;background:var(--sky-low);color:var(--ink);font-family:var(--font-body);font-weight:600;font-size:18px;line-height:1.35;-webkit-tap-highlight-color:transparent;min-height:100vh}
+h1,h2,h3{margin:0;font-family:var(--font-display);font-weight:900;text-wrap:balance}
+button,input{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+/* the meadow behind everything */
+.world{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:linear-gradient(180deg,var(--sky-top) 0%,#BCE6FB 38%,var(--sky-low) 70%)}
+.sun{position:absolute;top:22px;right:max(22px,4vw);width:clamp(84px,11vw,130px)}
+.sun .rays{transform-box:fill-box;transform-origin:center;animation:spin 60s linear infinite}
+.cloud{position:absolute;left:0;opacity:.95;animation:drift linear infinite}
+.cloud svg{display:block;width:100%;height:auto}
+.c1{top:7%;width:190px;animation-duration:140s;animation-delay:-30s}
+.c2{top:19%;width:130px;animation-duration:110s;animation-delay:-80s}
+.c3{top:4%;width:110px;animation-duration:170s;animation-delay:-120s}
+.c4{top:28%;width:230px;animation-duration:200s;animation-delay:-10s;opacity:.8}
+.hills{position:absolute;left:0;right:0;bottom:0;height:min(30vh,280px);width:100%}
+.page{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding-block:18px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:8px 20px;border:3px solid var(--ink);border-radius:999px;background:var(--white);color:var(--ink);font-weight:800;font-size:18px;box-shadow:0 4px 0 var(--ink);cursor:pointer;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.primary{background:var(--sun)}
+.btn.icon{width:54px;padding:0;font-size:24px;flex:none;position:relative}
+.btn.icon.off{opacity:.5}
+.btn.icon.off::after{content:'';position:absolute;left:12px;right:12px;top:50%;height:3px;border-radius:2px;background:var(--ink);transform:rotate(-40deg)}
+.owl.tappable{cursor:pointer}
+.owl.tappable:active{transform:scale(.96)}
+
+/* owl */
+.owl{flex:none;line-height:0}
+.owl svg{display:block;width:100%;height:auto;overflow:visible}
+.owl-eyes{transform-box:fill-box;transform-origin:center;animation:blink 5.5s infinite}
+
+/* home */
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-areas:"perch title" "perch row";gap:8px 20px;align-items:end;margin-bottom:34px;padding-right:clamp(0px,12vw,150px)}
+.perch{grid-area:perch;width:150px;display:flex;flex-direction:column;align-items:center}
+.perch .owl{width:118px;position:relative;z-index:1;margin-bottom:-14px}
+.perch .branch{width:150px;height:auto;display:block}
+.title{grid-area:title;font-size:clamp(28px,7vw,66px);line-height:1;letter-spacing:.5px;padding-top:6px;min-width:0}
+.title .w{display:inline-block;white-space:nowrap;margin-right:.28em}
+.title .w:last-child{margin-right:0}
+.title .l{display:inline-block;color:var(--c);text-shadow:2px 0 0 var(--ink),-2px 0 0 var(--ink),0 2px 0 var(--ink),0 -2px 0 var(--ink),2px 2px 0 var(--ink),-2px 2px 0 var(--ink),2px -2px 0 var(--ink),-2px -2px 0 var(--ink),0 6px 0 var(--ink)}
+.bubble{position:relative;background:var(--cream);border:3px solid var(--ink);border-radius:24px;padding:12px 20px;min-width:0;box-shadow:0 5px 0 var(--shade)}
+.bubble::before{content:'';position:absolute;left:-14px;bottom:18px;width:22px;height:22px;background:var(--cream);border-left:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg)}
+.hero-row{grid-area:row;display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;min-width:0}
+.hero .bubble{flex:0 1 auto}
+.hero .bubble p{margin:0;font-family:var(--font-hand);font-size:24px}
+.hero-side{display:flex;align-items:center;gap:10px}
+.coin{display:flex;align-items:center;gap:8px;background:var(--cream);border:3px solid var(--ink);border-radius:999px;padding:4px 16px 4px 6px;font-weight:900;font-size:26px;box-shadow:0 4px 0 var(--ink);white-space:nowrap}
+.coin svg{width:40px;height:40px;display:block}
+@media (max-width:640px){
+  .hero{grid-template-areas:"perch title" "row row";gap:10px 14px;padding-right:0}
+  .perch{width:108px}
+  .perch .owl{width:88px}
+  .perch .branch{width:108px}
+  .hero .bubble{flex:1 1 100%;margin-top:8px}
+  .hero .bubble::before{left:34px;top:-14px;bottom:auto;transform:rotate(135deg)}
+  .hero-side{justify-content:space-between;width:100%}
+}
+
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 22px}
+@media (max-width:760px){
+  .games{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 14px}
+  .gcard:last-child:nth-child(odd){grid-column:span 2}
+  .gcard:last-child:nth-child(odd) .art{aspect-ratio:32/10}
+}
+.gcard{--c:var(--blue);display:flex;flex-direction:column;padding:0;text-align:left;background:var(--cream);border:3px solid var(--ink);border-radius:26px;box-shadow:0 7px 0 var(--ink);overflow:hidden;cursor:pointer;transform:rotate(var(--r,0deg));transition:transform .15s;min-width:0}
+.gcard:hover{transform:rotate(0deg) translateY(-4px)}
+.gcard:active{transform:translateY(3px);box-shadow:0 3px 0 var(--ink)}
+.art{display:block;aspect-ratio:16/10;background:#E9F4FF;background:color-mix(in srgb,var(--c) 22%,var(--white));border-bottom:3px solid var(--ink)}
+.art svg{display:block;width:100%;height:100%}
+.gtext{display:flex;flex-direction:column;gap:3px;padding:12px 16px 14px}
+.gn{font-family:var(--font-display);font-weight:900;font-size:23px;line-height:1.1}
+.gd{font-size:15px;color:var(--ink-soft)}
+.gs{align-self:flex-start;margin-top:6px;padding:2px 10px;border-radius:999px;background:var(--hint-bg);border:2px solid var(--sun);font-size:15px;font-weight:800}
+.gs.new{background:#E6F0FF;border-color:var(--blue)}
+@media (max-width:420px){.gn{font-size:19px}.gd{font-size:14px}.gtext{padding:10px 12px 12px}}
+
+.panel{background:var(--cream);border:3px solid var(--ink);border-radius:26px;box-shadow:0 7px 0 var(--shade)}
+.shelf{margin-top:40px;padding:18px 20px 22px}
+.shelf-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;margin-bottom:14px}
+.shelf h2{font-size:30px}
+.shelf-note{margin:0;color:var(--ink-soft);font-size:17px}
+.stickers{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+@media (max-width:620px){.stickers{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.sticker{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:clamp(30px,6vw,48px);line-height:1;background:var(--white);border:4px solid var(--white);box-shadow:0 0 0 3px var(--ink),0 6px 0 3px var(--shade);transform:rotate(var(--r,0deg))}
+.sticker.locked{background:transparent;border:3px dashed #C9D3E6;box-shadow:none;font-size:clamp(13px,2.4vw,16px);font-weight:800;color:var(--ink-soft);text-align:center;transform:none}
+
+.parents{margin-top:26px;padding:4px 20px}
+.parents summary{cursor:pointer;font-weight:800;padding:12px 0}
+.pbody{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:4px 0 18px;max-width:62ch}
+.pbody label{font-weight:800}
+.pbody input{width:min(100%,320px);min-height:50px;border:3px solid var(--ink);border-radius:14px;padding:8px 14px;background:var(--white)}
+.pnote{margin:0;color:var(--ink-soft);font-size:16px}
+
+/* game screen */
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:16px}
+.bar h2{font-size:clamp(26px,4.5vw,40px);flex:1;min-width:150px;color:var(--ink)}
+.levels{display:inline-flex;border:3px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--white);box-shadow:0 4px 0 var(--ink)}
+.levels button{border:0;background:transparent;color:var(--ink);padding:8px 14px;font-weight:800;font-size:16px;cursor:pointer;min-height:44px}
+.levels button + button{border-left:3px solid var(--ink)}
+.levels button[aria-pressed="true"]{background:var(--leaf);color:var(--white)}
+.mystars{font-weight:900;font-size:22px;white-space:nowrap;background:var(--cream);border:3px solid var(--ink);border-radius:999px;padding:6px 14px}
+.board{padding:18px 20px 22px}
+@media (max-width:520px){.board{padding:14px 12px 18px}}
+.task{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
+.task .owl{width:70px}
+.task .bubble{flex:1;display:flex;align-items:center;gap:12px;padding:10px 12px 10px 18px;margin-top:8px;background:var(--white)}
+.task .bubble::before{bottom:auto;top:16px;background:var(--white)}
+.task .bubble p{margin:0;flex:1;font-family:var(--font-hand);font-size:23px;min-width:0}
+#stage{display:flex;flex-direction:column;align-items:center;gap:16px}
+.controls{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin-top:18px}
+.controls:empty{display:none}
+.counter{font-weight:900;font-size:24px}
+
+/* maze */
+.maze-wrap{width:min(100%,560px);touch-action:none}
+.maze{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.maze-bg{fill:#FBEFD3;stroke:var(--ink);stroke-width:.7}
+.hedge-o{fill:none;stroke:var(--ink);stroke-width:3.3;stroke-linecap:round}
+.hedge{fill:none;stroke:#5DBB63;stroke-width:2;stroke-linecap:round}
+.trail{fill:none;stroke:var(--orange);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:.1 3.6}
+.spot{fill:#FFE38A;opacity:.85}
+.maze text{font-size:7px;text-anchor:middle;dominant-baseline:central}
+.pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,64px);gap:8px}
+.pad .btn{width:64px;height:64px;padding:0;font-size:26px;border-radius:18px}
+.pad .up{grid-column:2;grid-row:1}
+.pad .left{grid-column:1;grid-row:2}
+.pad .down{grid-column:2;grid-row:2}
+.pad .right{grid-column:3;grid-row:2}
+
+/* differences */
+.diff{display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%}
+@media (max-width:640px){.diff{grid-template-columns:1fr}}
+.pic{container-type:inline-size;display:grid;background-color:#E3F4FF;background-size:cover;background-position:center;border:3px solid var(--ink);border-radius:22px;overflow:hidden;max-width:100%;box-shadow:0 5px 0 var(--shade)}
+.cell{position:relative;display:flex;align-items:center;justify-content:center;border:0;background:transparent;padding:0;cursor:pointer;font-size:28px;font-size:calc(100cqw / var(--cols) * .56);line-height:1;min-width:0}
+.cell .it{display:inline-block;filter:drop-shadow(0 2px 0 rgba(38,48,94,.18))}
+.cell.found::after{content:'';position:absolute;inset:4%;border:4px solid var(--coral);border-radius:50%;animation:pop .25s ease-out}
+.pic.dark .cell.found::after{border-color:var(--sun)}
+.cell.miss{animation:shake .35s}
+
+/* memory and pairs */
+.mem{display:grid;grid-template-columns:repeat(var(--g),minmax(0,1fr));gap:12px;width:min(100%,var(--w,480px))}
+.card{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:18px;background:var(--white);box-shadow:0 4px 0 var(--ink);font-size:clamp(30px,8vw,58px);cursor:pointer;padding:0;line-height:1;min-width:0}
+.card.back{background-color:#5B6FD8;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Cpath d='M17 9.5l2 4.6 5 .4-3.8 3.3 1.2 4.9L17 20.1l-4.4 2.6 1.2-4.9L10 14.5l5-.4z' fill='%23FFD866' opacity='.75'/%3E%3C/svg%3E");background-size:34px 34px;background-position:center}
+.card.face{animation:pop .2s ease-out}
+.card.open{animation:pop .25s ease-out;background:var(--good-bg);border-color:var(--leaf);box-shadow:0 4px 0 var(--leaf)}
+.card.miss{animation:shake .35s;background-color:var(--bad-bg)}
+.card.peek{outline:5px dashed var(--sun);outline-offset:3px}
+.timer{width:min(100%,320px);height:18px;border:3px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--white)}
+.timer span{display:block;height:100%;background:var(--leaf);transform-origin:left;animation:drain linear forwards}
+.ask{display:flex;align-items:center;gap:12px;background:var(--white);border:3px solid var(--ink);border-radius:20px;padding:8px 18px}
+.ask-pic{font-size:52px;line-height:1}
+.ask-name{font-family:var(--font-hand);font-size:28px}
+
+/* dots */
+.dots{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:min(100%,760px)}
+@media (max-width:620px){.dots{grid-template-columns:1fr}}
+.dpanel{display:flex;flex-direction:column;gap:6px;min-width:0}
+.dlabel{font-weight:900;font-size:21px}
+.dpanel svg{display:block;width:100%;height:auto;background:var(--white);border:3px solid var(--ink);border-radius:20px;touch-action:none;user-select:none;-webkit-user-select:none}
+.dpanel svg.sample{background:#FFF7DD}
+.dot{fill:var(--ink)}
+.pen{fill:none;stroke:var(--orange);stroke-width:1}
+.ln{stroke-width:1.1;stroke-linecap:round}
+.ln.sample{stroke:var(--blue)}
+.ln.ok{stroke:var(--leaf)}
+.ln.bad{stroke:var(--coral)}
+.dtip{font-size:15px;color:var(--ink-soft)}
+
+/* quizzes */
+.quiz{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%}
+.choices{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;width:min(100%,640px)}
+.choice{width:132px;height:132px;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:26px;background:var(--white);box-shadow:0 5px 0 var(--ink);font-size:68px;cursor:pointer;padding:0;line-height:1}
+.choice.num{font-family:var(--font-display);font-weight:900;font-size:60px;color:var(--ink)}
+@media (max-width:480px){.choice{width:calc(50% - 7px);height:auto;aspect-ratio:1;font-size:60px}}
+.choice.right{background:var(--good-bg);border-color:var(--leaf);box-shadow:0 5px 0 var(--leaf);animation:pop .3s}
+.choice.miss{animation:shake .35s;background:var(--bad-bg)}
+.row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:700px}
+.row span{width:58px;height:58px;display:flex;align-items:center;justify-content:center;font-size:38px;line-height:1;background:var(--white);border:3px solid var(--ink);border-radius:50%}
+.row span.q{border-style:dashed;color:var(--ink-soft);font-weight:900;font-size:32px;background:var(--hint-bg)}
+.cbox{position:relative;width:min(100%,560px);aspect-ratio:3/2;background:linear-gradient(#EAF7FF 0 55%,#DDF2CF 55% 100%);border:3px solid var(--ink);border-radius:24px;box-shadow:0 5px 0 var(--shade)}
+.cbox span{position:absolute;transform:translate(-50%,-50%);font-size:clamp(28px,6vw,46px);line-height:1;filter:drop-shadow(0 2px 0 rgba(38,48,94,.18))}
+.shadow{display:flex;align-items:center;justify-content:center;width:min(100%,240px);aspect-ratio:1;font-size:clamp(96px,22vw,132px);line-height:1;background:radial-gradient(circle,#FFFFFF 0 55%,#EEF4FF 56% 100%);border:3px dashed var(--ink);border-radius:50%}
+.shadow span{filter:brightness(0);opacity:.82;transition:filter .5s,opacity .5s}
+.shadow.lit span{filter:none;opacity:1}
+.prog{display:flex;gap:10px}
+.prog span{width:20px;height:20px;border-radius:50%;border:3px solid var(--ink);background:var(--white)}
+.prog span.cur{background:var(--sun)}
+.prog span.done{background:var(--leaf)}
+
+/* win */
+.overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(38,48,94,.45);padding:24px max(24px,env(safe-area-inset-right,0px)) 24px max(24px,env(safe-area-inset-left,0px));z-index:20}
+.wincard{background:var(--cream);border:3px solid var(--ink);border-radius:30px;box-shadow:0 8px 0 var(--ink);padding:22px 26px 26px;text-align:center;width:min(100%,420px);animation:pop .3s}
+.wincard .owl{width:104px;margin:0 auto 6px}
+.wincard h2{font-size:clamp(32px,8vw,42px)}
+.wincard p{margin:4px 0 8px;font-size:19px;color:var(--ink-soft)}
+.wstars{font-size:52px;letter-spacing:6px;margin:4px 0 12px}
+.wstars .off{filter:grayscale(1);opacity:.3}
+.wsticker{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto 16px;padding:8px 16px;background:var(--hint-bg);border:3px solid var(--sun);border-radius:18px;font-weight:800;font-size:20px;width:fit-content}
+.wsticker span{font-size:44px;line-height:1;animation:pop .5s}
+.wbtns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
+
+@keyframes pop{from{transform:scale(.6);opacity:.2}to{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(4px)}}
+@keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drift{from{transform:translateX(-260px)}to{transform:translateX(calc(100vw + 40px))}}
+.shake{animation:shake .35s}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.c1{left:4%}.c2{left:62%}.c3{left:36%}.c4{left:72%}}
+</style>
+</head>
+<body>
+
+<div class="world" aria-hidden="true">
+  <svg class="sun" viewBox="0 0 140 140">
+    <g class="rays" stroke="#FFC53D" stroke-width="7" stroke-linecap="round">
+      <line x1="70" y1="6" x2="70" y2="22"/><line x1="70" y1="118" x2="70" y2="134"/><line x1="6" y1="70" x2="22" y2="70"/><line x1="118" y1="70" x2="134" y2="70"/>
+      <line x1="25" y1="25" x2="36" y2="36"/><line x1="104" y1="104" x2="115" y2="115"/><line x1="25" y1="115" x2="36" y2="104"/><line x1="104" y1="36" x2="115" y2="25"/>
+    </g>
+    <circle cx="70" cy="70" r="36" fill="#FFD866" stroke="#26305E" stroke-width="4"/>
+    <path d="M55 64 q4 -5 8 0 M77 64 q4 -5 8 0" stroke="#26305E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M58 79 q12 11 24 0" stroke="#26305E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <circle cx="51" cy="77" r="5" fill="#FF9B7A" opacity=".7"/><circle cx="89" cy="77" r="5" fill="#FF9B7A" opacity=".7"/>
+  </svg>
+  <div class="cloud c1"><svg viewBox="0 0 120 60"><path d="M22 52 a17 17 0 0 1 4 -30 a22 22 0 0 1 40 -10 a17 17 0 0 1 28 10 a15 15 0 0 1 4 30 Z" fill="#fff"/><path d="M22 52 h76" stroke="#D8EEFB" stroke-width="4" stroke-linecap="round"/></svg></div>
+  <div class="cloud c2"><svg viewBox="0 0 120 60"><path d="M22 52 a17 17 0 0 1 4 -30 a22 22 0 0 1 40 -10 a17 17 0 0 1 28 10 a15 15 0 0 1 4 30 Z" fill="#fff"/></svg></div>
+  <div class="cloud c3"><svg viewBox="0 0 120 60"><path d="M22 52 a17 17 0 0 1 4 -30 a22 22 0 0 1 40 -10 a17 17 0 0 1 28 10 a15 15 0 0 1 4 30 Z" fill="#fff"/></svg></div>
+  <div class="cloud c4"><svg viewBox="0 0 120 60"><path d="M22 52 a17 17 0 0 1 4 -30 a22 22 0 0 1 40 -10 a17 17 0 0 1 28 10 a15 15 0 0 1 4 30 Z" fill="#fff"/></svg></div>
+  <svg class="hills" viewBox="0 0 1440 280" preserveAspectRatio="none">
+    <path d="M0 120 C200 50 420 64 580 104 C740 144 920 60 1100 70 C1260 80 1360 112 1440 96 V280 H0Z" fill="#B8E39C"/>
+    <path d="M0 176 C180 122 360 132 520 164 C700 200 860 124 1040 134 C1220 144 1340 172 1440 152 V280 H0Z" fill="#93D277"/>
+    <path d="M0 226 C240 192 480 202 720 222 C960 244 1200 206 1440 216 V280 H0Z" fill="#6EBF5E"/>
+  </svg>
+</div>
+
+<div class="page">
+  <section id="home">
+    <header class="hero">
+      <div class="perch">
+        <div class="owl" data-owl></div>
+        <svg class="branch" viewBox="0 0 180 44" aria-hidden="true">
+          <path d="M4 26 C40 18 100 20 176 14" stroke="#26305E" stroke-width="13" stroke-linecap="round" fill="none"/>
+          <path d="M4 26 C40 18 100 20 176 14" stroke="#9A6A42" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M140 18 q14 -16 30 -10 q-10 14 -30 10Z" fill="#5DBB63" stroke="#26305E" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M28 24 q-6 16 -22 18 q4 -16 22 -18Z" fill="#5DBB63" stroke="#26305E" stroke-width="3" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="title" id="title" aria-label="Hoot Quest">Hoot Quest</h1>
+      <div class="hero-row">
+      <div class="bubble"><p id="greet">Привет! Выбери, во что поиграем сегодня.</p></div>
+      <div class="hero-side">
+        <div class="coin" title="Все звёздочки">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#FFD866" stroke="#26305E" stroke-width="3"/><path d="M20 9.5l3 6.3 6.9.8-5.1 4.7 1.4 6.8L20 24.7l-6.2 3.4 1.4-6.8-5.1-4.7 6.9-.8z" fill="#FFF3C4" stroke="#C88B12" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span id="total">0</span>
+        </div>
+        <button class="btn icon music-btn" type="button" aria-label="Музыка">🎵</button>
+        <button class="btn icon sound-btn" type="button" aria-label="Звук">🔊</button>
+      </div>
+      </div>
+    </header>
+
+    <div class="games" id="games"></div>
+
+    <section class="panel shelf" aria-labelledby="shelfTitle">
+      <div class="shelf-head">
+        <h2 id="shelfTitle">Мои наклейки</h2>
+        <p class="shelf-note" id="shelfNote"></p>
+      </div>
+      <div class="stickers" id="stickers"></div>
+    </section>
+
+    <details class="panel parents">
+      <summary>Для родителей</summary>
+      <div class="pbody">
+        <label for="childName">Имя ребёнка</label>
+        <input id="childName" type="text" maxlength="20" placeholder="Например, Миша" autocomplete="off">
+        <p class="pnote">Сова будет обращаться по имени. Звёзды, наклейки и имя хранятся только в этом браузере.</p>
+        <p class="pnote">Задания сова читает голосом устройства. Если её не слышно, проверьте, что звук включён и в системе есть русский голос; текст задания всегда виден в облачке.</p>
+        <p class="pnote">В каждой игре три уровня: «Легко», «Средне», «Сложно». За задание даётся от 1 до 3 звёздочек, в зависимости от числа ошибок.</p>
+        <button class="btn" id="reset" type="button">Сбросить звёзды и наклейки</button>
+      </div>
+    </details>
+  </section>
+
+  <section id="game" hidden>
+    <div class="bar">
+      <button class="btn" id="back" type="button">← Все игры</button>
+      <h2 id="gTitle"></h2>
+      <div class="levels" id="levels" role="group" aria-label="Сложность"></div>
+      <span class="mystars" id="mystars"></span>
+      <button class="btn icon music-btn" type="button" aria-label="Музыка">🎵</button>
+        <button class="btn icon sound-btn" type="button" aria-label="Звук">🔊</button>
+    </div>
+    <div class="panel board">
+      <div class="task">
+        <div class="owl" data-owl></div>
+        <div class="bubble">
+          <p id="gHint" aria-live="polite"></p>
+          <button class="btn icon" id="say" type="button" aria-label="Прочитать задание ещё раз">🗣️</button>
+        </div>
+      </div>
+      <div id="stage"></div>
+      <div class="controls" id="gControls"></div>
+      <div class="controls"><button class="btn" id="again" type="button">🔄 Новое задание</button></div>
+    </div>
+  </section>
+</div>
+
+<div class="overlay" id="win" hidden>
+  <div class="wincard" role="dialog" aria-modal="true" aria-labelledby="wTitle">
+    <div class="owl" data-owl></div>
+    <h2 id="wTitle">Молодец!</h2>
+    <p id="wMsg"></p>
+    <div class="wstars" id="wStars"></div>
+    <div class="wsticker" id="wSticker" hidden></div>
+    <div class="wbtns">
+      <button class="btn primary" id="wNext" type="button">Ещё задание</button>
+      <button class="btn" id="wHome" type="button">Все игры</button>
+    </div>
+  </div>
+</div>
+<canvas id="confetti" hidden></canvas>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- helpers ---------- */
+const $ = (s) => document.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs, ...kids){
+  const e = document.createElement(tag);
+  if (attrs) for (const [k, v] of Object.entries(attrs)) {
+    if (v == null) continue;
+    if (k === 'style') e.setAttribute('style', v); else e.setAttribute(k, v);
+  }
+  for (const k of kids) if (k != null) e.append(k);
+  return e;
+}
+const rnd = (n) => Math.floor(Math.random() * n);
+const pick = (a) => a[rnd(a.length)];
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const sample = (a, k) => shuffle(a).slice(0, k);
+const range = (n) => Array.from({length: n}, (_, i) => i);
+function plural(n, one, few, many){ const m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return one; if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few; return many; }
+function restart(node, cls){ node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); }
+const svgUrl = (s) => 'url("data:image/svg+xml,' + encodeURIComponent(s) + '")';
+
+/* ---------- drawings ---------- */
+const K = '#26305E';
+const OWL = `<svg viewBox="0 0 120 134" aria-hidden="true">
+<ellipse cx="22" cy="86" rx="11" ry="25" fill="#A0643A" stroke="${K}" stroke-width="3" transform="rotate(14 22 86)"/>
+<ellipse cx="98" cy="86" rx="11" ry="25" fill="#A0643A" stroke="${K}" stroke-width="3" transform="rotate(-14 98 86)"/>
+<path d="M26 52 L22 30 L42 42 Z M94 52 L98 30 L78 42 Z" fill="#A0643A" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
+<ellipse cx="60" cy="80" rx="40" ry="44" fill="#C98A55" stroke="${K}" stroke-width="3"/>
+<ellipse cx="60" cy="95" rx="25" ry="25" fill="#FFE7C2"/>
+<path d="M48 88 q4 4 8 0 M64 88 q4 4 8 0 M56 98 q4 4 8 0 M48 108 q4 4 8 0 M64 108 q4 4 8 0" stroke="#E2B987" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+<circle cx="29" cy="76" r="5" fill="#FF9B9B" opacity=".75"/><circle cx="91" cy="76" r="5" fill="#FF9B9B" opacity=".75"/>
+<g class="owl-eyes"><circle cx="44" cy="62" r="15" fill="#fff" stroke="${K}" stroke-width="3"/><circle cx="76" cy="62" r="15" fill="#fff" stroke="${K}" stroke-width="3"/>
+<circle cx="46" cy="63" r="7" fill="${K}"/><circle cx="74" cy="63" r="7" fill="${K}"/>
+<circle cx="48.5" cy="60" r="2.4" fill="#fff"/><circle cx="76.5" cy="60" r="2.4" fill="#fff"/></g>
+<path d="M54 74 L66 74 L60 83 Z" fill="#FFB12E" stroke="#C2780E" stroke-width="1.8" stroke-linejoin="round"/>
+<path d="M44 34 Q60 28 76 34 L76 44 Q60 39 44 44 Z" fill="#3A4A9B" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
+<path d="M60 14 L102 28 L60 42 L18 28 Z" fill="#4A5BB8" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
+<path d="M60 28 L92 34 L94 50" stroke="#FFC53D" stroke-width="3" fill="none" stroke-linecap="round"/>
+<circle cx="94" cy="52" r="4.5" fill="#FFC53D" stroke="${K}" stroke-width="2"/>
+<circle cx="60" cy="28" r="3.5" fill="#FFC53D" stroke="${K}" stroke-width="2"/>
+<path d="M48 123 l-5 6 M48 123 l0 8 M48 123 l5 6 M72 123 l-5 6 M72 123 l0 8 M72 123 l5 6" stroke="#E79B1C" stroke-width="3.5" stroke-linecap="round"/>
+</svg>`;
+
+const STAR = (x, y, s, fill) => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 -8 L2.4 -2.6 L8.2 -2.4 L3.7 1.3 L5.2 7 L0 3.8 L-5.2 7 L-3.7 1.3 L-8.2 -2.4 L-2.4 -2.6 Z" fill="${fill}" stroke="${K}" stroke-width="${2 / s}" stroke-linejoin="round"/>`;
+const SPARK = (x, y, s) => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 -6 L1.5 -1.5 L6 0 L1.5 1.5 L0 6 L-1.5 1.5 L-6 0 L-1.5 -1.5 Z" fill="#FFC53D" stroke="${K}" stroke-width="${1.4 / s}" stroke-linejoin="round"/>`;
+const APPLE = (x, y, fill, plain) => `<g transform="translate(${x} ${y})">
+<path d="M0 -12 C-9 -20 -23 -11 -21 3 C-19 17 -8 23 0 17 C8 23 19 17 21 3 C23 -11 9 -20 0 -12Z" fill="${fill}" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
+<path d="M0 -12 Q2 -20 6 -24" stroke="${plain ? fill : '#8B5A2B'}" stroke-width="3" fill="none" stroke-linecap="round"/>
+<ellipse cx="9" cy="-20" rx="6" ry="3" fill="${plain ? fill : '#5DBB63'}" stroke="${K}" stroke-width="2" transform="rotate(-25 9 -20)"/>
+${plain ? '' : '<ellipse cx="-9" cy="-3" rx="3" ry="5.5" fill="#fff" opacity=".6"/>'}</g>`;
+const HEDGE = 'M50 16V42M24 66H62V84M90 34V66M90 34H118M118 16V20M136 58H114V74';
+
+const ART = {
+maze: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<rect x="18" y="10" width="124" height="80" rx="14" fill="#FBEFD3"/>
+<path d="${HEDGE}" stroke="${K}" stroke-width="12" fill="none" stroke-linecap="round"/>
+<path d="${HEDGE}" stroke="#5DBB63" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M34 50 C40 62 66 56 76 54 S102 80 120 76" stroke="#FF8A3D" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-dasharray="0.1 7"/>
+<rect x="18" y="10" width="124" height="80" rx="14" fill="none" stroke="${K}" stroke-width="3"/>
+<g stroke="${K}" stroke-width="2.5" stroke-linejoin="round"><ellipse cx="29.5" cy="25" rx="3.5" ry="8" fill="#fff"/><ellipse cx="38.5" cy="25" rx="3.5" ry="8" fill="#fff"/><circle cx="34" cy="37" r="9" fill="#fff"/></g>
+<circle cx="31" cy="36" r="1.5" fill="${K}"/><circle cx="37" cy="36" r="1.5" fill="${K}"/><circle cx="34" cy="40" r="1.8" fill="#F27FA0"/>
+<path d="M122 66 L134 66 L128 84 Z" fill="#FF8A3D" stroke="${K}" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M128 66 L124 58 M128 66 L128 57 M128 66 L132 58" stroke="#3E9B4F" stroke-width="3" stroke-linecap="round"/>
+</svg>`,
+diff: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<rect x="10" y="14" width="66" height="62" rx="10" fill="#DDF2FF"/><rect x="84" y="14" width="66" height="62" rx="10" fill="#DDF2FF"/>
+<path d="M10 56 H76 V66 a10 10 0 0 1 -10 10 H20 a10 10 0 0 1 -10 -10Z" fill="#9BD77B"/>
+<path d="M84 56 H150 V66 a10 10 0 0 1 -10 10 H94 a10 10 0 0 1 -10 -10Z" fill="#9BD77B"/>
+<g stroke="${K}" stroke-width="2.5" stroke-linejoin="round">
+<circle cx="25" cy="29" r="7" fill="#FFD866"/><circle cx="99" cy="29" r="7" fill="#FFD866"/>
+<rect x="52" y="44" width="6" height="16" fill="#B07A4A"/><circle cx="55" cy="38" r="11" fill="#5DBB63"/>
+<rect x="126" y="44" width="6" height="16" fill="#B07A4A"/><circle cx="129" cy="38" r="11" fill="#5DBB63"/>
+<path d="M30 66 V56" fill="none"/><circle cx="30" cy="54" r="5" fill="#F27FA0"/>
+</g>
+<circle cx="30" cy="54" r="1.8" fill="#FFD866"/>
+<circle cx="104" cy="58" r="10" fill="none" stroke="#FF5A4E" stroke-width="3" stroke-dasharray="4 3.5"/>
+<g stroke="${K}" stroke-width="3" fill="none"><rect x="10" y="14" width="66" height="62" rx="10"/><rect x="84" y="14" width="66" height="62" rx="10"/></g>
+<circle cx="134" cy="68" r="13" fill="#fff" fill-opacity=".45" stroke="${K}" stroke-width="4"/>
+<path d="M143.5 77.5 L153 88" stroke="${K}" stroke-width="7" stroke-linecap="round"/>
+</svg>`,
+memory: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<g stroke="${K}" stroke-width="3" stroke-linejoin="round">
+<rect x="22" y="26" width="40" height="56" rx="9" fill="#5B6FD8" transform="rotate(-12 42 54)"/>
+<rect x="98" y="26" width="40" height="56" rx="9" fill="#5B6FD8" transform="rotate(12 118 54)"/>
+<rect x="60" y="20" width="40" height="56" rx="9" fill="#fff"/>
+</g>
+${STAR(40, 52, 1.2, '#FFD866')}${STAR(120, 52, 1.2, '#FFD866')}
+${APPLE(80, 50, '#FF6B57', false).replace('translate(80 50)', 'translate(80 50) scale(.62)')}
+<circle cx="140" cy="22" r="13" fill="#FFC53D" stroke="${K}" stroke-width="3"/>
+<text x="140" y="28" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="18" fill="${K}">?</text>
+</svg>`,
+pairs: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<g stroke="${K}" stroke-width="3" stroke-linejoin="round">
+<rect x="34" y="18" width="42" height="60" rx="10" fill="#fff" transform="rotate(-9 55 48)"/>
+<rect x="84" y="18" width="42" height="60" rx="10" fill="#fff" transform="rotate(9 105 48)"/>
+</g>
+<g transform="translate(55 50) rotate(-9)"><path d="M-6 -1 Q-3 -12 2 -15 M6 1 Q4 -10 2 -15" stroke="#3E8E41" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="7" cy="-15" rx="6" ry="3" fill="#5DBB63" stroke="${K}" stroke-width="2"/><circle cx="-6" cy="6" r="7.5" fill="#F2445A" stroke="${K}" stroke-width="2.5"/><circle cx="6" cy="8" r="7.5" fill="#F2445A" stroke="${K}" stroke-width="2.5"/><circle cx="-8" cy="4" r="2" fill="#fff" opacity=".7"/></g>
+<g transform="translate(105 50) rotate(9)"><path d="M-6 -1 Q-3 -12 2 -15 M6 1 Q4 -10 2 -15" stroke="#3E8E41" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="7" cy="-15" rx="6" ry="3" fill="#5DBB63" stroke="${K}" stroke-width="2"/><circle cx="-6" cy="6" r="7.5" fill="#F2445A" stroke="${K}" stroke-width="2.5"/><circle cx="6" cy="8" r="7.5" fill="#F2445A" stroke="${K}" stroke-width="2.5"/><circle cx="-8" cy="4" r="2" fill="#fff" opacity=".7"/></g>
+${SPARK(80, 14, 1.3)}${SPARK(142, 30, 1)}${SPARK(20, 74, 1.1)}
+</svg>`,
+dots: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<rect x="18" y="10" width="124" height="80" rx="12" fill="#fff" stroke="${K}" stroke-width="3"/>
+<path d="M30 12V88M50 12V88M70 12V88M90 12V88M110 12V88M130 12V88M20 24H140M20 42H140M20 60H140M20 78H140" stroke="#DCE9F8" stroke-width="1.2"/>
+<path d="M40 78 V42 L60 24 L80 42 V78 Z M40 42 H80" stroke="#4D7CF0" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+<g fill="${K}">${[40, 60, 80, 100, 120].map(x => [24, 42, 60, 78].map(y => `<circle cx="${x}" cy="${y}" r="2.4"/>`).join('')).join('')}</g>
+<g transform="translate(116 62) rotate(-38)" stroke="${K}" stroke-width="2.5" stroke-linejoin="round">
+<rect x="-5" y="-24" width="10" height="30" fill="#FFC53D"/><rect x="-5" y="-31" width="10" height="7" fill="#F27FA0"/>
+<path d="M-5 6 L5 6 L0 16 Z" fill="#F6D7A8"/></g>
+</svg>`,
+shadow: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<circle cx="116" cy="54" r="31" fill="#fff" stroke="${K}" stroke-width="2.5" stroke-dasharray="5 5"/>
+${APPLE(44, 54, '#FF6B57', false)}
+${APPLE(116, 54, K, true)}
+<path d="M68 42 Q78 32 88 42" stroke="${K}" stroke-width="3" fill="none" stroke-linecap="round" stroke-dasharray="2 5"/>
+<path d="M84 36 L89 43 L81 45" stroke="${K}" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`,
+odd: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<rect x="8" y="70" width="144" height="10" rx="5" fill="#E2B07A" stroke="${K}" stroke-width="3"/>
+<g stroke="${K}" stroke-width="3"><circle cx="26" cy="55" r="13" fill="#FF6B57"/><circle cx="60" cy="55" r="13" fill="#FF6B57"/><circle cx="94" cy="55" r="13" fill="#FF6B57"/></g>
+<g fill="#fff" opacity=".65"><ellipse cx="21" cy="50" rx="3" ry="4.5"/><ellipse cx="55" cy="50" rx="3" ry="4.5"/><ellipse cx="89" cy="50" rx="3" ry="4.5"/></g>
+<path d="M132 40 L146 68 L118 68 Z" fill="#4D7CF0" stroke="${K}" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="132" cy="55" r="23" fill="none" stroke="#FFC53D" stroke-width="4" stroke-dasharray="6 5"/>
+<text x="132" y="25" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="18" fill="${K}">!</text>
+</svg>`,
+pattern: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<path d="M8 44 C40 66 120 66 152 44" stroke="${K}" stroke-width="2.5" fill="none"/>
+<g stroke="${K}" stroke-width="2.5">
+<circle cx="20.4" cy="49.9" r="9.5" fill="#FF6B57"/><circle cx="41.8" cy="56.7" r="9.5" fill="#FFC53D"/><circle cx="66.8" cy="60.1" r="9.5" fill="#FF6B57"/>
+<circle cx="93.2" cy="60.1" r="9.5" fill="#FFC53D"/><circle cx="118.2" cy="56.7" r="9.5" fill="#FF6B57"/>
+<circle cx="139.6" cy="49.9" r="9.5" fill="#FFF4D2" stroke-dasharray="3 3"/></g>
+<g fill="#fff" opacity=".7"><circle cx="17.5" cy="46.5" r="2.3"/><circle cx="38.9" cy="53.3" r="2.3"/><circle cx="63.9" cy="56.7" r="2.3"/><circle cx="90.3" cy="56.7" r="2.3"/><circle cx="115.3" cy="53.3" r="2.3"/></g>
+<text x="139.6" y="55.5" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="15" fill="${K}">?</text>
+${SPARK(80, 22, 1.2)}
+</svg>`,
+count: `<svg viewBox="0 0 160 100" aria-hidden="true">
+<rect x="14" y="12" width="132" height="76" rx="12" fill="#C98A55" stroke="${K}" stroke-width="3"/>
+<rect x="24" y="20" width="112" height="60" rx="6" fill="#FFF7E8" stroke="${K}" stroke-width="2.5"/>
+<path d="M24 36H136M24 52H136M24 68H136" stroke="#B07A4A" stroke-width="3"/>
+<g stroke="${K}" stroke-width="2.3">
+<ellipse cx="34" cy="36" rx="7" ry="6.5" fill="#FF6B57"/><ellipse cx="48" cy="36" rx="7" ry="6.5" fill="#FF6B57"/><ellipse cx="62" cy="36" rx="7" ry="6.5" fill="#FF6B57"/>
+<ellipse cx="34" cy="52" rx="7" ry="6.5" fill="#4D7CF0"/><ellipse cx="48" cy="52" rx="7" ry="6.5" fill="#4D7CF0"/>
+<ellipse cx="34" cy="68" rx="7" ry="6.5" fill="#43B562"/><ellipse cx="48" cy="68" rx="7" ry="6.5" fill="#43B562"/><ellipse cx="62" cy="68" rx="7" ry="6.5" fill="#43B562"/><ellipse cx="76" cy="68" rx="7" ry="6.5" fill="#43B562"/>
+</g>
+<g font-family="Nunito, sans-serif" font-weight="900" font-size="15" fill="${K}" text-anchor="middle"><text x="122" y="41">3</text><text x="122" y="57">2</text><text x="122" y="73">4</text></g>
+</svg>`
+};
+
+const SCENE_ART = {
+forest: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#E3F4FF"/><circle cx="262" cy="34" r="17" fill="#FFE48A"/><path d="M0 92 L18 62 L36 92 L52 70 L72 92 L92 58 L112 92 L130 72 L150 92 L170 60 L190 92 L208 70 L228 92 L248 64 L268 92 L284 74 L300 90 V200 H0Z" fill="#C4E7B1"/><rect y="92" width="300" height="108" fill="#D6F0C4"/><path d="M0 150 Q75 136 150 150 T300 150 V200 H0Z" fill="#C9EAB4"/></svg>`,
+sea: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DDF3FC"/><stop offset="1" stop-color="#A3D6F1"/></linearGradient></defs><rect width="300" height="200" fill="url(#w)"/><path d="M40 0 H66 L30 150 H12Z M140 0 H160 L132 140 H116Z M230 0 H250 L222 150 H206Z" fill="#fff" opacity=".28"/><path d="M0 170 Q60 156 120 167 T240 164 T300 162 V200 H0Z" fill="#F4E3B6"/><g fill="none" stroke="#fff" stroke-width="2" opacity=".8"><circle cx="70" cy="60" r="5"/><circle cx="78" cy="44" r="3"/><circle cx="200" cy="90" r="4"/><circle cx="260" cy="40" r="6"/></g></svg>`,
+farm: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#E6F4FF"/><circle cx="40" cy="34" r="16" fill="#FFE48A"/><path d="M0 96 C60 70 130 74 180 92 C230 108 270 84 300 86 V200 H0Z" fill="#CFEAB4"/><rect y="118" width="300" height="82" fill="#EEF4CC"/><g fill="#E6C69A" stroke="#C9A06E" stroke-width="1.5"><rect x="0" y="104" width="300" height="5"/><rect x="0" y="113" width="300" height="5"/><rect x="12" y="98" width="6" height="24"/><rect x="62" y="98" width="6" height="24"/><rect x="112" y="98" width="6" height="24"/><rect x="162" y="98" width="6" height="24"/><rect x="212" y="98" width="6" height="24"/><rect x="262" y="98" width="6" height="24"/></g></svg>`,
+space: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="s" cx=".25" cy=".2" r="1"><stop offset="0" stop-color="#4A3F8E"/><stop offset="1" stop-color="#18153D"/></radialGradient></defs><rect width="300" height="200" fill="url(#s)"/><g fill="#fff" opacity=".75"><circle cx="20" cy="30" r="1.4"/><circle cx="64" cy="14" r="1"/><circle cx="110" cy="40" r="1.6"/><circle cx="150" cy="18" r="1"/><circle cx="196" cy="34" r="1.3"/><circle cx="240" cy="12" r="1.6"/><circle cx="284" cy="44" r="1"/><circle cx="34" cy="96" r="1"/><circle cx="90" cy="120" r="1.5"/><circle cx="140" cy="88" r="1"/><circle cx="186" cy="140" r="1.4"/><circle cx="228" cy="104" r="1"/><circle cx="270" cy="150" r="1.3"/><circle cx="52" cy="170" r="1.3"/><circle cx="120" cy="184" r="1"/><circle cx="210" cy="190" r="1.4"/></g><circle cx="262" cy="168" r="30" fill="#7A6AD8" opacity=".45"/><ellipse cx="262" cy="168" rx="46" ry="10" fill="none" stroke="#B9AEF0" stroke-width="3" opacity=".45"/></svg>`,
+kitchen: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><rect width="300" height="200" fill="#FFF3E8"/><path d="M0 25H300M0 50H300M0 75H300M0 100H300M0 125H300M25 0V150M50 0V150M75 0V150M100 0V150M125 0V150M150 0V150M175 0V150M200 0V150M225 0V150M250 0V150M275 0V150" stroke="#F4DECD" stroke-width="2"/><rect y="146" width="300" height="10" fill="#D9A06C"/><rect y="156" width="300" height="44" fill="#EFC49A"/></svg>`
+};
+
+document.querySelectorAll('[data-owl]').forEach(n => { n.innerHTML = OWL; });
+document.querySelectorAll('.perch .owl, .task .owl').forEach(n => { n.setAttribute('role', 'button'); n.setAttribute('tabindex', '0'); n.setAttribute('aria-label', 'Сова: послушать ещё раз'); n.classList.add('tappable'); });
+(function titleLetters(){
+  const t = $('#title'), cols = ['#FF7657', '#FFC53D', '#43B562', '#3BA7F0', '#9466E0', '#EE5C9B', '#FF9A3C', '#22ADA5'];
+  let i = 0; t.textContent = '';
+  'Hoot Quest'.split(' ').forEach(word => {
+    const w = el('span', {class: 'w', 'aria-hidden': 'true'});
+    [...word].forEach(ch => { w.append(el('span', {class: 'l', style: `--c:${cols[i % cols.length]};transform:rotate(${i % 2 ? 3 : -3}deg) translateY(${i % 3 === 1 ? -3 : 0}px)`}, ch)); i++; });
+    t.append(w, ' ');
+  });
+})();
+
+/* ---------- saved progress (this browser only) ---------- */
+const KEY = 'sova.v1';
+const state = (() => {
+  try { const s = JSON.parse(localStorage.getItem(KEY) || '{}'); return {stars: s.stars || {}, level: s.level || {}, muted: !!s.muted, music: s.music !== false, name: s.name || ''}; }
+  catch (e) { return {stars: {}, level: {}, muted: false, music: true, name: ''}; }
+})();
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+const nameSuffix = () => state.name ? ', ' + state.name : '';
+
+/* ---------- voice, music and sounds ---------- */
+// Every phrase the owl says is a recorded file (see allPhrases below); the browser's
+// own speech is only a fallback for a phrase that has no file.
+const VOICE_FILES = /*VOICE_FILES*/{"Привет! Выбери, во что поиграем сегодня.": "v/000.mp3", "Помоги зайчику добраться до морковки! Веди пальцем по дорожке или нажимай на стрелки.": "v/001.mp3", "Помоги мышке добраться до сыра! Веди пальцем по дорожке или нажимай на стрелки.": "v/002.mp3", "Помоги щенку найти косточку! Веди пальцем по дорожке или нажимай на стрелки.": "v/003.mp3", "Помоги пчёлке долететь до цветка! Веди пальцем по дорожке или нажимай на стрелки.": "v/004.mp3", "Помоги мишке добраться до мёда! Веди пальцем по дорожке или нажимай на стрелки.": "v/005.mp3", "Помоги котику найти рыбку! Веди пальцем по дорожке или нажимай на стрелки.": "v/006.mp3", "Помоги белочке найти орешек! Веди пальцем по дорожке или нажимай на стрелки.": "v/007.mp3", "Найди 3 отличия! Нажимай туда, где картинки не похожи.": "v/008.mp3", "Найди 5 отличий! Нажимай туда, где картинки не похожи.": "v/009.mp3", "Найди 7 отличий! Нажимай туда, где картинки не похожи.": "v/010.mp3", "Запомни, где лежат картинки! Потом они спрячутся.": "v/011.mp3", "Где собачка? Покажи!": "v/012.mp3", "Где котик? Покажи!": "v/013.mp3", "Где зайчик? Покажи!": "v/014.mp3", "Где лисичка? Покажи!": "v/015.mp3", "Где мишка? Покажи!": "v/016.mp3", "Где лягушка? Покажи!": "v/017.mp3", "Где обезьянка? Покажи!": "v/018.mp3", "Где курочка? Покажи!": "v/019.mp3", "Где яблоко? Покажи!": "v/020.mp3", "Где банан? Покажи!": "v/021.mp3", "Где клубника? Покажи!": "v/022.mp3", "Где машинка? Покажи!": "v/023.mp3", "Где ракета? Покажи!": "v/024.mp3", "Где мячик? Покажи!": "v/025.mp3", "Где шарик? Покажи!": "v/026.mp3", "Где цветочек? Покажи!": "v/027.mp3", "Где звёздочка? Покажи!": "v/028.mp3", "Где грибок? Покажи!": "v/029.mp3", "Где рыбка? Покажи!": "v/030.mp3", "Где бабочка? Покажи!": "v/031.mp3", "Где зонтик? Покажи!": "v/032.mp3", "Где подарок? Покажи!": "v/033.mp3", "Где черепаха? Покажи!": "v/034.mp3", "Где жираф? Покажи!": "v/035.mp3", "Найди пары одинаковых картинок! Открывай по две карточки.": "v/036.mp3", "Нарисуй квадратик по точкам, как на образце. Нажимай на точки по очереди.": "v/037.mp3", "Нарисуй треугольник по точкам, как на образце. Нажимай на точки по очереди.": "v/038.mp3", "Нарисуй букву Г по точкам, как на образце. Нажимай на точки по очереди.": "v/039.mp3", "Нарисуй лесенку по точкам, как на образце. Нажимай на точки по очереди.": "v/040.mp3", "Нарисуй букву Т по точкам, как на образце. Нажимай на точки по очереди.": "v/041.mp3", "Нарисуй домик по точкам, как на образце. Нажимай на точки по очереди.": "v/042.mp3", "Нарисуй флажок по точкам, как на образце. Нажимай на точки по очереди.": "v/043.mp3", "Нарисуй стрелку по точкам, как на образце. Нажимай на точки по очереди.": "v/044.mp3", "Нарисуй конверт по точкам, как на образце. Нажимай на точки по очереди.": "v/045.mp3", "Нарисуй букву П по точкам, как на образце. Нажимай на точки по очереди.": "v/046.mp3", "Нарисуй кораблик по точкам, как на образце. Нажимай на точки по очереди.": "v/047.mp3", "Нарисуй ёлочку по точкам, как на образце. Нажимай на точки по очереди.": "v/048.mp3", "Нарисуй ракету по точкам, как на образце. Нажимай на точки по очереди.": "v/049.mp3", "Нарисуй рыбку по точкам, как на образце. Нажимай на точки по очереди.": "v/050.mp3", "Нарисуй молнию по точкам, как на образце. Нажимай на точки по очереди.": "v/051.mp3", "Нарисуй такую же фигуру по точкам, как на образце. Нажимай на точки по очереди.": "v/052.mp3", "Почти получилось! Убери красные линии кнопкой «Отменить».": "v/053.mp3", "Правильно!": "v/054.mp3", "Подумай ещё!": "v/055.mp3", "Чья это тень? Найди картинку, которая подходит к тени.": "v/056.mp3", "А это чья тень?": "v/057.mp3", "Правильно! Это яблоко.": "v/058.mp3", "Правильно! Это груша.": "v/059.mp3", "Правильно! Это банан.": "v/060.mp3", "Правильно! Это виноград.": "v/061.mp3", "Правильно! Это апельсин.": "v/062.mp3", "Правильно! Это клубника.": "v/063.mp3", "Правильно! Это вишня.": "v/064.mp3", "Правильно! Это персик.": "v/065.mp3", "Правильно! Это лимон.": "v/066.mp3", "Правильно! Это арбуз.": "v/067.mp3", "Правильно! Это морковка.": "v/068.mp3", "Правильно! Это огурец.": "v/069.mp3", "Правильно! Это помидор.": "v/070.mp3", "Правильно! Это картошка.": "v/071.mp3", "Правильно! Это кукуруза.": "v/072.mp3", "Правильно! Это брокколи.": "v/073.mp3", "Правильно! Это лук.": "v/074.mp3", "Правильно! Это баклажан.": "v/075.mp3", "Правильно! Это перец.": "v/076.mp3", "Правильно! Это собака.": "v/077.mp3", "Правильно! Это кошка.": "v/078.mp3", "Правильно! Это корова.": "v/079.mp3", "Правильно! Это свинья.": "v/080.mp3", "Правильно! Это лошадь.": "v/081.mp3", "Правильно! Это овечка.": "v/082.mp3", "Правильно! Это коза.": "v/083.mp3", "Правильно! Это кролик.": "v/084.mp3", "Правильно! Это лев.": "v/085.mp3", "Правильно! Это тигр.": "v/086.mp3", "Правильно! Это медведь.": "v/087.mp3", "Правильно! Это лиса.": "v/088.mp3", "Правильно! Это волк.": "v/089.mp3", "Правильно! Это слон.": "v/090.mp3", "Правильно! Это жираф.": "v/091.mp3", "Правильно! Это обезьяна.": "v/092.mp3", "Правильно! Это зебра.": "v/093.mp3", "Правильно! Это птичка.": "v/094.mp3", "Правильно! Это утка.": "v/095.mp3", "Правильно! Это сова.": "v/096.mp3", "Правильно! Это пингвин.": "v/097.mp3", "Правильно! Это попугай.": "v/098.mp3", "Правильно! Это петух.": "v/099.mp3", "Правильно! Это лебедь.": "v/100.mp3", "Правильно! Это орёл.": "v/101.mp3", "Правильно! Это божья коровка.": "v/102.mp3", "Правильно! Это пчела.": "v/103.mp3", "Правильно! Это бабочка.": "v/104.mp3", "Правильно! Это муравей.": "v/105.mp3", "Правильно! Это гусеница.": "v/106.mp3", "Правильно! Это кузнечик.": "v/107.mp3", "Правильно! Это рыбка.": "v/108.mp3", "Правильно! Это осьминог.": "v/109.mp3", "Правильно! Это краб.": "v/110.mp3", "Правильно! Это дельфин.": "v/111.mp3", "Правильно! Это кит.": "v/112.mp3", "Правильно! Это акула.": "v/113.mp3", "Правильно! Это рыба-ёж.": "v/114.mp3", "Правильно! Это машина.": "v/115.mp3", "Правильно! Это автобус.": "v/116.mp3", "Правильно! Это паровоз.": "v/117.mp3", "Правильно! Это самолёт.": "v/118.mp3", "Правильно! Это велосипед.": "v/119.mp3", "Правильно! Это ракета.": "v/120.mp3", "Правильно! Это вертолёт.": "v/121.mp3", "Правильно! Это кораблик.": "v/122.mp3", "Правильно! Это трактор.": "v/123.mp3", "Правильно! Это футболка.": "v/124.mp3", "Правильно! Это штаны.": "v/125.mp3", "Правильно! Это платье.": "v/126.mp3", "Правильно! Это носки.": "v/127.mp3", "Правильно! Это варежки.": "v/128.mp3", "Правильно! Это шарф.": "v/129.mp3", "Правильно! Это кроссовки.": "v/130.mp3", "Правильно! Это кепка.": "v/131.mp3", "Правильно! Это куртка.": "v/132.mp3", "Правильно! Это гитара.": "v/133.mp3", "Правильно! Это пианино.": "v/134.mp3", "Правильно! Это барабан.": "v/135.mp3", "Правильно! Это труба.": "v/136.mp3", "Правильно! Это скрипка.": "v/137.mp3", "Правильно! Это саксофон.": "v/138.mp3", "Правильно! Это торт.": "v/139.mp3", "Правильно! Это конфета.": "v/140.mp3", "Правильно! Это пончик.": "v/141.mp3", "Правильно! Это леденец.": "v/142.mp3", "Правильно! Это мороженое.": "v/143.mp3", "Правильно! Это шоколадка.": "v/144.mp3", "Правильно! Это кекс.": "v/145.mp3", "Правильно! Это печенье.": "v/146.mp3", "Правильно! Это мяч.": "v/147.mp3", "Правильно! Это плюшевый мишка.": "v/148.mp3", "Правильно! Это шарик.": "v/149.mp3", "Правильно! Это кубик.": "v/150.mp3", "Правильно! Это пазл.": "v/151.mp3", "Правильно! Это воздушный змей.": "v/152.mp3", "Что здесь лишнее? Найди картинку, которая не подходит к остальным.": "v/153.mp3", "А здесь что лишнее?": "v/154.mp3", "Правильно! Остальные — это фрукты.": "v/155.mp3", "Правильно! Остальные — это овощи.": "v/156.mp3", "Правильно! Остальные — это домашние животные.": "v/157.mp3", "Правильно! Остальные — это дикие животные.": "v/158.mp3", "Правильно! Остальные — это птицы.": "v/159.mp3", "Правильно! Остальные — это насекомые.": "v/160.mp3", "Правильно! Остальные — это морские жители.": "v/161.mp3", "Правильно! Остальные — это транспорт.": "v/162.mp3", "Правильно! Остальные — это одежда.": "v/163.mp3", "Правильно! Остальные — это музыкальные инструменты.": "v/164.mp3", "Правильно! Остальные — это сладости.": "v/165.mp3", "Правильно! Остальные — это игрушки.": "v/166.mp3", "Посмотри на ряд. Что будет дальше? Выбери картинку.": "v/167.mp3", "А здесь что будет дальше?": "v/168.mp3", "Сосчитай: сколько здесь яблок?": "v/169.mp3", "Сосчитай: сколько здесь рыбок?": "v/170.mp3", "Сосчитай: сколько здесь звёздочек?": "v/171.mp3", "Сосчитай: сколько здесь шариков?": "v/172.mp3", "Сосчитай: сколько здесь божьих коровок?": "v/173.mp3", "Сосчитай: сколько здесь грибов?": "v/174.mp3", "Сосчитай: сколько здесь цыплят?": "v/175.mp3", "Сосчитай: сколько здесь цветочков?": "v/176.mp3", "Сосчитай: сколько здесь машинок?": "v/177.mp3", "Сосчитай: сколько здесь бабочек?": "v/178.mp3", "Сосчитай: сколько здесь клубничек?": "v/179.mp3", "Сосчитай: сколько здесь лягушат?": "v/180.mp3", "Правильно! Ответ: 1.": "v/181.mp3", "Правильно! Ответ: 2.": "v/182.mp3", "Правильно! Ответ: 3.": "v/183.mp3", "Правильно! Ответ: 4.": "v/184.mp3", "Правильно! Ответ: 5.": "v/185.mp3", "Правильно! Ответ: 6.": "v/186.mp3", "Правильно! Ответ: 7.": "v/187.mp3", "Правильно! Ответ: 8.": "v/188.mp3", "Правильно! Ответ: 9.": "v/189.mp3", "Правильно! Ответ: 10.": "v/190.mp3", "Правильно! Ответ: 11.": "v/191.mp3", "Правильно! Ответ: 12.": "v/192.mp3", "Правильно! Ответ: 13.": "v/193.mp3", "Правильно! Ответ: 14.": "v/194.mp3", "Правильно! Ответ: 15.": "v/195.mp3", "Молодец!": "v/196.mp3", "Отлично!": "v/197.mp3", "Умница!": "v/198.mp3", "Здорово!": "v/199.mp3", "Добрались!": "v/200.mp3", "Все отличия найдены!": "v/201.mp3", "Всё запомнил!": "v/202.mp3", "Все пары найдены!": "v/203.mp3", "Рисунок готов!": "v/204.mp3", "У тебя новая наклейка!": "v/205.mp3"}/*END_VOICE_FILES*/;
+
+let ac = null;
+function audio(){
+  if (!ac){ try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+  if (ac.state === 'suspended') { try { ac.resume(); } catch (e) {} }
+  return ac;
+}
+
+function bestVoice(){
+  try {
+    const vs = speechSynthesis.getVoices().filter(v => /^ru/i.test(v.lang));
+    const score = (v) => (/natural|neural|online/i.test(v.name) ? 100 : 0) + (/google/i.test(v.name) ? 50 : 0) + (/milena|katya|svetlana|dariya|alena/i.test(v.name) ? 30 : 0);
+    return vs.sort((a, b) => score(b) - score(a))[0] || null;
+  } catch (e) { return null; }
+}
+
+const voiceQ = [];
+let voiceToken = 0, curAudio = null;
+function stopVoice(){
+  voiceToken++; voiceQ.length = 0;
+  if (curAudio){ try { curAudio.pause(); } catch (e) {} curAudio = null; }
+  try { speechSynthesis.cancel(); } catch (e) {}
+  music.duck(false);
+}
+function nextVoice(token){
+  if (token !== voiceToken) return;
+  const text = voiceQ.shift();
+  if (text == null){ music.duck(false); return; }
+  music.duck(true);
+  const file = VOICE_FILES[text];
+  if (!file){ ttsSay(text, token); return; }
+  const a = new Audio(file);
+  curAudio = a;
+  let done = false;
+  const finish = () => { if (done) return; done = true; if (curAudio === a) curAudio = null; nextVoice(token); };
+  a.addEventListener('ended', finish);
+  a.addEventListener('error', () => { if (done) return; done = true; ttsSay(text, token); });
+  const pr = a.play();
+  if (pr && pr.catch) pr.catch(() => { if (done) return; done = true; ttsSay(text, token); });
+}
+function ttsSay(text, token){
+  if (token !== voiceToken) return;
+  if (!('speechSynthesis' in window)){ nextVoice(token); return; }
+  try {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ru-RU'; const v = bestVoice(); if (v) u.voice = v; u.rate = 0.92;
+    let done = false;
+    const go = () => { if (done) return; done = true; nextVoice(token); };
+    u.onend = go; u.onerror = go;
+    setTimeout(go, 1500 + text.length * 110);
+    speechSynthesis.speak(u);
+  } catch (e) { nextVoice(token); }
+}
+function speak(text, opts){
+  opts = opts || {};
+  if (state.muted && !opts.force) return;
+  const parts = (Array.isArray(text) ? text : [text]).filter(Boolean);
+  if (!parts.length) return;
+  if (!opts.queue) stopVoice();
+  const idle = voiceQ.length === 0 && !curAudio;
+  parts.forEach(p => voiceQ.push(p));
+  if (idle || !opts.queue) nextVoice(voiceToken);
+}
+
+/* background music: a soft music box, generated here rather than downloaded */
+const music = (() => {
+  const VOL = 0.11, E = 60 / 84 / 2;
+  const mtof = (m) => 440 * Math.pow(2, (m - 69) / 12);
+  const CH = {C: [48, [60, 64, 67]], Am: [45, [57, 60, 64]], F: [41, [53, 57, 60]], G: [43, [55, 59, 62]]};
+  const BARS = ['C', 'Am', 'F', 'G', 'C', 'Am', 'FG', 'C', 'C', 'Am', 'F', 'G', 'C', 'Am', 'FG', 'C'];
+  const MEL = [
+    [76,2],[79,2],[84,2],[79,2], [81,2],[79,2],[76,2],[72,2], [77,2],[81,2],[84,2],[81,2], [79,2],[83,2],[86,4],
+    [76,2],[79,2],[84,2],[88,2], [86,2],[84,2],[81,2],[79,2], [81,2],[77,2],[79,2],[83,2], [84,6],[0,2],
+    [67,2],[72,2],[76,4], [76,2],[74,2],[72,4], [69,2],[72,2],[77,4], [74,2],[71,2],[67,4],
+    [67,2],[72,2],[76,2],[79,2], [81,2],[79,2],[76,4], [77,2],[76,2],[74,4], [72,8]
+  ];
+  const melAt = {}; let pos = 0;
+  MEL.forEach(([m, l]) => { if (m) melAt[pos] = [m, l]; pos += l; });
+  const LOOP = pos;
+  let a = null, master = null, bus = null, timer = null, nextT = 0, step = 0, started = false, ducked = false;
+  const chordAt = (bar, late) => { const c = BARS[bar]; return c === 'FG' ? (late ? 'G' : 'F') : c; };
+  function note(type, f, t, peak, attack, decay){
+    const o = a.createOscillator(), g = a.createGain();
+    o.type = type; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + attack); g.gain.exponentialRampToValueAtTime(0.0001, t + attack + decay);
+    o.connect(g); g.connect(bus); o.start(t); o.stop(t + attack + decay + 0.05);
+  }
+  const box = (f, t, vel) => { note('sine', f, t, 0.5 * vel, 0.004, 1.5); note('sine', f * 2, t, 0.11 * vel, 0.004, 0.5); note('triangle', f * 4, t, 0.018 * vel, 0.002, 0.14); };
+  function pad(fs, t, len){
+    fs.forEach(f => {
+      const o = a.createOscillator(), g = a.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.045, t + 0.4); g.gain.setValueAtTime(0.045, t + len - 0.2); g.gain.exponentialRampToValueAtTime(0.0001, t + len + 0.5);
+      o.connect(g); g.connect(bus); o.start(t); o.stop(t + len + 0.6);
+    });
+  }
+  function playStep(st, t){
+    const bar = Math.floor(st / 8), p = st % 8, late = p >= 4;
+    const m = melAt[st]; if (m) box(mtof(m[0]), t, 1);
+    if (p === 0 || p === 4){
+      const c = CH[chordAt(bar, late)];
+      note('triangle', mtof(c[0]), t, 0.3, 0.01, 1.1);
+      if (p === 0 || BARS[bar] === 'FG') pad(c[1].map(mtof), t, (BARS[bar] === 'FG' ? 4 : 8) * E);
+    }
+    if (p % 2 === 1){ const c = CH[chordAt(bar, late)]; box(mtof(c[1][((p - 1) / 2) % 3] + 12), t, 0.16); }
+  }
+  function impulse(sec){
+    const rate = a.sampleRate, len = Math.floor(rate * sec), buf = a.createBuffer(2, len, rate);
+    for (let ch = 0; ch < 2; ch++){ const d = buf.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3); }
+    return buf;
+  }
+  const target = () => (state.music && !state.muted) ? (ducked ? VOL * 0.3 : VOL) : 0;
+  function tick(){
+    if (!a) return;
+    if (document.hidden || target() === 0){ nextT = a.currentTime + 0.1; return; }
+    while (nextT < a.currentTime + 0.4){ playStep(step % LOOP, nextT); nextT += E; step++; }
+  }
+  function ensure(){
+    if (started) return true;
+    a = audio(); if (!a) return false;
+    started = true;
+    master = a.createGain(); master.gain.value = 0.0001; master.connect(a.destination);
+    bus = a.createGain();
+    const conv = a.createConvolver(); conv.buffer = impulse(2.2);
+    const wet = a.createGain(); wet.gain.value = 0.35;
+    bus.connect(master); bus.connect(conv); conv.connect(wet); wet.connect(master);
+    nextT = a.currentTime + 0.2; step = 0;
+    timer = setInterval(tick, 100);
+    return true;
+  }
+  function apply(){
+    if (!started) return;
+    const t = a.currentTime;
+    master.gain.cancelScheduledValues(t);
+    master.gain.setTargetAtTime(Math.max(0.0001, target()), t, 0.3);
+  }
+  return {
+    start(){ if (state.music && !state.muted && ensure()) apply(); },
+    refresh(){ if (state.music && !state.muted) ensure(); apply(); },
+    duck(on){ ducked = on; apply(); }
+  };
+})();
+
+function tone(freq, t0, dur, type, vol){
+  if (state.muted) return;
+  const a = audio(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain(), t = a.currentTime + t0;
+  o.type = type || 'sine'; o.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol || 0.15, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(a.destination); o.start(t); o.stop(t + dur + 0.05);
+}
+const sfx = {
+  ok(){ tone(660, 0, 0.15); tone(880, 0.1, 0.22); },
+  bad(){ tone(210, 0, 0.2, 'triangle', 0.12); },
+  step(){ tone(520, 0, 0.06, 'sine', 0.06); },
+  win(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.12, 0.32, 'triangle', 0.14)); }
+};
+function renderSound(){
+  document.querySelectorAll('.sound-btn').forEach(b => { b.textContent = state.muted ? '🔇' : '🔊'; b.setAttribute('aria-label', state.muted ? 'Включить звук' : 'Выключить звук'); });
+  document.querySelectorAll('.music-btn').forEach(b => { b.classList.toggle('off', !state.music); b.setAttribute('aria-pressed', String(state.music)); b.setAttribute('aria-label', state.music ? 'Выключить музыку' : 'Включить музыку'); });
+}
+document.querySelectorAll('.sound-btn').forEach(b => b.addEventListener('click', () => {
+  state.muted = !state.muted; save(); renderSound();
+  if (state.muted) stopVoice(); else sfx.ok();
+  music.refresh();
+}));
+document.querySelectorAll('.music-btn').forEach(b => b.addEventListener('click', () => {
+  state.music = !state.music; save(); renderSound(); music.refresh();
+}));
+let warmed = false;
+function warmUp(){
+  music.start();
+  if (warmed) return; warmed = true;
+  const list = [...new Set(Object.values(VOICE_FILES))];
+  let i = 0;
+  const run = () => { if (i >= list.length) return; const f = list[i++]; fetch(f).catch(() => {}).finally(run); };
+  for (let k = 0; k < 3; k++) run();
+}
+document.addEventListener('pointerdown', warmUp);
+document.addEventListener('keydown', warmUp);
+document.querySelectorAll('.owl.tappable').forEach(n => {
+  const go = () => { if (current) speak(current.hintText, {force: true}); else speak(PH.hello, {force: true}); };
+  n.addEventListener('click', go);
+  n.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); } });
+});
+
+/* ---------- picture dictionaries ---------- */
+const NAMED = [['🐶','собачка'],['🐱','котик'],['🐰','зайчик'],['🦊','лисичка'],['🐻','мишка'],['🐸','лягушка'],['🐵','обезьянка'],['🐔','курочка'],['🍎','яблоко'],['🍌','банан'],['🍓','клубника'],['🚗','машинка'],['🚀','ракета'],['⚽','мячик'],['🎈','шарик'],['🌸','цветочек'],['⭐','звёздочка'],['🍄','грибок'],['🐟','рыбка'],['🦋','бабочка'],['☂️','зонтик'],['🎁','подарок'],['🐢','черепаха'],['🦒','жираф']];
+
+const CATS = {
+  fruits:{n:'фрукты', i:[['🍎','яблоко'],['🍐','груша'],['🍌','банан'],['🍇','виноград'],['🍊','апельсин'],['🍓','клубника'],['🍒','вишня'],['🍑','персик'],['🍋','лимон'],['🍉','арбуз']]},
+  veg:{n:'овощи', i:[['🥕','морковка'],['🥒','огурец'],['🍅','помидор'],['🥔','картошка'],['🌽','кукуруза'],['🥦','брокколи'],['🧅','лук'],['🍆','баклажан'],['🌶️','перец']]},
+  pets:{n:'домашние животные', i:[['🐶','собака'],['🐱','кошка'],['🐮','корова'],['🐷','свинья'],['🐴','лошадь'],['🐑','овечка'],['🐐','коза'],['🐰','кролик']]},
+  wild:{n:'дикие животные', i:[['🦁','лев'],['🐯','тигр'],['🐻','медведь'],['🦊','лиса'],['🐺','волк'],['🐘','слон'],['🦒','жираф'],['🐒','обезьяна'],['🦓','зебра']]},
+  birds:{n:'птицы', i:[['🐦','птичка'],['🦆','утка'],['🦉','сова'],['🐧','пингвин'],['🦜','попугай'],['🐓','петух'],['🦢','лебедь'],['🦅','орёл']]},
+  insects:{n:'насекомые', i:[['🐞','божья коровка'],['🐝','пчела'],['🦋','бабочка'],['🐜','муравей'],['🐛','гусеница'],['🦗','кузнечик']]},
+  sea:{n:'морские жители', i:[['🐟','рыбка'],['🐙','осьминог'],['🦀','краб'],['🐬','дельфин'],['🐳','кит'],['🦈','акула'],['🐡','рыба-ёж']]},
+  transport:{n:'транспорт', i:[['🚗','машина'],['🚌','автобус'],['🚂','паровоз'],['✈️','самолёт'],['🚲','велосипед'],['🚀','ракета'],['🚁','вертолёт'],['⛵','кораблик'],['🚜','трактор']]},
+  clothes:{n:'одежда', i:[['👕','футболка'],['👖','штаны'],['👗','платье'],['🧦','носки'],['🧤','варежки'],['🧣','шарф'],['👟','кроссовки'],['🧢','кепка'],['🧥','куртка']]},
+  music:{n:'музыкальные инструменты', i:[['🎸','гитара'],['🎹','пианино'],['🥁','барабан'],['🎺','труба'],['🎻','скрипка'],['🎷','саксофон']]},
+  sweets:{n:'сладости', i:[['🍰','торт'],['🍬','конфета'],['🍩','пончик'],['🍭','леденец'],['🍦','мороженое'],['🍫','шоколадка'],['🧁','кекс'],['🍪','печенье']]},
+  toys:{n:'игрушки', i:[['⚽','мяч'],['🧸','плюшевый мишка'],['🎈','шарик'],['🎲','кубик'],['🧩','пазл'],['🪁','воздушный змей']]}
+};
+const NEAR = {fruits:['veg','sweets'], veg:['fruits'], pets:['wild','birds'], wild:['pets'], birds:['insects','pets'], insects:['birds'], sea:['birds','pets'], transport:['toys'], clothes:['toys'], music:['toys'], sweets:['fruits'], toys:['music','transport']};
+
+const STICKERS = [['🦄',3],['🦖',8],['🚒',15],['🐳',25],['🌈',35],['🚀',50],['🦁',70],['🎠',90],['🏆',120],['👑',150],['🐉',200],['🎉',250]];
+const stickersFor = (total) => STICKERS.filter(s => total >= s[1]).length;
+
+/* ---------- app shell ---------- */
+const GAMES = [
+  {id:'maze', name:'Лабиринт', color:'var(--orange)', desc:'Проведи зайчика по дорожке', mount: mountMaze},
+  {id:'diff', name:'Найди отличия', color:'var(--coral)', desc:'Сравни две картинки', mount: mountDiff},
+  {id:'memory', name:'Запомни картинки', color:'var(--grape)', desc:'Где что лежало?', mount: mountMemory},
+  {id:'pairs', name:'Найди пару', color:'var(--berry)', desc:'Открывай карточки и ищи одинаковые', mount: mountPairs},
+  {id:'dots', name:'Рисуем по точкам', color:'var(--blue)', desc:'Повтори рисунок по образцу', mount: mountDots},
+  {id:'shadow', name:'Чья тень?', color:'var(--sky)', desc:'Узнай картинку по тени', mount: mountShadow},
+  {id:'odd', name:'Что лишнее?', color:'var(--leaf)', desc:'Найди то, что не подходит', mount: mountOdd},
+  {id:'pattern', name:'Продолжи ряд', color:'var(--teal)', desc:'Что будет дальше?', mount: mountPattern},
+  {id:'count', name:'Сосчитай', color:'var(--sun)', desc:'Сколько здесь картинок?', mount: mountCount}
+];
+const TILTS = ['-1deg', '0.8deg', '-0.5deg', '1deg', '-0.8deg', '0.5deg', '-1.2deg', '0.9deg', '-0.6deg'];
+const LEVELS = ['Легко', 'Средне', 'Сложно'];
+
+let current = null;
+let taskSeq = 0;
+
+function totalStars(){ return Object.values(state.stars).reduce((a, b) => a + b, 0); }
+function renderGreeting(){ $('#greet').textContent = `Привет${nameSuffix()}! Выбери, во что поиграем сегодня.`; }
+function renderShelf(){
+  const total = totalStars(), got = stickersFor(total), box = $('#stickers');
+  box.innerHTML = '';
+  STICKERS.forEach(([s, need], i) => {
+    box.append(i < got
+      ? el('div', {class: 'sticker', style: `--r:${TILTS[i % TILTS.length]}`, title: `Наклейка за ${need} ${plural(need, 'звёздочку', 'звёздочки', 'звёздочек')}`}, s)
+      : el('div', {class: 'sticker locked'}, `${need} ⭐`));
+  });
+  const nxt = STICKERS[got];
+  $('#shelfNote').textContent = nxt
+    ? `До следующей наклейки: ещё ${nxt[1] - total} ${plural(nxt[1] - total, 'звёздочка', 'звёздочки', 'звёздочек')}`
+    : 'Все наклейки собраны!';
+}
+function renderHome(){
+  $('#total').textContent = totalStars();
+  renderGreeting(); renderShelf();
+  const box = $('#games'); box.innerHTML = '';
+  GAMES.forEach((g, i) => {
+    const s = state.stars[g.id] || 0;
+    const art = el('span', {class: 'art'}); art.innerHTML = ART[g.id];
+    const b = el('button', {class: 'gcard', type: 'button', style: `--c:${g.color};--r:${TILTS[i % TILTS.length]}`},
+      art,
+      el('span', {class: 'gtext'},
+        el('span', {class: 'gn'}, g.name),
+        el('span', {class: 'gd'}, g.desc),
+        el('span', {class: s ? 'gs' : 'gs new'}, s ? `⭐ ${s}` : 'Новая игра')));
+    b.addEventListener('click', () => openGame(g.id));
+    box.append(b);
+  });
+}
+function cleanupGame(){
+  taskSeq++;
+  if (current && current.cleanup){ try { current.cleanup(); } catch (e) {} }
+  if (current){ current.cleanup = null; current.onKey = null; }
+}
+function showHome(){
+  cleanupGame(); current = null;
+  try { speechSynthesis.cancel(); } catch (e) {}
+  $('#game').hidden = true; $('#home').hidden = false;
+  renderHome(); window.scrollTo(0, 0);
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+}
+function openGame(id){
+  const g = GAMES.find(x => x.id === id); if (!g) return showHome();
+  cleanupGame();
+  current = {g, cleanup: null, onKey: null, mistakes: 0, hintText: ''};
+  $('#home').hidden = true; $('#game').hidden = false;
+  $('#gTitle').textContent = g.name;
+  renderLevels(); startTask(); window.scrollTo(0, 0);
+  try { history.replaceState(null, '', '#' + id); } catch (e) {}
+}
+function level(){ return state.level[current.g.id] || 1; }
+function renderLevels(){
+  const box = $('#levels'); box.innerHTML = '';
+  LEVELS.forEach((name, i) => {
+    const b = el('button', {type: 'button', 'aria-pressed': String(level() === i + 1)}, name);
+    b.addEventListener('click', () => { state.level[current.g.id] = i + 1; save(); renderLevels(); startTask(); });
+    box.append(b);
+  });
+}
+function renderMyStars(){ $('#mystars').textContent = '⭐ ' + (state.stars[current.g.id] || 0); }
+function setHint(text, opts){ current.hintText = text; $('#gHint').textContent = text; speak(text, opts); }
+function startTask(){
+  cleanupGame();
+  const seq = taskSeq;
+  current.mistakes = 0;
+  const stage = $('#stage'), controls = $('#gControls');
+  stage.innerHTML = ''; controls.innerHTML = '';
+  const api = {
+    stage, controls, level: level(), sfx,
+    hint: setHint,
+    say: (t) => speak(t),
+    mistake(){ current.mistakes++; sfx.bad(); },
+    setMistakes(n){ current.mistakes = n; },
+    onCleanup(fn){ current.cleanup = fn; },
+    onKey(fn){ current.onKey = fn; },
+    done(msg){ if (seq === taskSeq && current) finish(msg); }
+  };
+  current.g.mount(api);
+  renderMyStars();
+}
+function finish(msg){
+  if (!$('#win').hidden) return;
+  const m = current.mistakes;
+  const stars = m === 0 ? 3 : (m <= 2 ? 2 : 1);
+  const before = stickersFor(totalStars());
+  state.stars[current.g.id] = (state.stars[current.g.id] || 0) + stars; save();
+  const after = stickersFor(totalStars());
+  renderMyStars();
+  const word = pick(PH.praise), praise = word.slice(0, -1) + nameSuffix() + '!';
+  $('#wTitle').textContent = praise;
+  $('#wMsg').textContent = (msg ? msg + ' ' : '') + `Ты получил ${stars} ${plural(stars, 'звёздочку', 'звёздочки', 'звёздочек')}.`;
+  $('#wStars').innerHTML = [0, 1, 2].map(i => `<span class="${i < stars ? '' : 'off'}">⭐</span>`).join('');
+  const st = $('#wSticker');
+  if (after > before){ st.innerHTML = ''; st.append(el('span', null, STICKERS[after - 1][0]), 'Новая наклейка!'); st.hidden = false; }
+  else st.hidden = true;
+  $('#win').hidden = false;
+  sfx.win();
+  speak([word, msg, after > before ? PH.sticker : null].filter(Boolean));
+  confetti();
+  $('#wNext').focus();
+}
+$('#wNext').addEventListener('click', () => { $('#win').hidden = true; startTask(); });
+$('#wHome').addEventListener('click', () => { $('#win').hidden = true; showHome(); });
+$('#back').addEventListener('click', showHome);
+$('#again').addEventListener('click', startTask);
+$('#say').addEventListener('click', () => { if (current) speak(current.hintText, {force: true}); });
+document.addEventListener('keydown', (e) => {
+  if (!$('#win').hidden) return;
+  if (current && current.onKey) current.onKey(e);
+});
+
+/* parents */
+const nameInput = $('#childName');
+nameInput.value = state.name;
+nameInput.addEventListener('input', () => { state.name = nameInput.value.trim().slice(0, 20); save(); renderGreeting(); });
+let resetTimer = null;
+$('#reset').addEventListener('click', (e) => {
+  const b = e.currentTarget;
+  if (b.dataset.armed !== '1'){
+    b.dataset.armed = '1'; b.textContent = 'Точно сбросить? Нажмите ещё раз';
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => { b.dataset.armed = ''; b.textContent = 'Сбросить звёзды и наклейки'; }, 4000);
+    return;
+  }
+  clearTimeout(resetTimer);
+  state.stars = {}; save(); renderHome();
+  b.dataset.armed = ''; b.textContent = 'Сброшено';
+  resetTimer = setTimeout(() => { b.textContent = 'Сбросить звёзды и наклейки'; }, 2500);
+});
+
+function confetti(){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv = $('#confetti'), ctx = cv.getContext('2d'); if (!ctx) return;
+  const W = innerWidth, H = innerHeight, dpr = Math.min(2, window.devicePixelRatio || 1);
+  cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cols = ['#FF7657', '#FFC53D', '#43B562', '#3BA7F0', '#9466E0', '#EE5C9B', '#FF9A3C', '#22ADA5'];
+  const ps = range(120).map(() => ({x: W / 2 + (Math.random() - 0.5) * 160, y: H * 0.38, vx: (Math.random() - 0.5) * 12, vy: -Math.random() * 10 - 4, r: Math.random() * 7 + 5, c: pick(cols), a: Math.random() * 6, va: (Math.random() - 0.5) * 0.3, round: Math.random() < 0.3}));
+  const t0 = performance.now(); cv.hidden = false;
+  function frame(t){
+    ctx.clearRect(0, 0, W, H);
+    ps.forEach(p => {
+      p.vy += 0.3; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.va;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c;
+      if (p.round){ ctx.beginPath(); ctx.arc(0, 0, p.r / 2, 0, Math.PI * 2); ctx.fill(); } else ctx.fillRect(-p.r / 2, -p.r / 3, p.r, p.r * 0.66);
+      ctx.restore();
+    });
+    if (t - t0 < 2300) requestAnimationFrame(frame); else { ctx.clearRect(0, 0, W, H); cv.hidden = true; }
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ---------- 1. Лабиринт ---------- */
+const MAZE_HEROES = [
+  {h:'🐰', g:'🥕', t:'Помоги зайчику добраться до морковки!'},
+  {h:'🐭', g:'🧀', t:'Помоги мышке добраться до сыра!'},
+  {h:'🐶', g:'🦴', t:'Помоги щенку найти косточку!'},
+  {h:'🐝', g:'🌼', t:'Помоги пчёлке долететь до цветка!'},
+  {h:'🐻', g:'🍯', t:'Помоги мишке добраться до мёда!'},
+  {h:'🐱', g:'🐟', t:'Помоги котику найти рыбку!'},
+  {h:'🐿️', g:'🌰', t:'Помоги белочке найти орешек!'}
+];
+function genMaze(n){
+  const cells = range(n).map(() => range(n).map(() => ({n: 1, e: 1, s: 1, w: 1, v: 0})));
+  const stack = [[0, 0]]; cells[0][0].v = 1;
+  while (stack.length){
+    const [x, y] = stack[stack.length - 1];
+    const nb = [];
+    if (y > 0 && !cells[y - 1][x].v) nb.push([x, y - 1, 'n', 's']);
+    if (x < n - 1 && !cells[y][x + 1].v) nb.push([x + 1, y, 'e', 'w']);
+    if (y < n - 1 && !cells[y + 1][x].v) nb.push([x, y + 1, 's', 'n']);
+    if (x > 0 && !cells[y][x - 1].v) nb.push([x - 1, y, 'w', 'e']);
+    if (!nb.length){ stack.pop(); continue; }
+    const [nx, ny, d, od] = pick(nb);
+    cells[y][x][d] = 0; cells[ny][nx][od] = 0; cells[ny][nx].v = 1;
+    stack.push([nx, ny]);
+  }
+  return cells;
+}
+function mountMaze(api){
+  const n = [5, 8, 11][api.level - 1], S = 10, W = n * S;
+  const cells = genMaze(n), hero = pick(MAZE_HEROES);
+  api.hint(PH.maze(hero));
+  let d = '';
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++){
+    const c = cells[y][x], X = x * S, Y = y * S;
+    if (c.n) d += `M${X} ${Y}h${S}`;
+    if (c.w) d += `M${X} ${Y}v${S}`;
+    if (x === n - 1 && c.e) d += `M${X + S} ${Y}v${S}`;
+    if (y === n - 1 && c.s) d += `M${X} ${Y + S}h${S}`;
+  }
+  const wrap = el('div', {class: 'maze-wrap'});
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `-3 -3 ${W + 6} ${W + 6}`);
+  svg.setAttribute('class', 'maze'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', 'Лабиринт');
+  svg.innerHTML = `<rect class="maze-bg" x="-2" y="-2" width="${W + 4}" height="${W + 4}" rx="3"/>`
+    + `<circle class="spot" cx="${S / 2}" cy="${S / 2}" r="4.6"/><circle class="spot" cx="${W - S / 2}" cy="${W - S / 2}" r="4.6"/>`
+    + `<polyline class="trail" points=""/><path class="hedge-o" d="${d}"/><path class="hedge" d="${d}"/>`
+    + `<text x="${W - S / 2}" y="${W - S / 2}">${hero.g}</text>`
+    + `<text class="hero" x="${S / 2}" y="${S / 2}">${hero.h}</text>`;
+  wrap.append(svg); api.stage.append(wrap);
+  const trail = svg.querySelector('.trail'), heroEl = svg.querySelector('.hero');
+  let pos = {x: 0, y: 0}, won = false, bumpT = 0;
+  const path = [{x: 0, y: 0}];
+  function draw(){
+    heroEl.setAttribute('x', pos.x * S + S / 2); heroEl.setAttribute('y', pos.y * S + S / 2);
+    trail.setAttribute('points', path.map(p => `${p.x * S + S / 2},${p.y * S + S / 2}`).join(' '));
+  }
+  function bump(){ const t = Date.now(); if (t - bumpT > 450){ bumpT = t; sfx.bad(); restart(wrap, 'shake'); } }
+  function step(dx, dy, quiet){
+    if (won) return false;
+    const dir = dx === 1 ? 'e' : dx === -1 ? 'w' : dy === 1 ? 's' : 'n';
+    if (cells[pos.y][pos.x][dir]){ if (!quiet) bump(); return false; }
+    pos = {x: pos.x + dx, y: pos.y + dy};
+    const prev = path[path.length - 2];
+    if (prev && prev.x === pos.x && prev.y === pos.y) path.pop(); else path.push({x: pos.x, y: pos.y});
+    draw();
+    if (pos.x === n - 1 && pos.y === n - 1){ won = true; setTimeout(() => api.done('Добрались!'), 300); }
+    return true;
+  }
+  function cellAt(ev){
+    const r = svg.getBoundingClientRect();
+    const ux = (ev.clientX - r.left) / r.width * (W + 6) - 3, uy = (ev.clientY - r.top) / r.height * (W + 6) - 3;
+    return {x: Math.floor(ux / S), y: Math.floor(uy / S)};
+  }
+  function toward(c){
+    if (c.x < 0 || c.y < 0 || c.x >= n || c.y >= n) return;
+    let guard = 0;
+    while ((c.x !== pos.x || c.y !== pos.y) && guard++ < n * 2){
+      const dx = Math.sign(c.x - pos.x), dy = Math.sign(c.y - pos.y);
+      let moved;
+      if (dx && dy) moved = Math.abs(c.x - pos.x) >= Math.abs(c.y - pos.y) ? (step(dx, 0, true) || step(0, dy, true)) : (step(0, dy, true) || step(dx, 0, true));
+      else moved = step(dx, dy, true);
+      if (!moved) break;
+    }
+  }
+  let dragging = false;
+  svg.addEventListener('pointerdown', (e) => { dragging = true; try { svg.setPointerCapture(e.pointerId); } catch (_) {} toward(cellAt(e)); });
+  svg.addEventListener('pointermove', (e) => { if (dragging) toward(cellAt(e)); });
+  const stop = () => { dragging = false; };
+  svg.addEventListener('pointerup', stop); svg.addEventListener('pointercancel', stop);
+  const pad = el('div', {class: 'pad'});
+  [['▲', 0, -1, 'up', 'Вверх'], ['◀', -1, 0, 'left', 'Влево'], ['▼', 0, 1, 'down', 'Вниз'], ['▶', 1, 0, 'right', 'Вправо']].forEach(([s, dx, dy, c, label]) => {
+    const b = el('button', {class: 'btn ' + c, type: 'button', 'aria-label': label}, s);
+    b.addEventListener('click', () => step(dx, dy));
+    pad.append(b);
+  });
+  api.controls.append(pad);
+  api.onKey((e) => {
+    const m = {ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0]}[e.key];
+    if (m){ e.preventDefault(); step(m[0], m[1]); }
+  });
+  draw();
+}
+
+/* ---------- 2. Найди отличия ---------- */
+const SCENES = [
+  {art:'forest', items:['🌲','🍄','🦊','🐿️','🌼','🐞','🦔','🌳','🐦','🍓','🐌','🦋']},
+  {art:'sea', items:['🐟','🐠','🐙','🦀','🐚','🐳','⛵','🐬','🦈','🐡','⚓','🦑']},
+  {art:'farm', items:['🐄','🐷','🐔','🐑','🌻','🚜','🏠','🥕','🐴','🐣','🌽','🐕']},
+  {art:'space', dark:true, items:['🚀','🌙','⭐','🪐','👽','🛸','☄️','🌍','🛰️','☀️','🌟','🔭']},
+  {art:'kitchen', items:['🍎','🥛','🍞','🧀','🍳','🥄','🍌','🍪','🥕','🍉','🍯','☕']}
+];
+function mountDiff(api){
+  const cfg = [{c: 4, r: 3, d: 3}, {c: 5, r: 4, d: 5}, {c: 6, r: 4, d: 7}][api.level - 1];
+  const sc = pick(SCENES), N = cfg.c * cfg.r, bg = svgUrl(SCENE_ART[sc.art]);
+  const thing = () => ({e: pick(sc.items), jx: rnd(30) - 15, jy: rnd(30) - 15, rot: rnd(24) - 12, s: 1});
+  const left = range(N).map(() => null);
+  sample(range(N), Math.round(N * 0.62)).forEach(i => { left[i] = thing(); });
+  const right = left.map(s => s ? Object.assign({}, s) : null);
+  const diffs = sample(range(N), cfg.d);
+  diffs.forEach(i => {
+    const s = right[i];
+    if (!s){ right[i] = thing(); return; }
+    const t = pick(['remove', 'replace', 'grow']);
+    if (t === 'remove') right[i] = null;
+    else if (t === 'replace'){ let e; do { e = pick(sc.items); } while (e === s.e); right[i] = Object.assign({}, s, {e}); }
+    else right[i] = Object.assign({}, s, {s: 1.55});
+  });
+  const found = new Set();
+  const counter = el('div', {class: 'counter'});
+  const updCounter = () => { counter.textContent = `Найдено: ${found.size} из ${cfg.d}`; };
+  function makePic(arr, label){
+    const p = el('div', {class: 'pic' + (sc.dark ? ' dark' : ''), role: 'group', 'aria-label': label,
+      style: `--cols:${cfg.c};grid-template-columns:repeat(${cfg.c},1fr);grid-template-rows:repeat(${cfg.r},1fr);aspect-ratio:${cfg.c}/${cfg.r}`});
+    p.style.backgroundImage = bg;
+    arr.forEach((s, i) => {
+      const c = el('button', {class: 'cell', type: 'button', 'aria-label': 'Место ' + (i + 1)});
+      if (s) c.append(el('span', {class: 'it', style: `transform:translate(${s.jx}%,${s.jy}%) rotate(${s.rot}deg) scale(${s.s})`}, s.e));
+      c.addEventListener('click', () => tap(i, c));
+      p.append(c);
+    });
+    return p;
+  }
+  const L = makePic(left, 'Первая картинка'), R = makePic(right, 'Вторая картинка');
+  api.stage.append(el('div', {class: 'diff'}, L, R));
+  api.controls.append(counter); updCounter();
+  api.hint(PH.diff(cfg.d));
+  function tap(i, c){
+    if (found.has(i)) return;
+    if (diffs.includes(i)){
+      found.add(i); L.children[i].classList.add('found'); R.children[i].classList.add('found');
+      sfx.ok(); updCounter();
+      if (found.size === cfg.d) setTimeout(() => api.done('Все отличия найдены!'), 450);
+    } else { api.mistake(); restart(c, 'miss'); }
+  }
+}
+
+/* ---------- 3. Запомни картинки ---------- */
+function mountMemory(api){
+  const cfg = [{g: 3, k: 3, t: 5}, {g: 3, k: 4, t: 6}, {g: 4, k: 5, t: 8}][api.level - 1];
+  const N = cfg.g * cfg.g, pics = sample(NAMED, cfg.k), spots = sample(range(N), cfg.k);
+  const at = new Map(); pics.forEach((p, j) => at.set(spots[j], p));
+  const grid = el('div', {class: 'mem', style: `--g:${cfg.g}`});
+  const cards = range(N).map(i => {
+    const b = el('button', {class: 'card', type: 'button', 'aria-label': 'Клетка ' + (i + 1)});
+    const p = at.get(i); if (p) b.textContent = p[0];
+    grid.append(b); return b;
+  });
+  api.stage.append(grid);
+  api.hint(PH.memShow);
+  const bar = el('div', {class: 'timer'}, el('span', {style: `animation-duration:${cfg.t}s`}));
+  const ready = el('button', {class: 'btn primary', type: 'button'}, 'Я запомнил!');
+  api.controls.append(bar, ready);
+  let phase = 'show', order = [], cur = null, wrongHere = 0, ask = null;
+  const timer = setTimeout(hide, cfg.t * 1000);
+  api.onCleanup(() => clearTimeout(timer));
+  ready.addEventListener('click', () => { clearTimeout(timer); hide(); });
+  function hide(){
+    if (phase !== 'show') return;
+    phase = 'ask'; bar.remove(); ready.remove();
+    cards.forEach(c => { c.textContent = ''; c.classList.add('back'); });
+    order = shuffle([...at.entries()]);
+    ask = el('div', {class: 'ask'}); api.controls.append(ask);
+    next();
+  }
+  function next(){
+    cur = order.shift(); wrongHere = 0;
+    if (!cur){ ask.remove(); setTimeout(() => api.done('Всё запомнил!'), 350); return; }
+    ask.innerHTML = '';
+    ask.append(el('span', {class: 'ask-pic'}, cur[1][0]), el('span', {class: 'ask-name'}, cur[1][1]));
+    api.hint(PH.memAsk(cur[1][1]));
+  }
+  cards.forEach((c, i) => c.addEventListener('click', () => {
+    if (phase !== 'ask' || !cur || c.classList.contains('open')) return;
+    if (i === cur[0]){
+      c.classList.remove('back'); c.classList.add('open'); c.textContent = cur[1][0];
+      sfx.ok(); next();
+    } else {
+      api.mistake(); wrongHere++; restart(c, 'miss');
+      if (wrongHere >= 2){ const t = cards[cur[0]]; t.classList.add('peek'); setTimeout(() => t.classList.remove('peek'), 1000); }
+    }
+  }));
+}
+
+/* ---------- 4. Найди пару ---------- */
+const PAIR_POOL = ['🐶','🐱','🐰','🦊','🐻','🐼','🐸','🐵','🐔','🐧','🦁','🐯','🐮','🐷','🐙','🦋','🐢','🦄'];
+function mountPairs(api){
+  const cfg = [{p: 3, c: 3, w: 420}, {p: 6, c: 4, w: 520}, {p: 8, c: 4, w: 520}][api.level - 1];
+  const faces = shuffle(sample(PAIR_POOL, cfg.p).flatMap(e => [e, e]));
+  api.hint(PH.pairs);
+  const grid = el('div', {class: 'mem', style: `--g:${cfg.c};--w:${cfg.w}px`});
+  let open = [], lock = false, matched = 0, misses = 0, t = null;
+  const cards = faces.map((f, i) => {
+    const b = el('button', {class: 'card back', type: 'button', 'aria-label': 'Карточка ' + (i + 1)});
+    b.addEventListener('click', () => flip(i));
+    grid.append(b); return b;
+  });
+  api.stage.append(grid);
+  const counter = el('div', {class: 'counter'});
+  const upd = () => { counter.textContent = `Пар найдено: ${matched} из ${cfg.p}`; };
+  api.controls.append(counter); upd();
+  api.onCleanup(() => clearTimeout(t));
+  function flip(i){
+    const b = cards[i];
+    if (lock || b.classList.contains('open') || open.includes(i)) return;
+    b.classList.remove('back'); b.classList.add('face'); b.textContent = faces[i];
+    open.push(i); sfx.step();
+    if (open.length < 2) return;
+    const [a, c] = open;
+    if (faces[a] === faces[c]){
+      cards[a].classList.add('open'); cards[c].classList.add('open'); open = []; matched++; sfx.ok(); upd();
+      if (matched === cfg.p){ api.setMistakes(Math.max(0, misses - cfg.p)); setTimeout(() => api.done('Все пары найдены!'), 450); }
+    } else {
+      misses++; lock = true;
+      t = setTimeout(() => {
+        [a, c].forEach(k => { cards[k].classList.remove('face'); cards[k].classList.add('back'); cards[k].textContent = ''; });
+        open = []; lock = false;
+      }, 900);
+    }
+  }
+}
+
+/* ---------- 5. Рисуем по точкам ---------- */
+const DOT_FIGS = {
+  4: [
+    {n:'квадратик', l:[[[1,0],[3,0],[3,2],[1,2],[1,0]]]},
+    {n:'треугольник', l:[[[0,0],[0,3],[3,3],[0,0]]]},
+    {n:'букву Г', l:[[[3,0],[0,0],[0,3]]]},
+    {n:'лесенку', l:[[[0,3],[1,3],[1,2],[2,2],[2,1],[3,1],[3,0]]]},
+    {n:'букву Т', l:[[[0,0],[2,0]],[[1,0],[1,3]]]}
+  ],
+  5: [
+    {n:'домик', l:[[[0,2],[2,0],[4,2],[0,2]],[[0,2],[0,4],[4,4],[4,2]]]},
+    {n:'флажок', l:[[[1,4],[1,0],[3,0],[3,2],[1,2]]]},
+    {n:'стрелку', l:[[[0,2],[4,2]],[[2,0],[4,2],[2,4]]]},
+    {n:'конверт', l:[[[0,1],[4,1],[4,4],[0,4],[0,1],[2,3],[4,1]]]},
+    {n:'букву П', l:[[[0,4],[0,0],[4,0],[4,4]]]}
+  ],
+  6: [
+    {n:'кораблик', l:[[[0,3],[5,3],[4,4],[1,4],[0,3]],[[2,3],[2,0],[4,2],[2,2]]]},
+    {n:'ёлочку', l:[[[2,0],[0,2],[4,2],[2,0]],[[2,2],[0,4],[4,4],[2,2]],[[2,4],[2,5]]]},
+    {n:'ракету', l:[[[2,0],[3,1],[3,4],[1,4],[1,1],[2,0]],[[1,3],[0,4],[1,4]],[[3,3],[4,4],[3,4]],[[2,4],[2,5]]]},
+    {n:'рыбку', l:[[[0,2],[2,0],[4,2],[2,4],[0,2]],[[4,2],[5,1],[5,3],[4,2]]]},
+    {n:'молнию', l:[[[3,0],[1,2],[3,2],[1,4]]]}
+  ]
+};
+function segKey(p, q){ const s = p.join(','), t = q.join(','); return s < t ? s + '|' + t : t + '|' + s; }
+function keyPts(k){ return k.split('|').map(s => s.split(',').map(Number)); }
+function unitKeys(a, b){
+  const dx = b[0] - a[0], dy = b[1] - a[1];
+  if (!(dx === 0 || dy === 0 || Math.abs(dx) === Math.abs(dy))) return null;
+  const n = Math.max(Math.abs(dx), Math.abs(dy)), sx = Math.sign(dx), sy = Math.sign(dy), out = [];
+  for (let k = 0; k < n; k++){ const p = [a[0] + sx * k, a[1] + sy * k]; out.push(segKey(p, [p[0] + sx, p[1] + sy])); }
+  return out;
+}
+function figKeys(fig){
+  const set = new Set();
+  fig.l.forEach(line => { for (let i = 0; i < line.length - 1; i++) (unitKeys(line[i], line[i + 1]) || []).forEach(k => set.add(k)); });
+  return set;
+}
+function randomFigure(g, k){
+  const DIRS = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];
+  for (let tries = 0; tries < 60; tries++){
+    let p = [rnd(g), rnd(g)];
+    const pts = [p], used = new Set([p.join(',')]);
+    for (let s = 0; s < k; s++){
+      const opts = shuffle(DIRS).map(([dx, dy]) => [p[0] + dx, p[1] + dy]).filter(q => q[0] >= 0 && q[1] >= 0 && q[0] < g && q[1] < g && !used.has(q.join(',')));
+      if (!opts.length) break;
+      p = opts[0]; used.add(p.join(',')); pts.push(p);
+    }
+    if (pts.length === k + 1) return {n: 'такую же фигуру', l: [pts]};
+  }
+  return null;
+}
+function mountDots(api){
+  const g = [4, 5, 6][api.level - 1];
+  const fig = Math.random() < 0.65 ? pick(DOT_FIGS[g]) : (randomFigure(g, {4: 4, 5: 6, 6: 9}[g]) || pick(DOT_FIGS[g]));
+  const target = figKeys(fig), size = (g - 1) * 10;
+  api.hint(PH.dots(fig.n));
+  const mk = (cls, label) => {
+    const s = document.createElementNS(NS, 'svg');
+    s.setAttribute('viewBox', `-6 -6 ${size + 12} ${size + 12}`);
+    s.setAttribute('class', cls); s.setAttribute('role', 'img'); s.setAttribute('aria-label', label);
+    return s;
+  };
+  let dotsMarkup = '';
+  for (let j = 0; j < g; j++) for (let i = 0; i < g; i++) dotsMarkup += `<circle class="dot" cx="${i * 10}" cy="${j * 10}" r="1.15"/>`;
+  const lineMarkup = (k, cls) => { const [p, q] = keyPts(k); return `<line class="ln ${cls}" x1="${p[0] * 10}" y1="${p[1] * 10}" x2="${q[0] * 10}" y2="${q[1] * 10}"/>`; };
+  const sampleSvg = mk('sample', 'Образец');
+  sampleSvg.innerHTML = [...target].map(k => lineMarkup(k, 'sample')).join('') + dotsMarkup;
+  const mySvg = mk('mine', 'Твой рисунок');
+  mySvg.innerHTML = `<g class="mylines"></g>${dotsMarkup}<circle class="pen" r="3.2" cx="-100" cy="-100"/>`;
+  const linesG = mySvg.querySelector('.mylines'), penEl = mySvg.querySelector('.pen');
+  api.stage.append(el('div', {class: 'dots'},
+    el('div', {class: 'dpanel'}, el('span', {class: 'dlabel'}, 'Образец'), sampleSvg),
+    el('div', {class: 'dpanel'}, el('span', {class: 'dlabel'}, 'Рисуй здесь'), mySvg,
+      el('span', {class: 'dtip'}, 'Нажми на ту же точку ещё раз, и карандаш поднимется.'))));
+  let strokes = [], pen = null, dragging = false, pendingLift = false, finished = false, nearlySaid = false, lastBad = '';
+  const drawn = new Set();
+  function render(){
+    linesG.innerHTML = [...drawn].map(k => lineMarkup(k, target.has(k) ? 'ok' : 'bad')).join('');
+    penEl.setAttribute('cx', pen ? pen[0] * 10 : -100); penEl.setAttribute('cy', pen ? pen[1] * 10 : -100);
+  }
+  function check(){
+    if (finished) return;
+    const allIn = [...target].every(k => drawn.has(k)), extra = [...drawn].some(k => !target.has(k));
+    if (allIn && !extra){ finished = true; pen = null; render(); setTimeout(() => api.done('Рисунок готов!'), 400); }
+    else if (allIn && extra && !nearlySaid){ nearlySaid = true; api.say(PH.dotsAlmost); }
+  }
+  function connect(a, b){
+    const ks = unitKeys(a, b);
+    if (!ks){ const key = b.join(','); if (key !== lastBad){ lastBad = key; sfx.bad(); restart(mySvg, 'shake'); } return false; }
+    const added = ks.filter(k => !drawn.has(k));
+    added.forEach(k => { drawn.add(k); if (!target.has(k)) api.mistake(); });
+    if (added.length){ strokes.push({keys: added, from: a}); if (added.every(k => target.has(k))) sfx.step(); }
+    render(); check();
+    return true;
+  }
+  function dotAt(ev, rad){
+    const m = mySvg.getScreenCTM(); if (!m) return null;
+    const pt = mySvg.createSVGPoint(); pt.x = ev.clientX; pt.y = ev.clientY;
+    const p = pt.matrixTransform(m.inverse());
+    const i = Math.round(p.x / 10), j = Math.round(p.y / 10);
+    if (i < 0 || j < 0 || i >= g || j >= g) return null;
+    const dx = p.x - i * 10, dy = p.y - j * 10;
+    return dx * dx + dy * dy <= rad * rad ? [i, j] : null;
+  }
+  const same = (a, b) => a && b && a[0] === b[0] && a[1] === b[1];
+  mySvg.addEventListener('pointerdown', (e) => {
+    if (finished) return;
+    const d = dotAt(e, 5); if (!d) return;
+    e.preventDefault(); dragging = true; lastBad = '';
+    try { mySvg.setPointerCapture(e.pointerId); } catch (_) {}
+    if (!pen){ pen = d; pendingLift = false; }
+    else if (same(d, pen)) pendingLift = true;
+    else { if (connect(pen, d)) pen = d; pendingLift = false; }
+    render();
+  });
+  mySvg.addEventListener('pointermove', (e) => {
+    if (!dragging || finished) return;
+    const d = dotAt(e, 3.3); if (!d || same(d, pen)) return;
+    pendingLift = false;
+    if (!pen){ pen = d; render(); return; }
+    if (connect(pen, d)){ pen = d; render(); }
+  });
+  const up = () => { if (pendingLift){ pen = null; render(); } dragging = false; pendingLift = false; lastBad = ''; };
+  mySvg.addEventListener('pointerup', up); mySvg.addEventListener('pointercancel', up);
+  const undo = el('button', {class: 'btn', type: 'button'}, '↩️ Отменить');
+  undo.addEventListener('click', () => { if (finished) return; const s = strokes.pop(); if (!s) return; s.keys.forEach(k => drawn.delete(k)); pen = s.from; render(); });
+  const clear = el('button', {class: 'btn', type: 'button'}, '🧽 Стереть всё');
+  clear.addEventListener('click', () => { if (finished) return; drawn.clear(); strokes = []; pen = null; render(); });
+  api.controls.append(undo, clear);
+  render();
+}
+
+/* ---------- quiz runner for the short games ---------- */
+function runQuiz(api, total, render){
+  const prog = el('div', {class: 'prog', 'aria-label': 'Вопросы'});
+  range(total).forEach(() => prog.append(el('span')));
+  api.controls.append(prog);
+  const area = el('div', {class: 'quiz'}); api.stage.append(area);
+  let qn = 0, busy = false, timer = null;
+  api.onCleanup(() => clearTimeout(timer));
+  function next(){
+    if (qn >= total){ api.done(); return; }
+    [...prog.children].forEach((s, i) => { s.className = i < qn ? 'done' : (i === qn ? 'cur' : ''); });
+    area.innerHTML = ''; busy = false;
+    render(area, answer, qn === 0);
+  }
+  function answer(ok, btn, sayOk){
+    if (busy) return;
+    if (ok){
+      busy = true; btn.classList.add('right'); sfx.ok(); api.say(sayOk || PH.right);
+      qn++; prog.children[qn - 1].className = 'done';
+      timer = setTimeout(next, 1700);
+    } else { api.mistake(); restart(btn, 'miss'); api.say(PH.again); }
+  }
+  next();
+}
+
+/* ---------- 6. Чья тень? ---------- */
+function mountShadow(api){
+  runQuiz(api, 5, (area, answer, first) => {
+    const keys = Object.keys(CATS);
+    let opts;
+    if (api.level === 1) opts = sample(keys, 3).map(c => pick(CATS[c].i));
+    else if (api.level === 2){ const [a, b] = sample(keys, 2); opts = sample(CATS[a].i, 2).concat(sample(CATS[b].i, 2)); }
+    else opts = sample(CATS[pick(keys)].i, 4);
+    const ans = pick(opts); opts = shuffle(opts);
+    api.hint(first ? PH.shadow1 : PH.shadow2, {queue: !first});
+    const sh = el('div', {class: 'shadow', role: 'img', 'aria-label': 'Тень картинки'}, el('span', null, ans[0]));
+    const ch = el('div', {class: 'choices'});
+    opts.forEach(o => {
+      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o[1]}, o[0]);
+      b.addEventListener('click', () => { if (o === ans) sh.classList.add('lit'); answer(o === ans, b, PH.shadowRight(o[1])); });
+      ch.append(b);
+    });
+    area.append(sh, ch);
+  });
+}
+
+/* ---------- 7. Что лишнее? ---------- */
+function oddQuestion(lv){
+  const keys = Object.keys(CATS), a = pick(keys);
+  let b;
+  if (lv === 1){ do { b = pick(keys); } while (b === a || NEAR[a].includes(b)); }
+  else b = pick(NEAR[a]);
+  const main = sample(CATS[a].i, lv === 3 ? 4 : 3);
+  const odd = pick(CATS[b].i.filter(x => !main.some(m => m[0] === x[0])));
+  return {a, all: shuffle(main.map(x => ({x, odd: false})).concat([{x: odd, odd: true}]))};
+}
+function mountOdd(api){
+  runQuiz(api, 5, (area, answer, first) => {
+    const q = oddQuestion(api.level);
+    api.hint(first ? PH.odd1 : PH.odd2, {queue: !first});
+    const ch = el('div', {class: 'choices'});
+    q.all.forEach(o => {
+      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o.x[1]}, o.x[0]);
+      b.addEventListener('click', () => answer(o.odd, b, PH.oddRight(q.a)));
+      ch.append(b);
+    });
+    area.append(ch);
+  });
+}
+
+/* ---------- 8. Продолжи ряд ---------- */
+const PSETS = [['🔴','🟡','🟢','🔵','🟣','🟠'], ['⭐','❤️','🔷','🌙'], ['🍎','🍌','🍇','🍊'], ['🐶','🐱','🐰','🐻'], ['🚗','🚌','🚂','✈️']];
+const PTEMPL = {1: ['AB', 'AAB', 'ABB'], 2: ['ABC', 'AABB', 'ABAC'], 3: ['ABCD', 'AABC', 'ABCB', 'AABBC']};
+function patternQ(lv){
+  const t = pick(PTEMPL[lv]), letters = [...new Set(t)];
+  const set = pick(PSETS.filter(s => s.length >= letters.length + 1));
+  const syms = sample(set, letters.length), map = {};
+  letters.forEach((L, i) => { map[L] = syms[i]; });
+  const per = t.length, shown = per * 2 + rnd(per);
+  const seq = range(shown).map(i => map[t[i % per]]);
+  const ans = map[t[shown % per]];
+  const extra = set.filter(s => !syms.includes(s));
+  const opts = shuffle([...new Set([ans].concat(shuffle(syms.filter(s => s !== ans)), shuffle(extra)))].slice(0, 3));
+  return {seq, ans, opts};
+}
+function mountPattern(api){
+  runQuiz(api, 5, (area, answer, first) => {
+    const q = patternQ(api.level);
+    api.hint(first ? PH.pat1 : PH.pat2, {queue: !first});
+    const row = el('div', {class: 'row', role: 'img', 'aria-label': 'Ряд картинок'});
+    q.seq.forEach(s => row.append(el('span', null, s)));
+    const slot = el('span', {class: 'q'}, '?'); row.append(slot);
+    const ch = el('div', {class: 'choices'});
+    q.opts.forEach(o => {
+      const b = el('button', {class: 'choice', type: 'button'}, o);
+      b.addEventListener('click', () => { if (o === q.ans){ slot.textContent = o; slot.classList.remove('q'); } answer(o === q.ans, b); });
+      ch.append(b);
+    });
+    area.append(row, ch);
+  });
+}
+
+/* ---------- 9. Сосчитай ---------- */
+const COUNT_ITEMS = [['🍎','яблок'],['🐟','рыбок'],['⭐','звёздочек'],['🎈','шариков'],['🐞','божьих коровок'],['🍄','грибов'],['🐥','цыплят'],['🌸','цветочков'],['🚗','машинок'],['🦋','бабочек'],['🍓','клубничек'],['🐸','лягушат']];
+function countQ(lv){
+  const [lo, hi] = [[1, 5], [3, 10], [6, 15]][lv - 1];
+  const n = lo + rnd(hi - lo + 1), it = pick(COUNT_ITEMS), opts = new Set([n]);
+  while (opts.size < 3){ const d = n + pick([-2, -1, 1, 2]); if (d >= 1) opts.add(d); }
+  return {n, it, opts: [...opts].sort((a, b) => a - b)};
+}
+function mountCount(api){
+  runQuiz(api, 5, (area, answer, first) => {
+    const q = countQ(api.level);
+    api.hint(PH.count(q.it[1]), {queue: !first});
+    const box = el('div', {class: 'cbox', role: 'img', 'aria-label': 'Картинки для счёта'});
+    sample(range(24), q.n).forEach(s => {
+      const c = s % 6, r = Math.floor(s / 6);
+      const x = (c + 0.5) / 6 * 100 + (Math.random() - 0.5) * 7, y = (r + 0.5) / 4 * 100 + (Math.random() - 0.5) * 9;
+      box.append(el('span', {style: `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%`}, q.it[0]));
+    });
+    const ch = el('div', {class: 'choices'});
+    q.opts.forEach(o => {
+      const b = el('button', {class: 'choice num', type: 'button'}, String(o));
+      b.addEventListener('click', () => answer(o === q.n, b, PH.countRight(q.n)));
+      ch.append(b);
+    });
+    area.append(box, ch);
+  });
+}
+
+/* ---------- everything the owl says ---------- */
+// A closed set, so that every phrase can be recorded in advance. allPhrases() lists them
+// all; the voice files are generated from that list.
+const PH = {
+  hello: 'Привет! Выбери, во что поиграем сегодня.',
+  maze: (h) => h.t + ' Веди пальцем по дорожке или нажимай на стрелки.',
+  diff: (d) => `Найди ${d} ${plural(d, 'отличие', 'отличия', 'отличий')}! Нажимай туда, где картинки не похожи.`,
+  memShow: 'Запомни, где лежат картинки! Потом они спрячутся.',
+  memAsk: (name) => `Где ${name}? Покажи!`,
+  pairs: 'Найди пары одинаковых картинок! Открывай по две карточки.',
+  dots: (n) => `Нарисуй ${n} по точкам, как на образце. Нажимай на точки по очереди.`,
+  dotsAlmost: 'Почти получилось! Убери красные линии кнопкой «Отменить».',
+  right: 'Правильно!',
+  again: 'Подумай ещё!',
+  shadow1: 'Чья это тень? Найди картинку, которая подходит к тени.',
+  shadow2: 'А это чья тень?',
+  shadowRight: (n) => `Правильно! Это ${n}.`,
+  odd1: 'Что здесь лишнее? Найди картинку, которая не подходит к остальным.',
+  odd2: 'А здесь что лишнее?',
+  oddRight: (cat) => `Правильно! Остальные — это ${CATS[cat].n}.`,
+  pat1: 'Посмотри на ряд. Что будет дальше? Выбери картинку.',
+  pat2: 'А здесь что будет дальше?',
+  count: (gen) => `Сосчитай: сколько здесь ${gen}?`,
+  countRight: (n) => `Правильно! Ответ: ${n}.`,
+  praise: ['Молодец!', 'Отлично!', 'Умница!', 'Здорово!'],
+  wins: ['Добрались!', 'Все отличия найдены!', 'Всё запомнил!', 'Все пары найдены!', 'Рисунок готов!'],
+  sticker: 'У тебя новая наклейка!'
+};
+function allPhrases(){
+  const out = new Set(), add = (t) => out.add(t);
+  add(PH.hello);
+  MAZE_HEROES.forEach(h => add(PH.maze(h)));
+  [3, 5, 7].forEach(d => add(PH.diff(d)));
+  add(PH.memShow); NAMED.forEach(n => add(PH.memAsk(n[1])));
+  add(PH.pairs);
+  [4, 5, 6].forEach(g => DOT_FIGS[g].forEach(f => add(PH.dots(f.n)))); add(PH.dots('такую же фигуру')); add(PH.dotsAlmost);
+  add(PH.right); add(PH.again);
+  add(PH.shadow1); add(PH.shadow2); Object.values(CATS).forEach(c => c.i.forEach(x => add(PH.shadowRight(x[1]))));
+  add(PH.odd1); add(PH.odd2); Object.keys(CATS).forEach(k => add(PH.oddRight(k)));
+  add(PH.pat1); add(PH.pat2);
+  COUNT_ITEMS.forEach(c => add(PH.count(c[1]))); for (let n = 1; n <= 15; n++) add(PH.countRight(n));
+  PH.praise.forEach(add); PH.wins.forEach(add); add(PH.sticker);
+  return [...out];
+}
+
+/* ---------- start ---------- */
+function boot(data){
+  renderSound();
+  const id = (data && data.route) || (location.hash || '').slice(1);
+  if (id && GAMES.some(g => g.id === id)) openGame(id); else showHome();
+}
+try { window.claude && window.claude.hot && window.claude.hot.snapshot && window.claude.hot.snapshot(() => ({route: current ? current.g.id : ''})); } catch (e) {}
+if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(boot);
+else boot((window.claude && window.claude.hot && window.claude.hot.data) || {});
+})();
+</script>
+
+</body>
+</html>
