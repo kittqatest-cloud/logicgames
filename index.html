@@ -1825,22 +1825,105 @@ const MAZE_SRC = [
   {h:"🐿️", g:"🌰", t:["Помоги белочке найти орешек!", "Допоможи білочці знайти горішок!", "Help the squirrel find the nut!"]}
 ];
 let MAZE_HEROES = [];
-function genMaze(n){
-  const cells = range(n).map(() => range(n).map(() => ({n: 1, e: 1, s: 1, w: 1, v: 0})));
-  const stack = [[0, 0]]; cells[0][0].v = 1;
-  while (stack.length){
-    const [x, y] = stack[stack.length - 1];
-    const nb = [];
-    if (y > 0 && !cells[y - 1][x].v) nb.push([x, y - 1, 'n', 's']);
-    if (x < n - 1 && !cells[y][x + 1].v) nb.push([x + 1, y, 'e', 'w']);
-    if (y < n - 1 && !cells[y + 1][x].v) nb.push([x, y + 1, 's', 'n']);
-    if (x > 0 && !cells[y][x - 1].v) nb.push([x - 1, y, 'w', 'e']);
-    if (!nb.length){ stack.pop(); continue; }
-    const [nx, ny, d, od] = pick(nb);
-    cells[y][x][d] = 0; cells[ny][nx][od] = 0; cells[ny][nx].v = 1;
-    stack.push([nx, ny]);
+// Mazes come in shapes as well as squares, and each one is checked before it is shown: a maze whose way has too
+// few places to take a wrong turn, too few dead ends or too short a way is thrown away and built again (up to 80
+// times, keeping the best). Measured over 2000 mazes a level, the old square mazes sometimes had no wrong turn at all.
+const MAZE_SHAPES = {1: ['square', 'circle', 'diamond', 'house'], 2: ['square', 'circle', 'heart', 'house', 'cross'], 3: ['square', 'circle', 'heart', 'star', 'cross', 'diamond']};
+const MAZE_WANT = [{choices: 2, dead: 3, L: 7}, {choices: 4, dead: 7, L: 16}, {choices: 7, dead: 12, L: 28}];
+const MAZE_SIDES = {n: [0, -1, 's'], e: [1, 0, 'w'], s: [0, 1, 'n'], w: [-1, 0, 'e']};
+function mazeMask(shape, n){
+  const inside = (x, y) => {   // x and y run from -1 to 1, y downwards
+    if (shape === 'circle') return x * x + y * y <= 1.02;
+    if (shape === 'diamond') return Math.abs(x) + Math.abs(y) <= 1.08;
+    if (shape === 'cross') return Math.abs(x) <= 0.38 || Math.abs(y) <= 0.38;
+    if (shape === 'house') return y >= -0.2 ? Math.abs(x) <= 0.6 : Math.abs(x) <= (y + 1) * 0.98 + 0.16;   // a roof wider than the walls
+    if (shape === 'heart'){ const X = x * 1.2, Y = -y * 1.25 + 0.3, q = X * X + Y * Y - 1; return q * q * q - X * X * Y * Y * Y <= 0; }
+    if (shape === 'star'){ const r = Math.hypot(x, y), k = ((Math.atan2(x, -y) / (2 * Math.PI / 5)) % 1 + 1) % 1, f = Math.abs(k - 0.5) * 2; return r <= 0.42 + 0.62 * f; }
+    return true;
+  };
+  const m = range(n).map(j => range(n).map(i => inside((i + 0.5) / n * 2 - 1, (j + 0.5) / n * 2 - 1)));
+  // keep the largest piece whose cells touch side by side, so every cell can be reached
+  const seen = range(n).map(() => range(n).map(() => false));
+  let best = [];
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++){
+    if (!m[j][i] || seen[j][i]) continue;
+    const part = [], q = [[i, j]]; seen[j][i] = true;
+    while (q.length){
+      const [x, y] = q.pop(); part.push([x, y]);
+      Object.values(MAZE_SIDES).forEach(([dx, dy]) => { const a = x + dx, b = y + dy; if (a >= 0 && b >= 0 && a < n && b < n && m[b][a] && !seen[b][a]){ seen[b][a] = true; q.push([a, b]); } });
+    }
+    if (part.length > best.length) best = part;
+  }
+  const out = range(n).map(() => range(n).map(() => false));
+  best.forEach(([x, y]) => { out[y][x] = true; });
+  return out;
+}
+// A growing tree: the newest cell most of the time (long winding ways), a random earlier one otherwise (side
+// branches, that is wrong turns and dead ends). The bigger `mix`, the more branches.
+function genMaze(mask, mix){
+  const n = mask.length;
+  const cells = range(n).map(y => range(n).map(x => ({n: 1, e: 1, s: 1, w: 1, v: 0, off: !mask[y][x]})));
+  const open = []; for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (mask[y][x]) open.push([x, y]);
+  const first = pick(open); cells[first[1]][first[0]].v = 1;
+  const grow = [first];
+  while (grow.length){
+    const i = Math.random() < mix ? rnd(grow.length) : grow.length - 1, [x, y] = grow[i];
+    const nb = Object.entries(MAZE_SIDES).map(([d, [dx, dy, od]]) => [x + dx, y + dy, d, od])
+      .filter(([a, b]) => a >= 0 && b >= 0 && a < n && b < n && !cells[b][a].off && !cells[b][a].v);
+    if (!nb.length){ grow.splice(i, 1); continue; }
+    const [a, b, d, od] = pick(nb);
+    cells[y][x][d] = 0; cells[b][a][od] = 0; cells[b][a].v = 1;
+    grow.push([a, b]);
   }
   return cells;
+}
+function mazeExits(cells, x, y){ return Object.entries(MAZE_SIDES).filter(([d]) => !cells[y][x][d]).map(([, [dx, dy]]) => [x + dx, y + dy]); }
+function mazeFar(cells, from){
+  const n = cells.length, dist = new Map([[from.y * n + from.x, 0]]), q = [[from.x, from.y]];
+  let far = from;
+  while (q.length){
+    const [x, y] = q.shift(), d0 = dist.get(y * n + x);
+    if (d0 > dist.get(far.y * n + far.x)) far = {x, y};
+    mazeExits(cells, x, y).forEach(([a, b]) => { if (!dist.has(b * n + a)){ dist.set(b * n + a, d0 + 1); q.push([a, b]); } });
+  }
+  return far;
+}
+// the two cells furthest apart, the one nearer the top left first
+function mazeEnds(cells){
+  const n = cells.length;
+  let any = null;
+  for (let y = 0; y < n && !any; y++) for (let x = 0; x < n; x++) if (!cells[y][x].off){ any = {x, y}; break; }
+  const a = mazeFar(cells, any), b = mazeFar(cells, a);
+  return a.y + a.x <= b.y + b.x ? [a, b] : [b, a];
+}
+// the way from start to goal: its length, the cells on it where an exit leads off it (a wrong turn), the dead ends
+function mazeStats(cells, start, goal){
+  const n = cells.length, prev = new Map([[start.y * n + start.x, null]]), q = [[start.x, start.y]];
+  while (q.length){ const [x, y] = q.shift(); mazeExits(cells, x, y).forEach(([a, b]) => { if (!prev.has(b * n + a)){ prev.set(b * n + a, [x, y]); q.push([a, b]); } }); }
+  const way = [];
+  for (let c = [goal.x, goal.y]; c; c = prev.get(c[1] * n + c[0])) way.push(c);
+  const on = new Set(way.map(([x, y]) => y * n + x));
+  let dead = 0;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++){
+    if (cells[y][x].off || (x === start.x && y === start.y) || (x === goal.x && y === goal.y)) continue;
+    if (mazeExits(cells, x, y).length === 1) dead++;
+  }
+  const choices = way.slice(1).filter(([x, y]) => mazeExits(cells, x, y).some(([a, b]) => !on.has(b * n + a))).length;
+  return {L: way.length, choices, dead, reached: prev.size};
+}
+function makeMaze(lv, shape){
+  const n = (shape === 'square' ? [5, 8, 11] : [7, 10, 13])[lv - 1], mask = mazeMask(shape, n);
+  const mix = [0.3, 0.4, 0.5][lv - 1], want = MAZE_WANT[lv - 1];
+  let best = null;
+  for (let t = 0; t < 80; t++){
+    const cells = genMaze(mask, mix);
+    const [start, goal] = shape === 'square' ? [{x: 0, y: 0}, {x: n - 1, y: n - 1}] : mazeEnds(cells);
+    const st = mazeStats(cells, start, goal);
+    const score = Math.min(st.choices / want.choices, st.dead / want.dead, st.L / want.L);
+    if (!best || score > best.score) best = {cells, start, goal, n, shape, score, st};
+    if (score >= 1) break;
+  }
+  return best;
 }
 const SCENE_PIC = {forest: 'scene-forest', sea: 'scene-sea', farm: 'scene-farm', space: 'scene-space',
   kidsroom: 'room-kids', livingroom: 'room-living', kitchen: 'room-kitchen', bathroom: 'room-bath', bedroom: 'room-bed'};
@@ -1866,33 +1949,37 @@ function mazeThing(k, cx, cy, cls){
              : `<text class="${cls}" x="${cx}" y="${cy}">${k}</text>`;
 }
 function mountMaze(api){
-  const n = [5, 8, 11][api.level - 1], S = 10, W = n * S;
-  const cells = genMaze(n), hero = fromBag('maze', MAZE_HEROES);
+  const mz = makeMaze(api.level, fromBag('mazeShape' + api.level, MAZE_SHAPES[api.level]));
+  const cells = mz.cells, n = mz.n, S = 10, W = n * S, hero = fromBag('maze', MAZE_HEROES);
   api.hint(PH.maze(hero));
-  let d = '';
+  // the sand is the maze's own cells, so a shaped maze lies on the board in its shape; a wall is drawn once,
+  // by the cell below or right of it, or by the last cell before the edge of the shape
+  let d = '', sand = '';
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++){
     const c = cells[y][x], X = x * S, Y = y * S;
+    if (c.off) continue;
+    sand += `M${X - 0.1} ${Y - 0.1}h${S + 0.2}v${S + 0.2}h${-S - 0.2}z`;
     if (c.n) d += `M${X} ${Y}h${S}`;
     if (c.w) d += `M${X} ${Y}v${S}`;
-    if (x === n - 1 && c.e) d += `M${X + S} ${Y}v${S}`;
-    if (y === n - 1 && c.s) d += `M${X} ${Y + S}h${S}`;
+    if (c.e && (x === n - 1 || cells[y][x + 1].off)) d += `M${X + S} ${Y}v${S}`;
+    if (c.s && (y === n - 1 || cells[y + 1][x].off)) d += `M${X} ${Y + S}h${S}`;
   }
+  const sx = mz.start.x * S + S / 2, sy = mz.start.y * S + S / 2, gx = mz.goal.x * S + S / 2, gy = mz.goal.y * S + S / 2;
   const wrap = el('div', {class: 'maze-wrap'});
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('viewBox', `-3 -3 ${W + 6} ${W + 6}`);
   svg.setAttribute('class', 'maze'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', current.g.name);
   // The walls are hedges like the ones on the cover: a soft shadow on the sand, a scalloped dark edge (a chain
   // of round dots along the wall), the green body, a pattern of little leaves, and light leaf tips on top.
-  svg.innerHTML = MAZE_DEFS + `<rect class="maze-bg" x="-2" y="-2" width="${W + 4}" height="${W + 4}" rx="3"/>`
-    + `<rect class="maze-sand" x="-2" y="-2" width="${W + 4}" height="${W + 4}" rx="3"/>`
-    + `<circle class="spot" cx="${S / 2}" cy="${S / 2}" r="4.6"/><circle class="spot" cx="${W - S / 2}" cy="${W - S / 2}" r="4.6"/>`
+  svg.innerHTML = MAZE_DEFS + `<path class="maze-bg" d="${sand}"/><path class="maze-sand" d="${sand}"/>`
+    + `<circle class="spot" cx="${sx}" cy="${sy}" r="4.6"/><circle class="spot" cx="${gx}" cy="${gy}" r="4.6"/>`
     + `<polyline class="trail" points=""/>`
     + ['hedge-s', 'hedge-b', 'hedge-o', 'hedge', 'hedge-l', 'hedge-t', 'hedge-h'].map(c => `<path class="${c}" d="${d}"/>`).join('')
-    + mazeThing(hero.g, W - S / 2, W - S / 2, '') + mazeThing(hero.h, S / 2, S / 2, 'hero');
+    + mazeThing(hero.g, gx, gy, '') + mazeThing(hero.h, sx, sy, 'hero');
   wrap.append(svg); api.stage.append(wrap);
   const trail = svg.querySelector('.trail'), heroEl = svg.querySelector('.hero');
-  let pos = {x: 0, y: 0}, won = false, bumpT = 0;
-  const path = [{x: 0, y: 0}];
+  let pos = {x: mz.start.x, y: mz.start.y}, won = false, bumpT = 0;
+  const path = [{x: pos.x, y: pos.y}];
   function draw(){
     const off = heroEl.tagName === 'image' ? MAZE_PIC / 2 : 0;
     heroEl.setAttribute('x', pos.x * S + S / 2 - off); heroEl.setAttribute('y', pos.y * S + S / 2 - off);
@@ -1907,7 +1994,7 @@ function mountMaze(api){
     const prev = path[path.length - 2];
     if (prev && prev.x === pos.x && prev.y === pos.y) path.pop(); else path.push({x: pos.x, y: pos.y});
     draw();
-    if (pos.x === n - 1 && pos.y === n - 1){ won = true; setTimeout(() => api.done(PH.wins.maze), 300); }
+    if (pos.x === mz.goal.x && pos.y === mz.goal.y){ won = true; setTimeout(() => api.done(PH.wins.maze), 300); }
     return true;
   }
   function cellAt(ev){
