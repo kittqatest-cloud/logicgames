@@ -171,7 +171,15 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:4px solid
 .counter{font-weight:900;font-size:24px}
 
 /* maze */
-.maze-wrap{width:min(100%,560px);touch-action:none}
+.maze-wrap{width:min(100%,560px);max-width:100%;touch-action:none}
+/* a wide screen: the owl across the top, the maze on the left, its arrows and "new task" on the right */
+@media (min-width:760px) and (min-aspect-ratio:1/1){
+  .board.maze-mode{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"task task" "stage side" "stage again";column-gap:28px;align-items:center}
+  .board.maze-mode > .task{grid-area:task}
+  .board.maze-mode > #stage{grid-area:stage}
+  .board.maze-mode > #gControls{grid-area:side;align-self:end;margin-top:0}
+  .board.maze-mode > .controls:last-child{grid-area:again;align-self:start;margin-top:16px}
+}
 .maze{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
 .maze-bg{fill:#FBEFD3;stroke:var(--ink);stroke-width:.7}
 .hedge-o{fill:none;stroke:var(--ink);stroke-width:3.3;stroke-linecap:round}
@@ -2053,6 +2061,24 @@ function mountMaze(api){
     if (m){ e.preventDefault(); step(m[0], m[1]); }
   });
   draw();
+  // The maze takes the room the screen has. On a wide screen the board turns into two columns, the maze on the
+  // left and its arrows on the right, so the maze can be as tall as the window under the owl allows; on a narrow
+  // one the arrows stay underneath and the maze is as wide as the board, or a little less if that would push the
+  // arrows off a short screen. Measured from the top of the page, as a game always opens scrolled to the top.
+  const board = api.stage.closest('.board');
+  board.classList.add('maze-mode');
+  function fitMaze(){
+    const side = getComputedStyle(board).display === 'grid';
+    const wide = api.stage.clientWidth;
+    const top = wrap.getBoundingClientRect().top + window.scrollY;
+    const below = side ? 46 : api.controls.offsetHeight + 120;
+    const tall = window.innerHeight - top - below;
+    const size = side ? Math.min(wide, tall) : (wide < 600 ? wide : Math.min(wide, Math.max(tall, wide * 0.7)));
+    wrap.style.width = Math.round(Math.max(260, Math.min(size, 1000))) + 'px';
+  }
+  fitMaze();
+  window.addEventListener('resize', fitMaze);
+  api.onCleanup(() => { window.removeEventListener('resize', fitMaze); board.classList.remove('maze-mode'); });
 }
 
 /* ---------- 2. Найди отличия ---------- */
