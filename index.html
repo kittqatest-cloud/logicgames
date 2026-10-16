@@ -599,9 +599,15 @@ body.night .coin,body.night .mystars{background:linear-gradient(180deg,#FFE88A 0
 .lang-btn,.lang-pill{border:0;background:none;padding:0;cursor:pointer;line-height:0;-webkit-tap-highlight-color:transparent}
 .lang-btn .pi{height:46px;width:auto;filter:drop-shadow(0 4px 4px rgba(38,48,94,.28))}
 .lang-btn:active .pi,.lang-pill:active .pi{transform:translateY(2px)}
-.lang-pop{position:absolute;top:calc(100% + 10px);right:0;display:flex;flex-direction:column;gap:10px;padding:12px;border-radius:24px;
-  background:linear-gradient(180deg,#3A4290,#2A3077);border:3px solid #1B2058;box-shadow:0 12px 28px rgba(11,15,46,.4),inset 0 2px 0 rgba(255,255,255,.14)}
+/* the choice slides out sideways over the button's own row, towards whichever side has room (openLangPop) */
+.lang-pop{position:absolute;top:50%;display:flex;flex-direction:row;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;
+  background:linear-gradient(180deg,#3A4290,#2A3077);border:3px solid #1B2058;box-shadow:0 12px 28px rgba(11,15,46,.4),inset 0 2px 0 rgba(255,255,255,.14);
+  transform:translateY(-50%);animation:langOpen .18s ease-out}
+.lang-pop.to-right{left:-10px;transform-origin:0 50%}
+.lang-pop.to-left{right:-10px;transform-origin:100% 50%}
 .lang-pop[hidden]{display:none}
+.lang-pop .lang-pill .pi{height:44px}
+@keyframes langOpen{from{opacity:0;transform:translateY(-50%) scaleX(.55)}to{opacity:1;transform:translateY(-50%) scaleX(1)}}
 .lang-pill .pi{height:50px;width:auto;filter:drop-shadow(0 4px 4px rgba(11,15,46,.3));transition:opacity .15s,transform .15s}
 .lang-pill[aria-pressed="false"] .pi{opacity:.6;filter:saturate(.7) drop-shadow(0 3px 3px rgba(11,15,46,.25))}
 .lang-pill[aria-pressed="true"] .pi{transform:scale(1.06)}
@@ -2813,9 +2819,18 @@ function renderLangs(){
   $('#langBtn').replaceChildren(pic('lang-' + LANG));
   langPills($('#langPop'), true); langPills($('#pLangs'), true); langPills($('#wcLangs'), false);
 }
+// The row of pills covers the button and runs right when the screen has room for it there, left otherwise:
+// on a phone the button wraps to the left edge, on a tablet it ends the row of round buttons.
+function openLangPop(){
+  const pop = $('#langPop'), btn = $('#langBtn');
+  pop.classList.remove('to-left', 'to-right'); pop.hidden = false;
+  const room = document.documentElement.clientWidth, r = btn.getBoundingClientRect();
+  pop.classList.add(r.left - 10 + pop.offsetWidth <= room - 8 ? 'to-right' : 'to-left');
+  btn.setAttribute('aria-expanded', 'true');
+}
 $('#langBtn').addEventListener('click', () => {
-  const pop = $('#langPop'); pop.hidden = !pop.hidden;
-  $('#langBtn').setAttribute('aria-expanded', String(!pop.hidden)); sfx.step();
+  if ($('#langPop').hidden) openLangPop(); else closeLangPop();
+  sfx.step();
 });
 document.addEventListener('click', (e) => { if (!$('#langPop').hidden && !e.target.closest('.lang-wrap')) closeLangPop(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#langPop').hidden) closeLangPop(); });
