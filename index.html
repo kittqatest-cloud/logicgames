@@ -741,9 +741,9 @@ body.night .night-fx{display:block}
 .lmap-badge{position:absolute;right:-8px;bottom:-6px;padding:3px 7px;border-radius:10px;background:#2A2F6E;color:#fff;font:900 12px/1 Nunito,sans-serif}
 .lmap{--mh:clamp(420px,calc(100svh - 340px),760px);position:relative;width:min(100%,calc(var(--mh) * 461 / 748));aspect-ratio:461/748;background:var(--day) center/cover no-repeat;
   border-radius:26px;overflow:hidden;box-shadow:0 10px 26px rgba(38,48,94,.28),inset 0 0 0 3px rgba(255,255,255,.35)}
-.lmap-banner{position:absolute;left:50%;top:.6%;width:56%;transform:translateX(-50%);display:grid;place-items:center;pointer-events:none}
-.lmap-banner .pi{grid-area:1/1;width:100%;height:auto}
-.lmap-banner span{position:relative;grid-area:1/1;margin-top:-5%;color:#FFFFFF;font:900 clamp(14px,2.3vw,21px)/1 Nunito,sans-serif;text-shadow:0 2px 0 rgba(90,20,10,.55);white-space:nowrap}
+.lmap-banner{position:absolute;left:50%;top:.6%;width:56%;transform:translateX(-50%);pointer-events:none;container-type:inline-size}
+.lmap-banner .pi{display:block;width:100%;height:auto}
+.lmap-banner span{position:absolute;left:0;right:0;top:30%;transform:translateY(-50%);text-align:center;color:#FFFFFF;font:900 min(9cqw,calc(95cqw / var(--len,8)))/1 Nunito,sans-serif;text-shadow:0 2px 0 rgba(90,20,10,.55);white-space:nowrap}
 .lmap-stop{position:absolute;width:16%;transform:translate(-50%,-50%);border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
 .lmap-stop .pi{grid-area:1/1;width:100%;height:auto;filter:drop-shadow(0 5px 5px rgba(20,30,10,.4))}
 .lmap-stop b{position:relative;z-index:1;grid-area:1/1;margin-top:-8%;font:900 clamp(16px,2.6vw,26px)/1 Nunito,sans-serif;color:#6B4A1A;text-shadow:0 1px 0 rgba(255,255,255,.6)}
@@ -785,6 +785,20 @@ body.night .lmap{background-image:var(--night)}
   .lmap{--mh:clamp(380px,calc(100svh - 400px),760px)}}
 @keyframes tttPop{from{scale:.2}to{scale:1}}
 @keyframes tttBounce{0%{transform:translateY(0)}35%{transform:translateY(-14px)}100%{transform:translateY(0)}}
+
+/* phones: a compact speech bubble - a smaller owl, smaller words, and the ear sits on the bubble's corner so the
+   words get the whole width */
+@media (max-width:600px){
+  .task{gap:6px;margin-bottom:18px}
+  .task .owl{width:54px}
+  .task .bubble{position:relative;padding:8px 12px 10px 12px;margin-top:2px;border-width:4px;border-radius:22px}
+  .task .bubble::before{width:16px;height:16px;left:-11px;top:13px;border-width:4px}
+  .task .bubble p{font-size:18px;line-height:1.22;padding-right:22px}
+  .task #say{position:absolute;right:-6px;bottom:-14px;width:42px;min-height:42px;height:42px;z-index:2}
+}
+
+/* night: the white game title keeps a soft dark halo, so a twinkling star behind it never washes the letters out */
+body.night .bar h2{text-shadow:0 2px 0 rgba(8,12,48,.7),0 0 4px rgba(8,12,48,.85),0 0 14px rgba(8,12,48,.75)}
 </style>
 </head>
 <body>
@@ -3438,7 +3452,7 @@ function showMap(g, w){
   const world = worlds[w];
   const map = el('div', {class: 'lmap'});
   map.style.setProperty('--day', `url("${picSrc('map-day')}")`); map.style.setProperty('--night', `url("${picSrc('map-night-2')}")`);
-  map.append(el('div', {class: 'lmap-banner'}, pic('map-banner'), el('span', null, world.name[LI])));
+  map.append(el('div', {class: 'lmap-banner'}, pic('map-banner'), el('span', {style: `--len:${world.name[LI].length}`}, world.name[LI])));
   let next = -1;
   world.levels.forEach((_, l) => {
     const stars = pathStars(gid, w, l), open = levelOpen(gid, worlds, w, l), boss = l === world.levels.length - 1;
