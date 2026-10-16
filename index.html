@@ -440,6 +440,24 @@ body.night .title .l{text-shadow:2px 0 0 #0E1238,-2px 0 0 #0E1238,0 2px 0 #0E123
 .cell.slot .it{transform-origin:50% 100%}
 .cell.slot .it.big{transform:scale(1.4)}
 @media (max-width:640px){.diff{grid-template-columns:1fr}}
+
+/* drawn pictures sit where the emoji were and take their size from the font size */
+.pi{display:inline-block;width:1em;height:1em;object-fit:contain;vertical-align:-.12em;pointer-events:none;-webkit-user-drag:none;user-select:none;-webkit-user-select:none}
+.choice .pi{width:1.4em;height:1.4em}
+.card .pi{width:1.55em;height:1.55em}
+.item .pi{width:1.3em;height:1.3em}
+.sticker .pi{width:1.25em;height:1.25em}
+.ask-pic .pi{width:1.3em;height:1.3em}
+.bwrap .bimg{display:block;width:100%;height:auto;filter:drop-shadow(0 8px 8px rgba(38,48,94,.22))}
+.bwrap.photo .bin{top:34%;height:26%;left:18%;right:18%}
+.cell .it .pi{filter:none}
+.wstars .pi{width:1em;height:1em}
+.owl .owl-img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 6px rgba(38,48,94,.18));-webkit-user-drag:none}
+body.night .owl .owl-img{filter:drop-shadow(0 0 14px rgba(255,230,140,.28))}
+.perch .owl{width:128px;margin-bottom:-10px}
+.task .owl{width:76px}
+.wincard .owl{width:118px}
+.maze image{pointer-events:none}
 </style>
 </head>
 <body>
@@ -653,6 +671,17 @@ const range = (n) => Array.from({length: n}, (_, i) => i);
 function plural(n, one, few, many){ const m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return one; if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few; return many; }
 function restart(node, cls){ node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); }
 function flashHint(node){ if (!node) return; restart(node, 'hintme'); setTimeout(() => node.classList.remove('hintme'), 1900); }
+/* the shapes fall back to emoji when their pictures are missing */
+const SHAPE_EMOJI = {'shape-circle':'🔴','shape-square':'🟦','shape-triangle':'🔺','shape-star':'⭐','shape-heart':'❤️','shape-oval':'🟠','shape-diamond':'🔷','shape-moon':'🌙'};
+/* pictures: every game object is a drawn picture; an emoji stands in only when a picture is missing */
+const IMG = /*IMG_FILES*/{"🦋":"img/1f98b.webp","🐞":"img/1f41e.webp","🐝":"img/1f41d.webp","🐜":"img/1f41c.webp","🐛":"img/1f41b.webp","🦗":"img/1f997.webp","🦟":"img/1f99f.webp","dragonfly":"img/dragonfly.webp","beetle":"img/beetle.webp","🦅":"img/1f985.webp","swallow":"img/swallow.webp","sparrow":"img/sparrow.webp","🐟":"img/1f41f.webp","🐠":"img/1f420.webp","🐡":"img/1f421.webp","🦈":"img/1f988.webp","🦑":"img/1f991.webp","🐚":"img/1f41a.webp","⚓":"img/2693.webp","🌊":"img/1f30a.webp","submarine":"img/submarine.webp","lighthouse":"img/lighthouse.webp","lifebuoy":"img/lifebuoy.webp","🦭":"img/1f9ad.webp","🍓":"img/1f353.webp","🍐":"img/1f350.webp","🍒":"img/1f352.webp","🍑":"img/1f351.webp","🍋":"img/1f34b.webp","🍉":"img/1f349.webp","raspberry":"img/raspberry.webp","plum":"img/plum.webp","🥔":"img/1f954.webp","🌽":"img/1f33d.webp","🥦":"img/1f966.webp","🍆":"img/1f346.webp","🫑":"img/1fad1.webp","🥬":"img/1f96c.webp","turnip":"img/turnip.webp","🎃":"img/1f383.webp","🍭":"img/1f36d.webp","🍦":"img/1f366.webp","🍫":"img/1f36b.webp","🧁":"img/1f9c1.webp","🍪":"img/1f36a.webp","🍯":"img/1f36f.webp","🦴":"img/1f9b4.webp","🌰":"img/1f330.webp","☕":"img/2615.webp","🥚":"img/1f95a.webp","🥣":"img/1f963.webp","🧂":"img/1f9c2.webp","🥄":"img/1f944.webp","plate":"img/plate.webp","pot":"img/pot.webp","juice":"img/juice.webp","🎈":"img/1f388.webp","🪁":"img/1fa81.webp","🧩":"img/1f9e9.webp","🎲":"img/1f3b2.webp","🎷":"img/1f3b7.webp","🎁":"img/1f381.webp","🎀":"img/1f380.webp","🖍":"img/1f58d.webp","🧶":"img/1f9f6.webp","🦄":"img/1f984.webp","🐉":"img/1f409.webp","🏆":"img/1f3c6.webp","👑":"img/1f451.webp","🎠":"img/1f3a0.webp","🎉":"img/1f389.webp","🚀":"img/1f680.webp","🪐":"img/1fa90.webp","🌍":"img/1f30d.webp","👽":"img/1f47d.webp","🛸":"img/1f6f8.webp","☄":"img/2604.webp","🛰":"img/1f6f0.webp","🔭":"img/1f52d.webp","⭐":"img/2b50.webp","🌟":"img/1f31f.webp","🌲":"img/1f332.webp","🌻":"img/1f33b.webp","🌸":"img/1f338.webp","🏠":"img/1f3e0.webp","🚜":"img/1f69c.webp","mushroom-grass":"img/mushroom-grass.webp","🖼":"img/1f5bc.webp","💐":"img/1f490.webp","📻":"img/1f4fb.webp","🪞":"img/1fa9e.webp","🔑":"img/1f511.webp","💡":"img/1f4a1.webp","🔒":"img/1f512.webp","💼":"img/1f4bc.webp","🧼":"img/1f9fc.webp","🪥":"img/1faa5.webp","🧴":"img/1f9f4.webp","🧽":"img/1f9fd.webp","👓":"img/1f453.webp","☂":"img/2602.webp","pillow":"img/pillow.webp","towel":"img/towel.webp","🐶":"img/1f436.webp","🐱":"img/1f431.webp","🐰":"img/1f430.webp","🐮":"img/1f42e.webp","🐷":"img/1f437.webp","🐴":"img/1f434.webp","🐑":"img/1f411.webp","🐐":"img/1f410.webp","🐔":"img/1f414.webp","🐓":"img/1f413.webp","🐥":"img/1f425.webp","🦆":"img/1f986.webp","🪿":"img/1fabf.webp","🫏":"img/1facf.webp","🐭":"img/1f42d.webp","🐣":"img/1f423.webp","🦊":"img/1f98a.webp","🐻":"img/1f43b.webp","🦔":"img/1f994.webp","🐿":"img/1f43f.webp","🐺":"img/1f43a.webp","🦡":"img/1f9a1.webp","🐗":"img/1f417.webp","🦉":"img/1f989.webp","🦌":"img/1f98c.webp","🦫":"img/1f9ab.webp","🦝":"img/1f99d.webp","chipmunk":"img/chipmunk.webp","🫎":"img/1face.webp","🐸":"img/1f438.webp","🐌":"img/1f40c.webp","🦁":"img/1f981.webp","🐘":"img/1f418.webp","🦒":"img/1f992.webp","🦓":"img/1f993.webp","🐵":"img/1f435.webp","🐼":"img/1f43c.webp","🦛":"img/1f99b.webp","🐊":"img/1f40a.webp","🐯":"img/1f42f.webp","🦘":"img/1f998.webp","🐨":"img/1f428.webp","🦜":"img/1f99c.webp","🦏":"img/1f98f.webp","🐫":"img/1f42b.webp","🦩":"img/1f9a9.webp","🦍":"img/1f98d.webp","🐳":"img/1f433.webp","🐬":"img/1f42c.webp","🐙":"img/1f419.webp","🐢":"img/1f422.webp","🦀":"img/1f980.webp","seahorse":"img/seahorse.webp","starfish":"img/starfish.webp","🪼":"img/1fabc.webp","🐧":"img/1f427.webp","toucan":"img/toucan.webp","🐦":"img/1f426.webp","seagull":"img/seagull.webp","pelican":"img/pelican.webp","hummingbird":"img/hummingbird.webp","pigeon":"img/pigeon.webp","🦢":"img/1f9a2.webp","🍎":"img/1f34e.webp","🍌":"img/1f34c.webp","🍊":"img/1f34a.webp","🍇":"img/1f347.webp","🥕":"img/1f955.webp","🍅":"img/1f345.webp","🥒":"img/1f952.webp","🧅":"img/1f9c5.webp","🍞":"img/1f35e.webp","🧀":"img/1f9c0.webp","🍩":"img/1f369.webp","🍰":"img/1f370.webp","🍕":"img/1f355.webp","🍳":"img/1f373.webp","🥛":"img/1f95b.webp","🍬":"img/1f36c.webp","🚗":"img/1f697.webp","🚌":"img/1f68c.webp","🚕":"img/1f695.webp","🚋":"img/1f68b.webp","🚒":"img/1f692.webp","🚑":"img/1f691.webp","🚓":"img/1f693.webp","bulldozer":"img/bulldozer.webp","✈":"img/2708.webp","🚁":"img/1f681.webp","🚢":"img/1f6a2.webp","⛵":"img/26f5.webp","🚂":"img/1f682.webp","🏍":"img/1f3cd.webp","🚲":"img/1f6b2.webp","garbage-truck":"img/garbage-truck.webp","🧥":"img/1f9e5.webp","👕":"img/1f455.webp","👖":"img/1f456.webp","👗":"img/1f457.webp","sweater":"img/sweater.webp","🩳":"img/1fa73.webp","winter-hat":"img/winter-hat.webp","🧢":"img/1f9e2.webp","🧣":"img/1f9e3.webp","🧤":"img/1f9e4.webp","🧦":"img/1f9e6.webp","raincoat":"img/raincoat.webp","👟":"img/1f45f.webp","felt-boots":"img/felt-boots.webp","👢":"img/1f462.webp","🩴":"img/1fa74.webp","🧸":"img/1f9f8.webp","toy-train":"img/toy-train.webp","toy-ball":"img/toy-ball.webp","ring-pyramid":"img/ring-pyramid.webp","doll":"img/doll.webp","toy-truck":"img/toy-truck.webp","rocking-horse":"img/rocking-horse.webp","spinning-top":"img/spinning-top.webp","🦖":"img/1f996.webp","toy-boat":"img/toy-boat.webp","xylophone":"img/xylophone.webp","toy-plane":"img/toy-plane.webp","jack-in-box":"img/jack-in-box.webp","🧱":"img/1f9f1.webp","🤖":"img/1f916.webp","🫧":"img/1fae7.webp","🎸":"img/1f3b8.webp","🎹":"img/1f3b9.webp","🥁":"img/1f941.webp","🎺":"img/1f3ba.webp","🪇":"img/1fa87.webp","tambourine":"img/tambourine.webp","🪈":"img/1fa88.webp","🎻":"img/1f3bb.webp","🪗":"img/1fa97.webp","harp":"img/harp.webp","triangle":"img/triangle.webp","cymbals":"img/cymbals.webp","horn":"img/horn.webp","harmonica":"img/harmonica.webp","tom-drum":"img/tom-drum.webp","🏀":"img/1f3c0.webp","⚽":"img/26bd.webp","slide":"img/slide.webp","swing":"img/swing.webp","🥊":"img/1f94a.webp","🛹":"img/1f6f9.webp","🎾":"img/1f3be.webp","🎳":"img/1f3b3.webp","tricycle":"img/tricycle.webp","🏸":"img/1f3f8.webp","beach-ball":"img/beach-ball.webp","🪣":"img/1faa3.webp","trampoline":"img/trampoline.webp","🎯":"img/1f3af.webp","jump-rope":"img/jump-rope.webp","🛼":"img/1f6fc.webp","🎒":"img/1f392.webp","📕":"img/1f4d5.webp","✏":"img/270f.webp","pencil-case":"img/pencil-case.webp","✂":"img/2702.webp","glue":"img/glue.webp","eraser":"img/eraser.webp","📏":"img/1f4cf.webp","globe":"img/globe.webp","🎨":"img/1f3a8.webp","chalkboard":"img/chalkboard.webp","🔍":"img/1f50d.webp","⏰":"img/23f0.webp","📎":"img/1f4ce.webp","📚":"img/1f4da.webp","🎓":"img/1f393.webp","armchair":"img/armchair.webp","table-lamp":"img/table-lamp.webp","📺":"img/1f4fa.webp","wall-clock":"img/wall-clock.webp","fridge":"img/fridge.webp","🫖":"img/1fad6.webp","toaster":"img/toaster.webp","fruit-bowl":"img/fruit-bowl.webp","🛏":"img/1f6cf.webp","nightstand":"img/nightstand.webp","toy-chest":"img/toy-chest.webp","wardrobe":"img/wardrobe.webp","🛁":"img/1f6c1.webp","sink":"img/sink.webp","🚽":"img/1f6bd.webp","🧺":"img/1f9fa.webp","☀":"img/2600.webp","🌧":"img/1f327.webp","⛈":"img/26c8.webp","🌈":"img/1f308.webp","🌬":"img/1f32c.webp","❄":"img/2744.webp","🍂":"img/1f342.webp","shape-circle":"img/shape-circle.webp","shape-square":"img/shape-square.webp","shape-triangle":"img/shape-triangle.webp","shape-star":"img/shape-star.webp","shape-heart":"img/shape-heart.webp","shape-oval":"img/shape-oval.webp","shape-diamond":"img/shape-diamond.webp","shape-moon":"img/shape-moon.webp","🌳":"img/1f333.webp","🌹":"img/1f339.webp","🌼":"img/1f33c.webp","🌷":"img/1f337.webp","🍄":"img/1f344.webp","boletus":"img/boletus.webp","🌵":"img/1f335.webp","🪴":"img/1fab4.webp","hard-hat":"img/hard-hat.webp","stethoscope":"img/stethoscope.webp","fire-helmet":"img/fire-helmet.webp","police-badge":"img/police-badge.webp","saw":"img/saw.webp","hammer":"img/hammer.webp","paintbrush":"img/paintbrush.webp","watering-can":"img/watering-can.webp","owl-point":"img/owl-point.webp","owl-cheer":"img/owl-cheer.webp","owl-think":"img/owl-think.webp","owl-wave":"img/owl-wave.webp","owl-read":"img/owl-read.webp","owl-hello":"img/owl-hello.webp","ui-play":"img/ui-play.webp","ui-pause":"img/ui-pause.webp","ui-settings":"img/ui-settings.webp","ui-home":"img/ui-home.webp","ui-sound":"img/ui-sound.webp","ui-mute":"img/ui-mute.webp","ui-map":"img/ui-map.webp","ui-shop":"img/ui-shop.webp","ui-help":"img/ui-help.webp","ui-back":"img/ui-back.webp","ui-refresh":"img/ui-refresh.webp","ui-next":"img/ui-next.webp","ui-star":"img/ui-star.webp","ui-trophy":"img/ui-trophy.webp","ui-gift":"img/ui-gift.webp","ui-coins":"img/ui-coins.webp","basket-side":"img/basket-side.webp","basket":"img/basket.webp","basket-top":"img/basket-top.webp"}/*END_IMG_FILES*/;
+const PIC_ALIAS = {'🐄': '🐮', '🐕': '🐶', '🐒': '🐵', '🌶': '🫑', '📖': '📕', '🌙': 'shape-moon'};
+function picSrc(k){ k = String(k).replace(/\ufe0f/g, ''); return IMG[PIC_ALIAS[k] || k] || null; }
+function pic(k, cls){
+  const src = picSrc(k);
+  return src ? el('img', {class: 'pi' + (cls ? ' ' + cls : ''), src, alt: '', draggable: 'false'}) : document.createTextNode(SHAPE_EMOJI[k] || k);
+}
+function picHTML(k){ const src = picSrc(k); return src ? `<img class="pi" src="${src}" alt="" draggable="false">` : k; }
 const svgUrl = (s) => 'url("data:image/svg+xml,' + encodeURIComponent(s) + '")';
 
 /* ---------- drawings ---------- */
@@ -821,7 +850,11 @@ bathroom: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserv
 bedroom: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice"><defs><pattern id="p" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="8" height="16" fill="#ECE4F6"/></pattern></defs><rect width="300" height="200" fill="#F4EEFA"/><rect width="300" height="150" fill="url(#p)"/><rect y="150" width="300" height="50" fill="#DDB990"/><path d="M0 168H300M0 186H300M30 150V168M140 168V186M250 150V168M90 186V200" stroke="#CBA57A" stroke-width="1.5"/><rect y="145" width="300" height="6" fill="#EFE3D2"/><rect x="8" y="40" width="62" height="110" rx="3" fill="#E3C49A" stroke="#C8A274" stroke-width="2"/><path d="M39 44V146" stroke="#C8A274" stroke-width="2"/><circle cx="34" cy="96" r="2.5" fill="#B8865A"/><circle cx="44" cy="96" r="2.5" fill="#B8865A"/><rect x="228" y="26" width="62" height="60" rx="4" fill="#C8DDF7" stroke="#C3B0C9" stroke-width="3"/><path d="M259 26V86M228 56H290" stroke="#C3B0C9" stroke-width="3"/><circle cx="276" cy="40" r="5" fill="#FFF3B0"/><rect x="222" y="86" width="74" height="6" rx="2" fill="#EFE3D2" stroke="#D3C2B3" stroke-width="1.5"/><rect x="110" y="78" width="98" height="72" rx="8" fill="#A8C3E8" stroke="#86A2CC" stroke-width="2"/><rect x="104" y="116" width="110" height="30" rx="7" fill="#F5D0DA" stroke="#DCAAB8" stroke-width="2"/><path d="M110 146V153M208 146V153" stroke="#86A2CC" stroke-width="4"/><rect x="80" y="118" width="22" height="32" rx="2" fill="#E3C49A" stroke="#C8A274" stroke-width="1.5"/><rect x="216" y="118" width="22" height="32" rx="2" fill="#E3C49A" stroke="#C8A274" stroke-width="1.5"/><ellipse cx="160" cy="176" rx="62" ry="12" fill="#C9B6E4" opacity=".55"/></svg>`
 };
 
-document.querySelectorAll('[data-owl]').forEach(n => { n.innerHTML = OWL; });
+document.querySelectorAll('[data-owl]').forEach(n => {
+  const pose = n.closest('.perch') ? 'owl-wave' : n.closest('.task') ? 'owl-point' : n.closest('#win') ? 'owl-cheer' : 'owl-hello';
+  const src = IMG[pose];
+  n.innerHTML = src ? `<img class="owl-img" src="${src}" alt="" draggable="false">` : OWL;
+});
 document.querySelectorAll('.perch .owl, .task .owl').forEach(n => { n.setAttribute('role', 'button'); n.setAttribute('tabindex', '0'); n.setAttribute('aria-label', 'Сова: послушать ещё раз'); n.classList.add('tappable'); });
 (function titleLetters(){
   const t = $('#title'), cols = ['#FF7657', '#FFC53D', '#43B562', '#3BA7F0', '#9466E0', '#EE5C9B', '#FF9A3C', '#22ADA5'];
@@ -1133,7 +1166,7 @@ function renderShelf(){
   box.innerHTML = '';
   STICKERS.forEach(([s, need], i) => {
     box.append(i < got
-      ? el('div', {class: 'sticker', style: `--r:${TILTS[i % TILTS.length]}`, title: `Наклейка за ${need} ${plural(need, 'звёздочку', 'звёздочки', 'звёздочек')}`}, s)
+      ? el('div', {class: 'sticker', style: `--r:${TILTS[i % TILTS.length]}`, title: `Наклейка за ${need} ${plural(need, 'звёздочку', 'звёздочки', 'звёздочек')}`}, pic(s))
       : el('div', {class: 'sticker locked'}, `${need} ⭐`));
   });
   const nxt = STICKERS[got];
@@ -1232,12 +1265,12 @@ function finish(msg, items){
   const word = stars === 3 ? pick(PH.praise) : (stars === 2 ? pick(PH.good) : PH.soso), praise = word.slice(0, -1) + nameSuffix() + '!';
   $('#wTitle').textContent = praise;
   $('#wMsg').textContent = (msg ? msg + ' ' : '') + `Ты получил ${stars} ${plural(stars, 'звёздочку', 'звёздочки', 'звёздочек')}.`;
-  $('#wStars').innerHTML = [1, 2, 3].map(i => `<span${i > stars ? ' class="off"' : ''}>⭐</span>`).join('');
+  $('#wStars').innerHTML = [1, 2, 3].map(i => `<span${i > stars ? ' class="off"' : ''}>${picHTML('⭐')}</span>`).join('');
   const st = $('#wSticker'), lines = [];
   if (after > before) lines.push([STICKERS[after - 1][0], 'Новая наклейка!']);
   if (gift) lines.push([gift, 'Подарок дня от совы!']);
   st.innerHTML = '';
-  lines.forEach(([e, t]) => st.append(el('div', {class: 'wline'}, el('span', null, e), t)));
+  lines.forEach(([e, t]) => st.append(el('div', {class: 'wline'}, el('span', null, pic(e)), t)));
   st.hidden = !lines.length;
   $('#win').hidden = false;
   sfx.win();
@@ -1283,9 +1316,10 @@ function daily(){
   return state.daily;
 }
 function renderDaily(){
+  if (picSrc('🎁') && !$('#dailyGift').querySelector('img')) $('#dailyGift').replaceChildren(pic('🎁'));
   const d = daily(), dots = $('#dailyDots');
   dots.innerHTML = '';
-  for (let i = 0; i < DAILY_GOAL; i++) dots.append(el('span', {class: i < d.done ? 'dd on' : 'dd'}, i < d.done ? '⭐' : ''));
+  for (let i = 0; i < DAILY_GOAL; i++) dots.append(el('span', {class: i < d.done ? 'dd on' : 'dd'}, i < d.done ? pic('⭐') : ''));
   const rest = Math.max(0, DAILY_GOAL - d.done);
   $('#dailyNote').textContent = d.gifted
     ? 'Подарок дня уже у тебя! Приходи завтра за новым.'
@@ -1296,7 +1330,7 @@ function renderGifts(){
   const box = $('#gifts'), have = state.gifts || [];
   box.innerHTML = '';
   $('#giftsEmpty').hidden = have.length > 0;
-  have.forEach((g, i) => box.append(el('div', {class: 'sticker', style: `--r:${TILTS[(i + 3) % TILTS.length]}`}, g)));
+  have.forEach((g, i) => box.append(el('div', {class: 'sticker', style: `--r:${TILTS[(i + 3) % TILTS.length]}`}, pic(g))));
 }
 
 /* first visit: name, then age; the age sets the difficulty of every game */
@@ -1377,6 +1411,12 @@ function genMaze(n){
   }
   return cells;
 }
+const MAZE_PIC = 8.6;
+function mazeThing(k, cx, cy, cls){
+  const src = picSrc(k);
+  return src ? `<image class="${cls}" href="${src}" x="${cx - MAZE_PIC / 2}" y="${cy - MAZE_PIC / 2}" width="${MAZE_PIC}" height="${MAZE_PIC}"/>`
+             : `<text class="${cls}" x="${cx}" y="${cy}">${k}</text>`;
+}
 function mountMaze(api){
   const n = [5, 8, 11][api.level - 1], S = 10, W = n * S;
   const cells = genMaze(n), hero = fromBag('maze', MAZE_HEROES);
@@ -1396,14 +1436,14 @@ function mountMaze(api){
   svg.innerHTML = `<rect class="maze-bg" x="-2" y="-2" width="${W + 4}" height="${W + 4}" rx="3"/>`
     + `<circle class="spot" cx="${S / 2}" cy="${S / 2}" r="4.6"/><circle class="spot" cx="${W - S / 2}" cy="${W - S / 2}" r="4.6"/>`
     + `<polyline class="trail" points=""/><path class="hedge-s" d="${d}"/><path class="hedge-o" d="${d}"/><path class="hedge" d="${d}"/><path class="hedge-h" d="${d}"/>`
-    + `<text x="${W - S / 2}" y="${W - S / 2}">${hero.g}</text>`
-    + `<text class="hero" x="${S / 2}" y="${S / 2}">${hero.h}</text>`;
+    + mazeThing(hero.g, W - S / 2, W - S / 2, '') + mazeThing(hero.h, S / 2, S / 2, 'hero');
   wrap.append(svg); api.stage.append(wrap);
   const trail = svg.querySelector('.trail'), heroEl = svg.querySelector('.hero');
   let pos = {x: 0, y: 0}, won = false, bumpT = 0;
   const path = [{x: 0, y: 0}];
   function draw(){
-    heroEl.setAttribute('x', pos.x * S + S / 2); heroEl.setAttribute('y', pos.y * S + S / 2);
+    const off = heroEl.tagName === 'image' ? MAZE_PIC / 2 : 0;
+    heroEl.setAttribute('x', pos.x * S + S / 2 - off); heroEl.setAttribute('y', pos.y * S + S / 2 - off);
     trail.setAttribute('points', path.map(p => `${p.x * S + S / 2},${p.y * S + S / 2}`).join(' '));
   }
   function bump(){ const t = Date.now(); if (t - bumpT > 450){ bumpT = t; sfx.bad(); restart(wrap, 'shake'); } }
@@ -1511,7 +1551,7 @@ function mountDiff(api){
       sc.slots.forEach((sl, i) => {
         const t = arr[i];
         const c = el('button', {class: 'cell slot', type: 'button', 'aria-label': 'Место ' + (i + 1), style: `--x:${(sl[0] / 3).toFixed(2)};--y:${(sl[1] / 2).toFixed(2)};--s:${sl[2]}`});
-        if (t) c.append(el('span', {class: 'it' + (t.big ? ' big' : '')}, t.e));
+        if (t) c.append(el('span', {class: 'it' + (t.big ? ' big' : '')}, pic(t.e)));
         c.addEventListener('click', () => tap(i, c));
         p.append(c);
       });
@@ -1522,7 +1562,7 @@ function mountDiff(api){
     p.style.backgroundImage = bg;
     arr.forEach((t, i) => {
       const c = el('button', {class: 'cell', type: 'button', 'aria-label': 'Место ' + (i + 1)});
-      if (t) c.append(el('span', {class: 'it', style: `transform:translate(${t.jx}%,${t.jy}%) rotate(${t.rot}deg) scale(${t.s})`}, t.e));
+      if (t) c.append(el('span', {class: 'it', style: `transform:translate(${t.jx}%,${t.jy}%) rotate(${t.rot}deg) scale(${t.s})`}, pic(t.e)));
       c.addEventListener('click', () => tap(i, c));
       p.append(c);
     });
@@ -1553,7 +1593,7 @@ function mountMemory(api){
   const grid = el('div', {class: 'mem', style: `--g:${cfg.g}`});
   const cards = range(N).map(i => {
     const b = el('button', {class: 'card', type: 'button', 'aria-label': 'Клетка ' + (i + 1)});
-    const p = at.get(i); if (p) b.textContent = p[0];
+    const p = at.get(i); if (p) b.replaceChildren(pic(p[0]));
     grid.append(b); return b;
   });
   api.stage.append(grid);
@@ -1577,13 +1617,13 @@ function mountMemory(api){
     cur = order.shift(); wrongHere = 0;
     if (!cur){ ask.remove(); setTimeout(() => api.done({3: 'Всё запомнил!', 2: PH.memGood, 1: PH.memTry}, cfg.k), 350); return; }
     ask.innerHTML = '';
-    ask.append(el('span', {class: 'ask-pic'}, cur[1][0]), el('span', {class: 'ask-name'}, cur[1][1]));
+    ask.append(el('span', {class: 'ask-pic'}, pic(cur[1][0])), el('span', {class: 'ask-name'}, cur[1][1]));
     api.hint(PH.memAsk(cur[1][1]));
   }
   cards.forEach((c, i) => c.addEventListener('click', () => {
     if (phase !== 'ask' || !cur || c.classList.contains('open')) return;
     if (i === cur[0]){
-      c.classList.remove('back'); c.classList.add('open'); c.textContent = cur[1][0];
+      c.classList.remove('back'); c.classList.add('open'); c.replaceChildren(pic(cur[1][0]));
       sfx.ok(); next();
     } else {
       api.mistake(); wrongHere++; restart(c, 'miss');
@@ -1613,7 +1653,7 @@ function mountPairs(api){
   function flip(i){
     const b = cards[i];
     if (lock || b.classList.contains('open') || open.includes(i)) return;
-    b.classList.remove('back'); b.classList.add('face'); b.textContent = faces[i];
+    b.classList.remove('back'); b.classList.add('face'); b.replaceChildren(pic(faces[i]));
     open.push(i); sfx.step();
     if (open.length < 2) return;
     const [a, c] = open;
@@ -1832,10 +1872,10 @@ function mountShadow(api){
     else opts = sample(CATS[pick(keys)].i, 4);
     const ans = pick(opts); opts = shuffle(opts);
     api.hint(first ? PH.shadow1 : PH.shadow2, {queue: !first});
-    const sh = el('div', {class: 'shadow', role: 'img', 'aria-label': 'Тень картинки'}, el('span', null, ans[0]));
+    const sh = el('div', {class: 'shadow', role: 'img', 'aria-label': 'Тень картинки'}, el('span', null, pic(ans[0])));
     const ch = el('div', {class: 'choices'});
     opts.forEach(o => {
-      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o[1], 'data-right': o === ans ? '1' : null}, o[0]);
+      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o[1], 'data-right': o === ans ? '1' : null}, pic(o[0]));
       b.addEventListener('click', () => { if (o === ans) sh.classList.add('lit'); answer(o === ans, b, PH.shadowRight(o[1])); });
       ch.append(b);
     });
@@ -1859,7 +1899,7 @@ function mountOdd(api){
     api.hint(first ? PH.odd1 : PH.odd2, {queue: !first});
     const ch = el('div', {class: 'choices'});
     q.all.forEach(o => {
-      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o.x[1], 'data-right': o.odd ? '1' : null}, o.x[0]);
+      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o.x[1], 'data-right': o.odd ? '1' : null}, pic(o.x[0]));
       b.addEventListener('click', () => answer(o.odd, b, PH.oddRight(q.a)));
       ch.append(b);
     });
@@ -1868,7 +1908,7 @@ function mountOdd(api){
 }
 
 /* ---------- 8. Продолжи ряд ---------- */
-const PSETS = [['🔴','🟡','🟢','🔵','🟣','🟠'], ['⭐','❤️','🔷','🌙'], ['🍎','🍌','🍇','🍊'], ['🐶','🐱','🐰','🐻'], ['🚗','🚌','🚂','✈️']];
+const PSETS = [['shape-circle','shape-square','shape-triangle','shape-star','shape-heart','shape-oval','shape-diamond','shape-moon'], ['🍎','🍌','🍇','🍊'], ['🐶','🐱','🐰','🐻'], ['🚗','🚌','🚂','✈️']];
 const PTEMPL = {1: ['AB', 'AAB', 'ABB'], 2: ['ABC', 'AABB', 'ABAC'], 3: ['ABCD', 'AABC', 'ABCB', 'AABBC']};
 function patternQ(lv){
   const t = pick(PTEMPL[lv]), letters = [...new Set(t)];
@@ -1887,12 +1927,12 @@ function mountPattern(api){
     const q = patternQ(api.level);
     api.hint(first ? PH.pat1 : PH.pat2, {queue: !first});
     const row = el('div', {class: 'row', role: 'img', 'aria-label': 'Ряд картинок'});
-    q.seq.forEach(s => row.append(el('span', null, s)));
+    q.seq.forEach(s => row.append(el('span', null, pic(s))));
     const slot = el('span', {class: 'q'}, '?'); row.append(slot);
     const ch = el('div', {class: 'choices'});
     q.opts.forEach(o => {
-      const b = el('button', {class: 'choice', type: 'button', 'data-right': o === q.ans ? '1' : null}, o);
-      b.addEventListener('click', () => { if (o === q.ans){ slot.textContent = o; slot.classList.remove('q'); } answer(o === q.ans, b); });
+      const b = el('button', {class: 'choice', type: 'button', 'data-right': o === q.ans ? '1' : null}, pic(o));
+      b.addEventListener('click', () => { if (o === q.ans){ slot.replaceChildren(pic(o)); slot.classList.remove('q'); } answer(o === q.ans, b); });
       ch.append(b);
     });
     area.append(row, ch);
@@ -1915,7 +1955,7 @@ function mountCount(api){
     sample(range(24), q.n).forEach(s => {
       const c = s % 6, r = Math.floor(s / 6);
       const x = (c + 0.5) / 6 * 100 + (Math.random() - 0.5) * 7, y = (r + 0.5) / 4 * 100 + (Math.random() - 0.5) * 9;
-      box.append(el('span', {style: `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%`}, q.it[0]));
+      box.append(el('span', {style: `left:${x.toFixed(1)}%;top:${y.toFixed(1)}%`}, pic(q.it[0])));
     });
     const ch = el('div', {class: 'choices'});
     q.opts.forEach(o => {
@@ -2069,9 +2109,9 @@ function mountSort(api){
   let selected = null, placed = 0;
   cats.forEach(c => {
     const b = el('button', {class: 'basket', type: 'button', 'data-cat': c, 'aria-label': 'Корзинка: ' + CATS[c].n});
-    const wrap = el('span', {class: 'bwrap'}); wrap.innerHTML = BASKET;
+    const wrap = el('span', {class: 'bwrap' + (picSrc('basket') ? ' photo' : '')}); wrap.innerHTML = picSrc('basket') ? `<img class="bimg" src="${picSrc('basket')}" alt="" draggable="false">` : BASKET;
     const bin = el('span', {class: 'bin'}); wrap.append(bin);
-    b.append(el('span', {class: 'blabel'}, el('span', {class: 'bicon', 'aria-hidden': 'true'}, SORT_ICON[c]), CATS[c].n), wrap);
+    b.append(el('span', {class: 'blabel'}, el('span', {class: 'bicon', 'aria-hidden': 'true'}, pic(SORT_ICON[c])), CATS[c].n), wrap);
     b.addEventListener('click', () => { if (selected) place(selected, c); else api.say(PH.catName(c)); });
     bins[c] = {b, bin};
     row.append(b);
@@ -2084,7 +2124,7 @@ function mountSort(api){
     const node = nodes.get(it); if (!node) return;
     if (it.c === c){
       nodes.delete(it); node.remove(); select(null);
-      bins[c].bin.append(el('span', {class: 'binned'}, it.e)); sfx.ok(); placed++;
+      bins[c].bin.append(el('span', {class: 'binned'}, pic(it.e))); sfx.ok(); placed++;
       if (placed === items.length) setTimeout(() => api.done(PH.winSort, items.length), 450);
     } else {
       api.mistake(); it.wrong++; restart(node, 'miss'); api.say(PH.sortWrong);
@@ -2092,14 +2132,14 @@ function mountSort(api){
     }
   }
   items.forEach(it => {
-    const node = el('button', {class: 'item', type: 'button', 'aria-label': it.name}, it.e);
+    const node = el('button', {class: 'item', type: 'button', 'aria-label': it.name}, pic(it.e));
     nodes.set(it, node); tray.append(node);
     let start = null, ghost = null, moved = false, eatClick = false;
     node.addEventListener('pointerdown', (e) => { start = {x: e.clientX, y: e.clientY}; moved = false; try { node.setPointerCapture(e.pointerId); } catch (_) {} });
     node.addEventListener('pointermove', (e) => {
       if (!start) return;
       if (!moved && Math.hypot(e.clientX - start.x, e.clientY - start.y) < 10) return;
-      if (!moved){ moved = true; select(it); ghost = el('div', {class: 'ghost', 'aria-hidden': 'true'}, it.e); document.body.append(ghost); node.classList.add('lifted'); }
+      if (!moved){ moved = true; select(it); ghost = el('div', {class: 'ghost', 'aria-hidden': 'true'}, pic(it.e)); document.body.append(ghost); node.classList.add('lifted'); }
       ghost.style.left = e.clientX + 'px'; ghost.style.top = e.clientY + 'px';
       const over = basketAt(e.clientX, e.clientY);
       Object.entries(bins).forEach(([c, v]) => v.b.classList.toggle('over', c === over));
@@ -2190,7 +2230,7 @@ function mountRiddles(api){
     api.hint(r.t, first ? {say: [PH.riddleIntro, r.t]} : {queue: true});
     const ch = el('div', {class: 'choices'});
     opts.forEach(o => {
-      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o[1], 'data-right': o === r.a ? '1' : null}, o[0]);
+      const b = el('button', {class: 'choice', type: 'button', 'aria-label': o[1], 'data-right': o === r.a ? '1' : null}, pic(o[0]));
       b.addEventListener('click', () => answer(o === r.a, b, PH.shadowRight(o[1])));
       ch.append(b);
     });
