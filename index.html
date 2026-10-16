@@ -474,6 +474,38 @@ body.night .world{background:#0B1036 url("img/bg-night.webp") center bottom / co
 .bi{width:1.6em;height:1.6em;margin:-.35em .35em -.35em -.55em}
 .sticker.round,body.night .sticker.round{background:none;border-color:transparent;box-shadow:none}
 .sticker.round .pi{width:100%;height:100%}
+
+/* round 4: the living meadow */
+.fx-sway{position:absolute;inset:0;background:url("img/bg-day.webp") center bottom / cover no-repeat;transform-origin:50% 100%;-webkit-mask-image:linear-gradient(to top,#000 0%,#000 30%,transparent 50%);mask-image:linear-gradient(to top,#000 0%,#000 30%,transparent 50%);animation:fxSway 6.5s ease-in-out infinite alternate;will-change:transform}
+body.night .fx-sway{background-image:url("img/bg-night.webp");animation-duration:9s}
+@keyframes fxSway{from{transform:skewX(-.9deg)}to{transform:skewX(.9deg)}}
+.fx-butterflies,.fx-fireflies{position:absolute;inset:0;pointer-events:none}
+.fx-bfly{position:absolute;left:-70px;animation:fxAcross var(--d) linear infinite}
+.fx-bfly > span{display:block;animation:fxBob 3.4s ease-in-out infinite}
+.fx-bfly img{display:block;width:64px;height:64px;animation:fxFlutter .26s ease-in-out infinite alternate}
+@keyframes fxAcross{from{transform:translateX(0)}to{transform:translateX(calc(100vw + 140px))}}
+@keyframes fxBob{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-40px) rotate(8deg)}}
+@keyframes fxFlutter{from{transform:scaleX(1)}to{transform:scaleX(.35)}}
+body.night .fx-butterflies,.fx-fireflies{display:none}
+body.night .fx-fireflies{display:block}
+.fx-fireflies i{position:absolute;width:5px;height:5px;border-radius:50%;background:#FFF6A8;box-shadow:0 0 8px 3px rgba(255,240,140,.75);animation-name:fxDrift,fxGlow;animation-timing-function:ease-in-out;animation-iteration-count:infinite;animation-direction:alternate}
+@keyframes fxDrift{0%{transform:translate(0,0)}33%{transform:translate(18px,-14px)}66%{transform:translate(-12px,-26px)}100%{transform:translate(10px,8px)}}
+@keyframes fxGlow{from{opacity:.12}to{opacity:1}}
+.perch .owl .owl-img{transform-origin:50% 92%;animation:owlIdle 3.4s ease-in-out infinite}
+body.night .perch .owl .owl-img{animation-duration:5.5s}
+@keyframes owlIdle{0%,100%{transform:translateY(0) rotate(-2.5deg)}50%{transform:translateY(-5px) rotate(2.5deg)}}
+.perch .owl.flap .owl-img{animation:owlHop .72s ease-out}
+@keyframes owlHop{0%{transform:translateY(0)}35%{transform:translateY(-14px) scale(1.05)}70%{transform:translateY(-3px)}100%{transform:translateY(0)}}
+
+/* round 5: the branch grows in from the left edge of the screen, the owl sits near its tip */
+.perch{position:relative}
+.perch .branch{display:none}
+.perch .owl{margin-bottom:34px;z-index:2}
+.limb{position:absolute;right:-6px;bottom:0;width:240px;height:72px;pointer-events:none;z-index:1}
+.limb-tip{position:absolute;right:0;bottom:0;width:240px;height:72px;overflow:hidden}
+.limb-bark{position:absolute;right:238px;bottom:0;width:100vw;height:72px;overflow:hidden}
+body.night .limb{filter:brightness(.62) saturate(.85)}
+@media (max-width:560px){.perch .owl{margin-bottom:26px}.limb{transform:scale(.8);transform-origin:100% 100%}}
 </style>
 </head>
 <body>
@@ -542,6 +574,24 @@ body.night .world{background:#0B1036 url("img/bg-night.webp") center bottom / co
     <header class="hero">
       <div class="perch">
         <div class="owl" data-owl></div>
+        <div class="limb" aria-hidden="true">
+          <svg class="limb-bark" viewBox="0 0 1000 60" preserveAspectRatio="none">
+            <defs><linearGradient id="barkG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B98455"/><stop offset=".55" stop-color="#93623A"/><stop offset="1" stop-color="#6E4628"/></linearGradient></defs>
+            <path d="M0 6 C350 10 750 14 1004 16 L1004 44 C750 46 350 50 0 56 Z" fill="url(#barkG)" stroke="#4A3020" stroke-width="3" vector-effect="non-scaling-stroke"/>
+            <path d="M0 14 C350 17 750 20 1004 21" stroke="#D3A273" stroke-width="3" fill="none" opacity=".75" vector-effect="non-scaling-stroke"/>
+            <path d="M90 33 h70 M330 38 h45 M560 30 h60 M800 36 h40" stroke="#5C3B22" stroke-width="2.5" stroke-linecap="round" opacity=".55" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <svg class="limb-tip" viewBox="0 0 200 60">
+            <defs><linearGradient id="barkT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B98455"/><stop offset=".55" stop-color="#93623A"/><stop offset="1" stop-color="#6E4628"/></linearGradient></defs>
+            <path d="M-4 16 C60 18 140 24 194 29 Q199 30.5 194 32 C140 36 60 42 -4 44 Z" fill="url(#barkT)" stroke="#4A3020" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M-4 21 C60 23 140 27 188 30" stroke="#D3A273" stroke-width="3" fill="none" opacity=".75" stroke-linecap="round"/>
+            <path d="M34 19 C30 10 24 4 16 0" stroke="#7A4E2C" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M16 2 q-14 -2 -18 10 q14 4 18 -10Z" fill="#6CC56F" stroke="#2F6B34" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M150 25 q10 -20 30 -18 q-6 18 -30 18Z" fill="#6CC56F" stroke="#2F6B34" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M168 31 q16 6 22 22 q-18 -2 -22 -22Z" fill="#59B05C" stroke="#2F6B34" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M157 24 q8 -7 18 -11" stroke="#2F6B34" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
         <svg class="branch" viewBox="0 0 180 44" aria-hidden="true">
           <path d="M4 26 C40 18 100 20 176 14" stroke="#26305E" stroke-width="13" stroke-linecap="round" fill="none"/>
           <path d="M4 26 C40 18 100 20 176 14" stroke="#9A6A42" stroke-width="7" stroke-linecap="round" fill="none"/>
@@ -884,6 +934,42 @@ document.querySelectorAll('.perch .owl, .task .owl').forEach(n => { n.setAttribu
   });
 })();
 
+/* the meadow comes alive: the plants sway, butterflies fly by day, fireflies glow at night */
+(function meadowFx(){
+  const world = document.querySelector('.world'); if (!world) return;
+  const sway = el('div', {class: 'fx-sway'}), bf = el('div', {class: 'fx-butterflies'}), ff = el('div', {class: 'fx-fireflies'});
+  const fly = picSrc('🦋');
+  if (fly) [[24, -3, 62], [33, -15, 44], [29, -24, 74], [38, -31, 30]].forEach(([d, delay, y]) =>
+    bf.append(el('div', {class: 'fx-bfly', style: `--d:${d}s;animation-delay:${delay}s;top:${y}%`}, el('span', null, el('img', {src: fly, alt: '', draggable: 'false'})))));
+  const r = (a, b) => (a + Math.random() * (b - a)).toFixed(1);
+  for (let i = 0; i < 28; i++) ff.append(el('i', {style: `left:${r(0, 100)}%;top:${r(35, 96)}%;animation-duration:${r(7, 14)}s,${r(1.8, 4.2)}s;animation-delay:-${r(0, 10)}s,-${r(0, 4)}s`}));
+  world.append(sway, bf, ff);
+})();
+
+/* the owl on the branch sways, flaps her wings now and then and when tapped; at night she reads a book */
+(function heroOwlLife(){
+  const box = document.querySelector('.perch .owl'), img = box && box.querySelector('.owl-img'); if (!img) return;
+  ['owl-wave', 'owl-cheer', 'owl-read'].forEach(k => { const s = picSrc(k); if (s){ const i = new Image(); i.src = s; } });
+  const night = () => document.body.classList.contains('night');
+  const rest = () => (night() && picSrc('owl-read')) || picSrc('owl-wave');
+  window.heroOwl = () => { img.src = rest(); };
+  function flap(){
+    const up = picSrc('owl-cheer'); if (!up) return;
+    box.classList.remove('flap'); void box.offsetWidth; box.classList.add('flap');
+    [up, rest(), up, rest()].forEach((s, i) => setTimeout(() => { img.src = s; }, i * 170));
+    setTimeout(() => box.classList.remove('flap'), 760);
+  }
+  box.addEventListener('click', flap);
+  (function loop(){
+    setTimeout(() => {
+      const still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!document.hidden && !still && !(night() && Math.random() < 0.5)) flap();
+      loop();
+    }, 6000 + Math.random() * 4000);
+  })();
+  window.heroOwl();
+})();
+
 /* ---------- saved progress (this browser only) ---------- */
 const KEY = 'sova.v1';
 const state = (() => {
@@ -1108,6 +1194,7 @@ function isNight(){ if (state.theme) return state.theme === 'night'; const h = n
 function applyTheme(){
   const night = isNight();
   document.body.classList.toggle('night', night);
+  if (window.heroOwl) window.heroOwl();
   const tc = document.querySelector('meta[name="theme-color"]'); if (tc) tc.setAttribute('content', night ? '#0B1036' : '#8ED2F6');
   document.querySelectorAll('.theme-btn').forEach(b => { b.replaceChildren(pic(night ? 'ui-sun' : 'ui-moon')); b.setAttribute('aria-label', night ? 'Включить день' : 'Включить ночь'); });
 }
