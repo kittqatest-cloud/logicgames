@@ -711,13 +711,15 @@ body.night .coin,body.night .mystars{background:linear-gradient(180deg,#FFE88A 0
 /* night: twinkling stars and floating z's over the night picture (nightFx) */
 .night-fx{position:absolute;inset:0;display:none;pointer-events:none;z-index:1}
 body.night .night-fx{display:block}
+/* a soft round glow breathes around each drawn star, and a four-pointed star of the drawn one's own size and
+   direction brightens over it in time - nothing turns or reaches past the star */
 .night-fx .twinkle{position:absolute;left:calc(var(--ox) + var(--x) * var(--s) * 1px);top:calc(var(--oy) + var(--y) * var(--s) * 1px);
-  width:calc(var(--w) * var(--s) * 2.4px);height:calc(var(--w) * var(--s) * 2.4px);border-radius:50%;mix-blend-mode:screen;
-  background:radial-gradient(circle,rgba(255,255,255,.95) 0 7%,rgba(200,245,255,.55) 16%,rgba(140,220,255,.18) 34%,transparent 60%),
-    linear-gradient(90deg,transparent 0 47%,rgba(255,255,255,.7) 50%,transparent 53% 100%),
-    linear-gradient(0deg,transparent 0 47%,rgba(255,255,255,.7) 50%,transparent 53% 100%);
-  transform:translate(-50%,-50%);animation:nightTwinkle 3s ease-in-out infinite}
-@keyframes nightTwinkle{0%,100%{opacity:.1;transform:translate(-50%,-50%) scale(.55) rotate(0)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(18deg)}}
+  width:calc(var(--w) * var(--s) * 2px);height:calc(var(--w) * var(--s) * 2px);border-radius:50%;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(255,255,255,.75) 0 9%,rgba(205,242,255,.38) 22%,rgba(150,215,255,.12) 42%,transparent 66%);
+  transform:translate(-50%,-50%);animation:nightGlow 3s ease-in-out infinite}
+.night-fx .twinkle::after{content:'';position:absolute;left:50%;top:50%;width:50%;height:50%;transform:translate(-50%,-50%);
+  background:#FFFFFF;clip-path:polygon(50% 0,57% 43%,100% 50%,57% 57%,50% 100%,43% 57%,0 50%,43% 43%);opacity:.9}
+@keyframes nightGlow{0%,100%{opacity:.12;transform:translate(-50%,-50%) scale(.85)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}}
 .night-fx .zzz{position:absolute;left:calc(var(--ox) + var(--x) * var(--s) * 1px);top:calc(var(--oy) + var(--y) * var(--s) * 1px)}
 .night-fx .zzz b{position:absolute;left:0;top:0;font-family:var(--font-hand);font-weight:400;color:#DDF1FF;opacity:0;
   font-size:calc(var(--s) * 22px);text-shadow:0 0 8px rgba(160,215,255,.9),0 2px 0 rgba(10,20,60,.35);animation:nightZ 4s ease-in-out infinite}
