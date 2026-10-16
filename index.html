@@ -524,9 +524,13 @@ body.night .limb{filter:brightness(.62) saturate(.85)}
 .panel.daily .dd.on{background:rgba(255,201,60,.16);border-color:#FFC93C}
 .panel.daily .daily-gift{width:66px;height:66px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:#36418A;box-shadow:inset 0 2px 0 rgba(255,255,255,.14)}
 .panel.daily > .daily-dots,.panel.daily > .daily-text,.panel.daily > .daily-gift{position:relative;z-index:2}
-.vine{position:absolute;top:-32px;height:calc(100% + 64px);width:auto;pointer-events:none;z-index:1}
-.vine-l{left:-50px;-webkit-mask-image:linear-gradient(to right,#000 70%,transparent 100%);mask-image:linear-gradient(to right,#000 70%,transparent 100%)}
-.vine-r{right:-44px;-webkit-mask-image:linear-gradient(to left,#000 70%,transparent 100%);mask-image:linear-gradient(to left,#000 70%,transparent 100%)}
+/* the vine runs round the whole panel: Gemini's loop, its two ends as drawn and the stretch between them
+   repeated (gemini_tools/build_vine_frame.py); the ends' widths follow the panel's height, see vineFrame() */
+.vine-frame{position:absolute;left:-44px;right:-38px;top:-40px;bottom:-40px;pointer-events:none;z-index:1;
+  border-style:solid;border-color:transparent;border-width:0 130px 0 422px;
+  border-image:url("img/vine-frame.webp") 0 260 0 843 fill / 1 / 0 round stretch}
+/* on a phone the panel stacks into a tall block the loop cannot follow without crossing the task */
+@media (max-width:520px){.vine-frame{display:none}}
 .daily-owl{position:absolute;left:38px;bottom:2px;width:132px;padding:0;border:0;background:none;cursor:pointer;z-index:3;transform-origin:50% 100%;animation:owlSit 4.6s ease-in-out infinite}
 .daily-owl img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 6px rgba(0,0,0,.28))}
 .daily-owl .night-only,body.night .daily-owl .day-only{display:none}
@@ -722,8 +726,7 @@ body.night .coin,body.night .mystars{background:linear-gradient(180deg,#FFE88A 0
     </header>
 
     <section class="panel daily" aria-live="polite">
-      <img class="vine vine-l" src="img/vine-left.webp" alt="" aria-hidden="true" draggable="false">
-      <img class="vine vine-r" src="img/vine-right.webp" alt="" aria-hidden="true" draggable="false">
+      <div class="vine-frame" aria-hidden="true"></div>
       <button class="daily-owl" type="button" aria-label="Сова: послушать приветствие" data-ta="owlHello"><img class="day-only" src="img/owl-sit-day.webp" alt="" draggable="false"><img class="night-only" src="img/owl-sit-night.webp" alt="" draggable="false"></button>
       <div class="daily-dots" id="dailyDots"></div>
       <div class="daily-text"><strong data-th="dailyTitle">Задание <em>дня</em></strong><span id="dailyNote"></span></div>
@@ -1186,6 +1189,22 @@ document.querySelectorAll('.perch .owl, .task .owl').forEach(n => { n.setAttribu
     setTimeout(() => b.classList.remove('hop'), 650);
     speak(PH.hello, {force: true});
   });
+})();
+
+/* the vine's two ends keep their drawn proportions whatever height the panel takes: the image is 360 high,
+   its left end 843 wide and its right end 260 */
+(function vineFrame(){
+  const v = document.querySelector('.vine-frame'); if (!v) return;
+  let last = 0;
+  const fit = () => {
+    const h = Math.round(v.getBoundingClientRect().height); if (!h || h === last) return;
+    last = h;
+    v.style.borderLeftWidth = (h * 843 / 360).toFixed(1) + 'px';
+    v.style.borderRightWidth = (h * 260 / 360).toFixed(1) + 'px';
+  };
+  // the border box: its size is set by the panel, never by the borders this writes
+  if ('ResizeObserver' in window) new ResizeObserver(fit).observe(v, {box: 'border-box'});
+  fit();
 })();
 
 /* ---------- saved progress (this browser only) ---------- */
