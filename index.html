@@ -378,8 +378,9 @@ input{-webkit-user-select:text;user-select:text}
 .maze .hedge-b{fill:none;stroke:#3C8A2C;stroke-width:3.9;stroke-linecap:round;stroke-dasharray:0 2.1}
 .maze .hedge-o{stroke:#3C8A2C;stroke-width:3.5}
 .maze .hedge{stroke:#5DB143;stroke-width:2.95}
-.maze .hedge-l{fill:none;stroke:url(#mzLeaf);stroke-width:2.6;stroke-linecap:round}
-.maze .hedge-t{fill:none;stroke:#9BDE6E;stroke-width:1.35;stroke-linecap:round;stroke-dasharray:0 2.1;transform:translate(-.25px,-.55px);opacity:.85}
+/* the leaves are Gemini's seamless hedge texture (img/hedge-a.webp, made by gemini_tools/make_tiles.py) */
+.maze .hedge-l{fill:none;stroke:url(#mzLeaf);stroke-width:3.15;stroke-linecap:round}
+.maze .hedge-t{display:none}
 .maze .hedge-h{display:none}
 .maze image{filter:url(#mzPic)}
 .maze .trail{stroke:#FFB23E;stroke-width:2.3}
@@ -1930,13 +1931,7 @@ const SCENE_PIC = {forest: 'scene-forest', sea: 'scene-sea', farm: 'scene-farm',
 function sceneBg(art){ const src = picSrc(SCENE_PIC[art]); return src ? `url("${src}")` : svgUrl(SCENE_ART[art]); }
 const MAZE_PIC = 8.6;
 const MAZE_DEFS = `<defs>
-<pattern id="mzLeaf" width="3.4" height="3.4" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
-<rect width="3.4" height="3.4" fill="#5DB143"/>
-<ellipse cx=".85" cy=".8" rx=".8" ry=".42" fill="#86D15C" transform="rotate(-30 .85 .8)"/>
-<ellipse cx="2.5" cy="2.3" rx=".82" ry=".42" fill="#479B34" transform="rotate(40 2.5 2.3)"/>
-<ellipse cx="2.45" cy=".75" rx=".55" ry=".3" fill="#A3E276" transform="rotate(12 2.45 .75)"/>
-<ellipse cx=".9" cy="2.5" rx=".6" ry=".32" fill="#6CC24D" transform="rotate(-62 .9 2.5)"/>
-</pattern>
+<pattern id="mzLeaf" width="15" height="15" patternUnits="userSpaceOnUse"><image href="img/hedge-a.webp" width="15" height="15"/></pattern>
 <pattern id="mzSand" width="5" height="5" patternUnits="userSpaceOnUse">
 <circle cx="1.2" cy="1.4" r=".22" fill="#C99A55" opacity=".35"/><circle cx="3.6" cy="3.3" r=".18" fill="#B98843" opacity=".3"/><circle cx="3.9" cy=".9" r=".14" fill="#FFFFFF" opacity=".5"/>
 </pattern>
