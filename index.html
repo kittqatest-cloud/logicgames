@@ -371,6 +371,20 @@ input{-webkit-user-select:text;user-select:text}
 .pic,.cbox,.dict,.dpanel svg{box-shadow:0 6px 0 var(--shade),0 14px 24px rgba(38,48,94,.18)}
 .maze{filter:drop-shadow(0 10px 12px rgba(38,48,94,.22))}
 .maze-bg{fill:url(#gSand)}
+/* the hedge maze: sand paths, leafy hedges, soft shadows (see MAZE_DEFS) */
+.maze-bg{fill:#F3DDAE;stroke:none}
+.maze-sand{fill:url(#mzSand)}
+.maze .hedge-s{stroke:#2D4A1C;stroke-width:3.8;opacity:.32;transform:translate(.55px,1.35px);filter:url(#mzShadow)}
+.maze .hedge-b{fill:none;stroke:#3C8A2C;stroke-width:3.9;stroke-linecap:round;stroke-dasharray:0 2.1}
+.maze .hedge-o{stroke:#3C8A2C;stroke-width:3.5}
+.maze .hedge{stroke:#5DB143;stroke-width:2.95}
+.maze .hedge-l{fill:none;stroke:url(#mzLeaf);stroke-width:2.6;stroke-linecap:round}
+.maze .hedge-t{fill:none;stroke:#9BDE6E;stroke-width:1.35;stroke-linecap:round;stroke-dasharray:0 2.1;transform:translate(-.25px,-.55px);opacity:.85}
+.maze .hedge-h{display:none}
+.maze image{filter:url(#mzPic)}
+.maze .trail{stroke:#FFB23E;stroke-width:2.3}
+body.night .maze-bg{fill:#D8BE86}
+body.night .maze .hedge-l,body.night .maze .hedge{opacity:.92}
 .spot{fill:url(#gGlowY);opacity:1}
 .hedge-s{fill:none;stroke:#26305E;stroke-width:3.4;stroke-linecap:round;opacity:.28;transform:translate(0px,1px)}
 .hedge-h{fill:none;stroke:#A9EAAB;stroke-width:.65;stroke-linecap:round;transform:translate(-.3px,-.45px)}
@@ -1832,6 +1846,20 @@ const SCENE_PIC = {forest: 'scene-forest', sea: 'scene-sea', farm: 'scene-farm',
   kidsroom: 'room-kids', livingroom: 'room-living', kitchen: 'room-kitchen', bathroom: 'room-bath', bedroom: 'room-bed'};
 function sceneBg(art){ const src = picSrc(SCENE_PIC[art]); return src ? `url("${src}")` : svgUrl(SCENE_ART[art]); }
 const MAZE_PIC = 8.6;
+const MAZE_DEFS = `<defs>
+<pattern id="mzLeaf" width="3.4" height="3.4" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+<rect width="3.4" height="3.4" fill="#5DB143"/>
+<ellipse cx=".85" cy=".8" rx=".8" ry=".42" fill="#86D15C" transform="rotate(-30 .85 .8)"/>
+<ellipse cx="2.5" cy="2.3" rx=".82" ry=".42" fill="#479B34" transform="rotate(40 2.5 2.3)"/>
+<ellipse cx="2.45" cy=".75" rx=".55" ry=".3" fill="#A3E276" transform="rotate(12 2.45 .75)"/>
+<ellipse cx=".9" cy="2.5" rx=".6" ry=".32" fill="#6CC24D" transform="rotate(-62 .9 2.5)"/>
+</pattern>
+<pattern id="mzSand" width="5" height="5" patternUnits="userSpaceOnUse">
+<circle cx="1.2" cy="1.4" r=".22" fill="#C99A55" opacity=".35"/><circle cx="3.6" cy="3.3" r=".18" fill="#B98843" opacity=".3"/><circle cx="3.9" cy=".9" r=".14" fill="#FFFFFF" opacity=".5"/>
+</pattern>
+<filter id="mzShadow" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation=".65"/></filter>
+<filter id="mzPic" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy=".7" stdDeviation=".55" flood-color="#2C3A18" flood-opacity=".45"/></filter>
+</defs>`;
 function mazeThing(k, cx, cy, cls){
   const src = picSrc(k);
   return src ? `<image class="${cls}" href="${src}" x="${cx - MAZE_PIC / 2}" y="${cy - MAZE_PIC / 2}" width="${MAZE_PIC}" height="${MAZE_PIC}"/>`
@@ -1853,9 +1881,13 @@ function mountMaze(api){
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('viewBox', `-3 -3 ${W + 6} ${W + 6}`);
   svg.setAttribute('class', 'maze'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', current.g.name);
-  svg.innerHTML = `<rect class="maze-bg" x="-2" y="-2" width="${W + 4}" height="${W + 4}" rx="3"/>`
+  // The walls are hedges like the ones on the cover: a soft shadow on the sand, a scalloped dark edge (a chain
+  // of round dots along the wall), the green body, a pattern of little leaves, and light leaf tips on top.
+  svg.innerHTML = MAZE_DEFS + `<rect class="maze-bg" x="-2" y="-2" width="${W + 4}" height="${W + 4}" rx="3"/>`
+    + `<rect class="maze-sand" x="-2" y="-2" width="${W + 4}" height="${W + 4}" rx="3"/>`
     + `<circle class="spot" cx="${S / 2}" cy="${S / 2}" r="4.6"/><circle class="spot" cx="${W - S / 2}" cy="${W - S / 2}" r="4.6"/>`
-    + `<polyline class="trail" points=""/><path class="hedge-s" d="${d}"/><path class="hedge-o" d="${d}"/><path class="hedge" d="${d}"/><path class="hedge-h" d="${d}"/>`
+    + `<polyline class="trail" points=""/>`
+    + ['hedge-s', 'hedge-b', 'hedge-o', 'hedge', 'hedge-l', 'hedge-t', 'hedge-h'].map(c => `<path class="${c}" d="${d}"/>`).join('')
     + mazeThing(hero.g, W - S / 2, W - S / 2, '') + mazeThing(hero.h, S / 2, S / 2, 'hero');
   wrap.append(svg); api.stage.append(wrap);
   const trail = svg.querySelector('.trail'), heroEl = svg.querySelector('.hero');
