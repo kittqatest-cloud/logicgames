@@ -11,7 +11,7 @@
 <meta property="og:image" content="https://kittqatest-cloud.github.io/logicgames/preview.png">
 <meta property="og:url" content="https://kittqatest-cloud.github.io/logicgames/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cellipse%20cx%3D%2732%27%20cy%3D%2736%27%20rx%3D%2724%27%20ry%3D%2725%27%20fill%3D%27%23C98A55%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%273%27/%3E%3Cellipse%20cx%3D%2732%27%20cy%3D%2744%27%20rx%3D%2714%27%20ry%3D%2714%27%20fill%3D%27%23FFE7C2%27/%3E%3Ccircle%20cx%3D%2723%27%20cy%3D%2730%27%20r%3D%279%27%20fill%3D%27%23fff%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%272.5%27/%3E%3Ccircle%20cx%3D%2741%27%20cy%3D%2730%27%20r%3D%279%27%20fill%3D%27%23fff%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%272.5%27/%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2731%27%20r%3D%274.5%27%20fill%3D%27%2326305E%27/%3E%3Ccircle%20cx%3D%2740%27%20cy%3D%2731%27%20r%3D%274.5%27%20fill%3D%27%2326305E%27/%3E%3Cpath%20d%3D%27M28%2038%20L36%2038%20L32%2044%20Z%27%20fill%3D%27%23FFB12E%27/%3E%3Cpath%20d%3D%27M32%204%20L58%2013%20L32%2022%20L6%2013%20Z%27%20fill%3D%27%234A5BB8%27%20stroke%3D%27%2326305E%27%20stroke-width%3D%272.5%27%20stroke-linejoin%3D%27round%27/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="img/favicon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Hoot Quest">
@@ -458,6 +458,22 @@ body.night .owl .owl-img{filter:drop-shadow(0 0 14px rgba(255,230,140,.28))}
 .task .owl{width:76px}
 .wincard .owl{width:118px}
 .maze image{pointer-events:none}
+
+/* round 3: drawn page backgrounds, covers, logo, buttons and stickers */
+.world{background:#BFE3FA url( + img['bg-day'] + ) center bottom / cover no-repeat}
+.world > .sun,.world > .moon,.world > .stars,.world > .cloud,.world > .hills{display:none}
+body.night .world{background:#0B1036 url( + img['bg-night'] + ) center bottom / cover no-repeat}
+.art .cover{display:block;width:100%;height:100%;object-fit:cover}
+.art:has(> .cover){background:none}
+.title.has-logo{font-size:0;line-height:0;padding-top:0}
+.title .logo{display:block;height:clamp(84px,13vw,150px);width:auto;max-width:100%;filter:drop-shadow(0 6px 8px rgba(38,48,94,.2))}
+.btn.icon:has(> .pi){background:none;border:0;box-shadow:none;padding:0;width:58px;min-height:58px}
+.btn.icon > .pi{width:58px;height:58px;filter:drop-shadow(0 4px 4px rgba(38,48,94,.28))}
+.btn.icon:has(> .pi)::after{display:none}
+.btn.icon:active > .pi{transform:translateY(2px)}
+.bi{width:1.6em;height:1.6em;margin:-.35em .35em -.35em -.55em}
+.sticker.round,body.night .sticker.round{background:none;border-color:transparent;box-shadow:none}
+.sticker.round .pi{width:100%;height:100%}
 </style>
 </head>
 <body>
@@ -587,7 +603,7 @@ body.night .owl .owl-img{filter:drop-shadow(0 0 14px rgba(255,230,140,.28))}
 
   <section id="game" hidden>
     <div class="bar">
-      <button class="btn" id="back" type="button">← Все игры</button>
+      <button class="btn" id="back" type="button"><img class="pi bi" src="img/ui-back.webp" alt="" draggable="false">Все игры</button>
       <h2 id="gTitle"></h2>
       <div class="levels" id="levels" role="group" aria-label="Сложность"></div>
       <span class="mystars" id="mystars"></span>
@@ -599,12 +615,12 @@ body.night .owl .owl-img{filter:drop-shadow(0 0 14px rgba(255,230,140,.28))}
         <div class="owl" data-owl></div>
         <div class="bubble">
           <p id="gHint" aria-live="polite"></p>
-          <button class="btn icon" id="say" type="button" aria-label="Прочитать задание ещё раз">🗣️</button>
+          <button class="btn icon" id="say" type="button" aria-label="Прочитать задание ещё раз"><img class="pi" src="img/ui-ear.webp" alt="" draggable="false"></button>
         </div>
       </div>
       <div id="stage"></div>
       <div class="controls" id="gControls"></div>
-      <div class="controls"><button class="btn" id="again" type="button">🔄 Новое задание</button></div>
+      <div class="controls"><button class="btn" id="again" type="button"><img class="pi bi" src="img/ui-refresh.webp" alt="" draggable="false">Новое задание</button></div>
     </div>
   </section>
 </div>
@@ -672,9 +688,9 @@ function plural(n, one, few, many){ const m10 = n % 10, m100 = n % 100; if (m10 
 function restart(node, cls){ node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); }
 function flashHint(node){ if (!node) return; restart(node, 'hintme'); setTimeout(() => node.classList.remove('hintme'), 1900); }
 /* the shapes fall back to emoji when their pictures are missing */
-const SHAPE_EMOJI = {'shape-circle':'🔴','shape-square':'🟦','shape-triangle':'🔺','shape-star':'⭐','shape-heart':'❤️','shape-oval':'🟠','shape-diamond':'🔷','shape-moon':'🌙'};
+const SHAPE_EMOJI = {'sticker-dino':'🦖','sticker-fire-engine':'🚒','sticker-whale':'🐳','sticker-rainbow':'🌈','sticker-rocket':'🚀','sticker-lion':'🦁','wall-clock':'⏰','shape-circle':'🔴','shape-square':'🟦','shape-triangle':'🔺','shape-star':'⭐','shape-heart':'❤️','shape-oval':'🟠','shape-diamond':'🔷','shape-moon':'🌙'};
 /* pictures: every game object is a drawn picture; an emoji stands in only when a picture is missing */
-const IMG = /*IMG_FILES*/{"🦋":"img/1f98b.webp","🐞":"img/1f41e.webp","🐝":"img/1f41d.webp","🐜":"img/1f41c.webp","🐛":"img/1f41b.webp","🦗":"img/1f997.webp","🦟":"img/1f99f.webp","dragonfly":"img/dragonfly.webp","beetle":"img/beetle.webp","🦅":"img/1f985.webp","swallow":"img/swallow.webp","sparrow":"img/sparrow.webp","🐟":"img/1f41f.webp","🐠":"img/1f420.webp","🐡":"img/1f421.webp","🦈":"img/1f988.webp","🦑":"img/1f991.webp","🐚":"img/1f41a.webp","⚓":"img/2693.webp","🌊":"img/1f30a.webp","submarine":"img/submarine.webp","lighthouse":"img/lighthouse.webp","lifebuoy":"img/lifebuoy.webp","🦭":"img/1f9ad.webp","🍓":"img/1f353.webp","🍐":"img/1f350.webp","🍒":"img/1f352.webp","🍑":"img/1f351.webp","🍋":"img/1f34b.webp","🍉":"img/1f349.webp","raspberry":"img/raspberry.webp","plum":"img/plum.webp","🥔":"img/1f954.webp","🌽":"img/1f33d.webp","🥦":"img/1f966.webp","🍆":"img/1f346.webp","🫑":"img/1fad1.webp","🥬":"img/1f96c.webp","turnip":"img/turnip.webp","🎃":"img/1f383.webp","🍭":"img/1f36d.webp","🍦":"img/1f366.webp","🍫":"img/1f36b.webp","🧁":"img/1f9c1.webp","🍪":"img/1f36a.webp","🍯":"img/1f36f.webp","🦴":"img/1f9b4.webp","🌰":"img/1f330.webp","☕":"img/2615.webp","🥚":"img/1f95a.webp","🥣":"img/1f963.webp","🧂":"img/1f9c2.webp","🥄":"img/1f944.webp","plate":"img/plate.webp","pot":"img/pot.webp","juice":"img/juice.webp","🎈":"img/1f388.webp","🪁":"img/1fa81.webp","🧩":"img/1f9e9.webp","🎲":"img/1f3b2.webp","🎷":"img/1f3b7.webp","🎁":"img/1f381.webp","🎀":"img/1f380.webp","🖍":"img/1f58d.webp","🧶":"img/1f9f6.webp","🦄":"img/1f984.webp","🐉":"img/1f409.webp","🏆":"img/1f3c6.webp","👑":"img/1f451.webp","🎠":"img/1f3a0.webp","🎉":"img/1f389.webp","🚀":"img/1f680.webp","🪐":"img/1fa90.webp","🌍":"img/1f30d.webp","👽":"img/1f47d.webp","🛸":"img/1f6f8.webp","☄":"img/2604.webp","🛰":"img/1f6f0.webp","🔭":"img/1f52d.webp","⭐":"img/2b50.webp","🌟":"img/1f31f.webp","🌲":"img/1f332.webp","🌻":"img/1f33b.webp","🌸":"img/1f338.webp","🏠":"img/1f3e0.webp","🚜":"img/1f69c.webp","mushroom-grass":"img/mushroom-grass.webp","🖼":"img/1f5bc.webp","💐":"img/1f490.webp","📻":"img/1f4fb.webp","🪞":"img/1fa9e.webp","🔑":"img/1f511.webp","💡":"img/1f4a1.webp","🔒":"img/1f512.webp","💼":"img/1f4bc.webp","🧼":"img/1f9fc.webp","🪥":"img/1faa5.webp","🧴":"img/1f9f4.webp","🧽":"img/1f9fd.webp","👓":"img/1f453.webp","☂":"img/2602.webp","pillow":"img/pillow.webp","towel":"img/towel.webp","🐶":"img/1f436.webp","🐱":"img/1f431.webp","🐰":"img/1f430.webp","🐮":"img/1f42e.webp","🐷":"img/1f437.webp","🐴":"img/1f434.webp","🐑":"img/1f411.webp","🐐":"img/1f410.webp","🐔":"img/1f414.webp","🐓":"img/1f413.webp","🐥":"img/1f425.webp","🦆":"img/1f986.webp","🪿":"img/1fabf.webp","🫏":"img/1facf.webp","🐭":"img/1f42d.webp","🐣":"img/1f423.webp","🦊":"img/1f98a.webp","🐻":"img/1f43b.webp","🦔":"img/1f994.webp","🐿":"img/1f43f.webp","🐺":"img/1f43a.webp","🦡":"img/1f9a1.webp","🐗":"img/1f417.webp","🦉":"img/1f989.webp","🦌":"img/1f98c.webp","🦫":"img/1f9ab.webp","🦝":"img/1f99d.webp","chipmunk":"img/chipmunk.webp","🫎":"img/1face.webp","🐸":"img/1f438.webp","🐌":"img/1f40c.webp","🦁":"img/1f981.webp","🐘":"img/1f418.webp","🦒":"img/1f992.webp","🦓":"img/1f993.webp","🐵":"img/1f435.webp","🐼":"img/1f43c.webp","🦛":"img/1f99b.webp","🐊":"img/1f40a.webp","🐯":"img/1f42f.webp","🦘":"img/1f998.webp","🐨":"img/1f428.webp","🦜":"img/1f99c.webp","🦏":"img/1f98f.webp","🐫":"img/1f42b.webp","🦩":"img/1f9a9.webp","🦍":"img/1f98d.webp","🐳":"img/1f433.webp","🐬":"img/1f42c.webp","🐙":"img/1f419.webp","🐢":"img/1f422.webp","🦀":"img/1f980.webp","seahorse":"img/seahorse.webp","starfish":"img/starfish.webp","🪼":"img/1fabc.webp","🐧":"img/1f427.webp","toucan":"img/toucan.webp","🐦":"img/1f426.webp","seagull":"img/seagull.webp","pelican":"img/pelican.webp","hummingbird":"img/hummingbird.webp","pigeon":"img/pigeon.webp","🦢":"img/1f9a2.webp","🍎":"img/1f34e.webp","🍌":"img/1f34c.webp","🍊":"img/1f34a.webp","🍇":"img/1f347.webp","🥕":"img/1f955.webp","🍅":"img/1f345.webp","🥒":"img/1f952.webp","🧅":"img/1f9c5.webp","🍞":"img/1f35e.webp","🧀":"img/1f9c0.webp","🍩":"img/1f369.webp","🍰":"img/1f370.webp","🍕":"img/1f355.webp","🍳":"img/1f373.webp","🥛":"img/1f95b.webp","🍬":"img/1f36c.webp","🚗":"img/1f697.webp","🚌":"img/1f68c.webp","🚕":"img/1f695.webp","🚋":"img/1f68b.webp","🚒":"img/1f692.webp","🚑":"img/1f691.webp","🚓":"img/1f693.webp","bulldozer":"img/bulldozer.webp","✈":"img/2708.webp","🚁":"img/1f681.webp","🚢":"img/1f6a2.webp","⛵":"img/26f5.webp","🚂":"img/1f682.webp","🏍":"img/1f3cd.webp","🚲":"img/1f6b2.webp","garbage-truck":"img/garbage-truck.webp","🧥":"img/1f9e5.webp","👕":"img/1f455.webp","👖":"img/1f456.webp","👗":"img/1f457.webp","sweater":"img/sweater.webp","🩳":"img/1fa73.webp","winter-hat":"img/winter-hat.webp","🧢":"img/1f9e2.webp","🧣":"img/1f9e3.webp","🧤":"img/1f9e4.webp","🧦":"img/1f9e6.webp","raincoat":"img/raincoat.webp","👟":"img/1f45f.webp","felt-boots":"img/felt-boots.webp","👢":"img/1f462.webp","🩴":"img/1fa74.webp","🧸":"img/1f9f8.webp","toy-train":"img/toy-train.webp","toy-ball":"img/toy-ball.webp","ring-pyramid":"img/ring-pyramid.webp","doll":"img/doll.webp","toy-truck":"img/toy-truck.webp","rocking-horse":"img/rocking-horse.webp","spinning-top":"img/spinning-top.webp","🦖":"img/1f996.webp","toy-boat":"img/toy-boat.webp","xylophone":"img/xylophone.webp","toy-plane":"img/toy-plane.webp","jack-in-box":"img/jack-in-box.webp","🧱":"img/1f9f1.webp","🤖":"img/1f916.webp","🫧":"img/1fae7.webp","🎸":"img/1f3b8.webp","🎹":"img/1f3b9.webp","🥁":"img/1f941.webp","🎺":"img/1f3ba.webp","🪇":"img/1fa87.webp","tambourine":"img/tambourine.webp","🪈":"img/1fa88.webp","🎻":"img/1f3bb.webp","🪗":"img/1fa97.webp","harp":"img/harp.webp","triangle":"img/triangle.webp","cymbals":"img/cymbals.webp","horn":"img/horn.webp","harmonica":"img/harmonica.webp","tom-drum":"img/tom-drum.webp","🏀":"img/1f3c0.webp","⚽":"img/26bd.webp","slide":"img/slide.webp","swing":"img/swing.webp","🥊":"img/1f94a.webp","🛹":"img/1f6f9.webp","🎾":"img/1f3be.webp","🎳":"img/1f3b3.webp","tricycle":"img/tricycle.webp","🏸":"img/1f3f8.webp","beach-ball":"img/beach-ball.webp","🪣":"img/1faa3.webp","trampoline":"img/trampoline.webp","🎯":"img/1f3af.webp","jump-rope":"img/jump-rope.webp","🛼":"img/1f6fc.webp","🎒":"img/1f392.webp","📕":"img/1f4d5.webp","✏":"img/270f.webp","pencil-case":"img/pencil-case.webp","✂":"img/2702.webp","glue":"img/glue.webp","eraser":"img/eraser.webp","📏":"img/1f4cf.webp","globe":"img/globe.webp","🎨":"img/1f3a8.webp","chalkboard":"img/chalkboard.webp","🔍":"img/1f50d.webp","⏰":"img/23f0.webp","📎":"img/1f4ce.webp","📚":"img/1f4da.webp","🎓":"img/1f393.webp","armchair":"img/armchair.webp","table-lamp":"img/table-lamp.webp","📺":"img/1f4fa.webp","wall-clock":"img/wall-clock.webp","fridge":"img/fridge.webp","🫖":"img/1fad6.webp","toaster":"img/toaster.webp","fruit-bowl":"img/fruit-bowl.webp","🛏":"img/1f6cf.webp","nightstand":"img/nightstand.webp","toy-chest":"img/toy-chest.webp","wardrobe":"img/wardrobe.webp","🛁":"img/1f6c1.webp","sink":"img/sink.webp","🚽":"img/1f6bd.webp","🧺":"img/1f9fa.webp","☀":"img/2600.webp","🌧":"img/1f327.webp","⛈":"img/26c8.webp","🌈":"img/1f308.webp","🌬":"img/1f32c.webp","❄":"img/2744.webp","🍂":"img/1f342.webp","shape-circle":"img/shape-circle.webp","shape-square":"img/shape-square.webp","shape-triangle":"img/shape-triangle.webp","shape-star":"img/shape-star.webp","shape-heart":"img/shape-heart.webp","shape-oval":"img/shape-oval.webp","shape-diamond":"img/shape-diamond.webp","shape-moon":"img/shape-moon.webp","🌳":"img/1f333.webp","🌹":"img/1f339.webp","🌼":"img/1f33c.webp","🌷":"img/1f337.webp","🍄":"img/1f344.webp","boletus":"img/boletus.webp","🌵":"img/1f335.webp","🪴":"img/1fab4.webp","hard-hat":"img/hard-hat.webp","stethoscope":"img/stethoscope.webp","fire-helmet":"img/fire-helmet.webp","police-badge":"img/police-badge.webp","saw":"img/saw.webp","hammer":"img/hammer.webp","paintbrush":"img/paintbrush.webp","watering-can":"img/watering-can.webp","owl-point":"img/owl-point.webp","owl-cheer":"img/owl-cheer.webp","owl-think":"img/owl-think.webp","owl-wave":"img/owl-wave.webp","owl-read":"img/owl-read.webp","owl-hello":"img/owl-hello.webp","ui-play":"img/ui-play.webp","ui-pause":"img/ui-pause.webp","ui-settings":"img/ui-settings.webp","ui-home":"img/ui-home.webp","ui-sound":"img/ui-sound.webp","ui-mute":"img/ui-mute.webp","ui-map":"img/ui-map.webp","ui-shop":"img/ui-shop.webp","ui-help":"img/ui-help.webp","ui-back":"img/ui-back.webp","ui-refresh":"img/ui-refresh.webp","ui-next":"img/ui-next.webp","ui-star":"img/ui-star.webp","ui-trophy":"img/ui-trophy.webp","ui-gift":"img/ui-gift.webp","ui-coins":"img/ui-coins.webp","basket-side":"img/basket-side.webp","basket":"img/basket.webp","basket-top":"img/basket-top.webp"}/*END_IMG_FILES*/;
+const IMG = /*IMG_FILES*/{"🦋":"img/1f98b.webp","🐞":"img/1f41e.webp","🐝":"img/1f41d.webp","🐜":"img/1f41c.webp","🐛":"img/1f41b.webp","🦗":"img/1f997.webp","🦟":"img/1f99f.webp","dragonfly":"img/dragonfly.webp","beetle":"img/beetle.webp","🦅":"img/1f985.webp","swallow":"img/swallow.webp","sparrow":"img/sparrow.webp","🐟":"img/1f41f.webp","🐠":"img/1f420.webp","🐡":"img/1f421.webp","🦈":"img/1f988.webp","🦑":"img/1f991.webp","🐚":"img/1f41a.webp","⚓":"img/2693.webp","🌊":"img/1f30a.webp","submarine":"img/submarine.webp","lighthouse":"img/lighthouse.webp","lifebuoy":"img/lifebuoy.webp","🦭":"img/1f9ad.webp","🍓":"img/1f353.webp","🍐":"img/1f350.webp","🍒":"img/1f352.webp","🍑":"img/1f351.webp","🍋":"img/1f34b.webp","🍉":"img/1f349.webp","raspberry":"img/raspberry.webp","plum":"img/plum.webp","🥔":"img/1f954.webp","🌽":"img/1f33d.webp","🥦":"img/1f966.webp","🍆":"img/1f346.webp","🫑":"img/1fad1.webp","🥬":"img/1f96c.webp","turnip":"img/turnip.webp","🎃":"img/1f383.webp","🍭":"img/1f36d.webp","🍦":"img/1f366.webp","🍫":"img/1f36b.webp","🧁":"img/1f9c1.webp","🍪":"img/1f36a.webp","🍯":"img/1f36f.webp","🦴":"img/1f9b4.webp","🌰":"img/1f330.webp","☕":"img/2615.webp","🥚":"img/1f95a.webp","🥣":"img/1f963.webp","🧂":"img/1f9c2.webp","🥄":"img/1f944.webp","plate":"img/plate.webp","pot":"img/pot.webp","juice":"img/juice.webp","🎈":"img/1f388.webp","🪁":"img/1fa81.webp","🧩":"img/1f9e9.webp","🎲":"img/1f3b2.webp","🎷":"img/1f3b7.webp","🎁":"img/1f381.webp","🎀":"img/1f380.webp","🖍":"img/1f58d.webp","🧶":"img/1f9f6.webp","🦄":"img/1f984.webp","🐉":"img/1f409.webp","🏆":"img/1f3c6.webp","👑":"img/1f451.webp","🎠":"img/1f3a0.webp","🎉":"img/1f389.webp","🚀":"img/1f680.webp","🪐":"img/1fa90.webp","🌍":"img/1f30d.webp","👽":"img/1f47d.webp","🛸":"img/1f6f8.webp","☄":"img/2604.webp","🛰":"img/1f6f0.webp","🔭":"img/1f52d.webp","⭐":"img/2b50.webp","🌟":"img/1f31f.webp","🌲":"img/1f332.webp","🌻":"img/1f33b.webp","🌸":"img/1f338.webp","🏠":"img/1f3e0.webp","🚜":"img/1f69c.webp","mushroom-grass":"img/mushroom-grass.webp","🖼":"img/1f5bc.webp","💐":"img/1f490.webp","📻":"img/1f4fb.webp","🪞":"img/1fa9e.webp","🔑":"img/1f511.webp","💡":"img/1f4a1.webp","🔒":"img/1f512.webp","💼":"img/1f4bc.webp","🧼":"img/1f9fc.webp","🪥":"img/1faa5.webp","🧴":"img/1f9f4.webp","🧽":"img/1f9fd.webp","👓":"img/1f453.webp","☂":"img/2602.webp","pillow":"img/pillow.webp","towel":"img/towel.webp","🐶":"img/1f436.webp","🐱":"img/1f431.webp","🐰":"img/1f430.webp","🐮":"img/1f42e.webp","🐷":"img/1f437.webp","🐴":"img/1f434.webp","🐑":"img/1f411.webp","🐐":"img/1f410.webp","🐔":"img/1f414.webp","🐓":"img/1f413.webp","🐥":"img/1f425.webp","🦆":"img/1f986.webp","🪿":"img/1fabf.webp","🫏":"img/1facf.webp","🐭":"img/1f42d.webp","🐣":"img/1f423.webp","🦊":"img/1f98a.webp","🐻":"img/1f43b.webp","🦔":"img/1f994.webp","🐿":"img/1f43f.webp","🐺":"img/1f43a.webp","🦡":"img/1f9a1.webp","🐗":"img/1f417.webp","🦉":"img/1f989.webp","🦌":"img/1f98c.webp","🦫":"img/1f9ab.webp","🦝":"img/1f99d.webp","chipmunk":"img/chipmunk.webp","🫎":"img/1face.webp","🐸":"img/1f438.webp","🐌":"img/1f40c.webp","🦁":"img/1f981.webp","🐘":"img/1f418.webp","🦒":"img/1f992.webp","🦓":"img/1f993.webp","🐵":"img/1f435.webp","🐼":"img/1f43c.webp","🦛":"img/1f99b.webp","🐊":"img/1f40a.webp","🐯":"img/1f42f.webp","🦘":"img/1f998.webp","🐨":"img/1f428.webp","🦜":"img/1f99c.webp","🦏":"img/1f98f.webp","🐫":"img/1f42b.webp","🦩":"img/1f9a9.webp","🦍":"img/1f98d.webp","🐳":"img/1f433.webp","🐬":"img/1f42c.webp","🐙":"img/1f419.webp","🐢":"img/1f422.webp","🦀":"img/1f980.webp","seahorse":"img/seahorse.webp","starfish":"img/starfish.webp","🪼":"img/1fabc.webp","🐧":"img/1f427.webp","toucan":"img/toucan.webp","🐦":"img/1f426.webp","seagull":"img/seagull.webp","pelican":"img/pelican.webp","hummingbird":"img/hummingbird.webp","pigeon":"img/pigeon.webp","🦢":"img/1f9a2.webp","🍎":"img/1f34e.webp","🍌":"img/1f34c.webp","🍊":"img/1f34a.webp","🍇":"img/1f347.webp","🥕":"img/1f955.webp","🍅":"img/1f345.webp","🥒":"img/1f952.webp","🧅":"img/1f9c5.webp","🍞":"img/1f35e.webp","🧀":"img/1f9c0.webp","🍩":"img/1f369.webp","🍰":"img/1f370.webp","🍕":"img/1f355.webp","🍳":"img/1f373.webp","🥛":"img/1f95b.webp","🍬":"img/1f36c.webp","🚗":"img/1f697.webp","🚌":"img/1f68c.webp","🚕":"img/1f695.webp","🚋":"img/1f68b.webp","🚒":"img/1f692.webp","🚑":"img/1f691.webp","🚓":"img/1f693.webp","bulldozer":"img/bulldozer.webp","✈":"img/2708.webp","🚁":"img/1f681.webp","🚢":"img/1f6a2.webp","⛵":"img/26f5.webp","🚂":"img/1f682.webp","🏍":"img/1f3cd.webp","🚲":"img/1f6b2.webp","garbage-truck":"img/garbage-truck.webp","🧥":"img/1f9e5.webp","👕":"img/1f455.webp","👖":"img/1f456.webp","👗":"img/1f457.webp","sweater":"img/sweater.webp","🩳":"img/1fa73.webp","winter-hat":"img/winter-hat.webp","🧢":"img/1f9e2.webp","🧣":"img/1f9e3.webp","🧤":"img/1f9e4.webp","🧦":"img/1f9e6.webp","raincoat":"img/raincoat.webp","👟":"img/1f45f.webp","felt-boots":"img/felt-boots.webp","👢":"img/1f462.webp","🩴":"img/1fa74.webp","🧸":"img/1f9f8.webp","toy-train":"img/toy-train.webp","toy-ball":"img/toy-ball.webp","ring-pyramid":"img/ring-pyramid.webp","doll":"img/doll.webp","toy-truck":"img/toy-truck.webp","rocking-horse":"img/rocking-horse.webp","spinning-top":"img/spinning-top.webp","🦖":"img/1f996.webp","toy-boat":"img/toy-boat.webp","xylophone":"img/xylophone.webp","toy-plane":"img/toy-plane.webp","jack-in-box":"img/jack-in-box.webp","🧱":"img/1f9f1.webp","🤖":"img/1f916.webp","🫧":"img/1fae7.webp","🎸":"img/1f3b8.webp","🎹":"img/1f3b9.webp","🥁":"img/1f941.webp","🎺":"img/1f3ba.webp","🪇":"img/1fa87.webp","tambourine":"img/tambourine.webp","🪈":"img/1fa88.webp","🎻":"img/1f3bb.webp","🪗":"img/1fa97.webp","harp":"img/harp.webp","triangle":"img/triangle.webp","cymbals":"img/cymbals.webp","horn":"img/horn.webp","harmonica":"img/harmonica.webp","tom-drum":"img/tom-drum.webp","🏀":"img/1f3c0.webp","⚽":"img/26bd.webp","slide":"img/slide.webp","swing":"img/swing.webp","🥊":"img/1f94a.webp","🛹":"img/1f6f9.webp","🎾":"img/1f3be.webp","🎳":"img/1f3b3.webp","tricycle":"img/tricycle.webp","🏸":"img/1f3f8.webp","beach-ball":"img/beach-ball.webp","🪣":"img/1faa3.webp","trampoline":"img/trampoline.webp","🎯":"img/1f3af.webp","jump-rope":"img/jump-rope.webp","🛼":"img/1f6fc.webp","🎒":"img/1f392.webp","📕":"img/1f4d5.webp","✏":"img/270f.webp","pencil-case":"img/pencil-case.webp","✂":"img/2702.webp","glue":"img/glue.webp","eraser":"img/eraser.webp","📏":"img/1f4cf.webp","globe":"img/globe.webp","🎨":"img/1f3a8.webp","chalkboard":"img/chalkboard.webp","🔍":"img/1f50d.webp","⏰":"img/23f0.webp","📎":"img/1f4ce.webp","📚":"img/1f4da.webp","🎓":"img/1f393.webp","armchair":"img/armchair.webp","table-lamp":"img/table-lamp.webp","📺":"img/1f4fa.webp","wall-clock":"img/wall-clock.webp","fridge":"img/fridge.webp","🫖":"img/1fad6.webp","toaster":"img/toaster.webp","fruit-bowl":"img/fruit-bowl.webp","🛏":"img/1f6cf.webp","nightstand":"img/nightstand.webp","toy-chest":"img/toy-chest.webp","wardrobe":"img/wardrobe.webp","🛁":"img/1f6c1.webp","sink":"img/sink.webp","🚽":"img/1f6bd.webp","🧺":"img/1f9fa.webp","☀":"img/2600.webp","🌧":"img/1f327.webp","⛈":"img/26c8.webp","🌈":"img/1f308.webp","🌬":"img/1f32c.webp","❄":"img/2744.webp","🍂":"img/1f342.webp","shape-circle":"img/shape-circle.webp","shape-square":"img/shape-square.webp","shape-triangle":"img/shape-triangle.webp","shape-star":"img/shape-star.webp","shape-heart":"img/shape-heart.webp","shape-oval":"img/shape-oval.webp","shape-diamond":"img/shape-diamond.webp","shape-moon":"img/shape-moon.webp","🌳":"img/1f333.webp","🌹":"img/1f339.webp","🌼":"img/1f33c.webp","🌷":"img/1f337.webp","🍄":"img/1f344.webp","boletus":"img/boletus.webp","🌵":"img/1f335.webp","🪴":"img/1fab4.webp","hard-hat":"img/hard-hat.webp","stethoscope":"img/stethoscope.webp","fire-helmet":"img/fire-helmet.webp","police-badge":"img/police-badge.webp","saw":"img/saw.webp","hammer":"img/hammer.webp","paintbrush":"img/paintbrush.webp","watering-can":"img/watering-can.webp","owl-point":"img/owl-point.webp","owl-cheer":"img/owl-cheer.webp","owl-think":"img/owl-think.webp","owl-wave":"img/owl-wave.webp","owl-read":"img/owl-read.webp","owl-hello":"img/owl-hello.webp","ui-play":"img/ui-play.webp","ui-pause":"img/ui-pause.webp","ui-settings":"img/ui-settings.webp","ui-home":"img/ui-home.webp","ui-sound":"img/ui-sound.webp","ui-mute":"img/ui-mute.webp","ui-map":"img/ui-map.webp","ui-shop":"img/ui-shop.webp","ui-help":"img/ui-help.webp","ui-back":"img/ui-back.webp","ui-refresh":"img/ui-refresh.webp","ui-next":"img/ui-next.webp","ui-star":"img/ui-star.webp","ui-trophy":"img/ui-trophy.webp","ui-gift":"img/ui-gift.webp","ui-coins":"img/ui-coins.webp","basket-side":"img/basket-side.webp","basket":"img/basket.webp","basket-top":"img/basket-top.webp","sticker-dino":"img/sticker-dino.webp","sticker-fire-engine":"img/sticker-fire-engine.webp","sticker-whale":"img/sticker-whale.webp","sticker-rainbow":"img/sticker-rainbow.webp","sticker-rocket":"img/sticker-rocket.webp","sticker-lion":"img/sticker-lion.webp","ui-music":"img/ui-music.webp","ui-music-off":"img/ui-music-off.webp","ui-sun":"img/ui-sun.webp","ui-moon":"img/ui-moon.webp","ui-undo":"img/ui-undo.webp","ui-eraser":"img/ui-eraser.webp","ui-ear":"img/ui-ear.webp","ui-bulb":"img/ui-bulb.webp","logo":"img/logo.webp","app-icon":"img/app-icon.webp","cover-maze":"img/cover-maze.webp","cover-diff":"img/cover-diff.webp","cover-memory":"img/cover-memory.webp","cover-pairs":"img/cover-pairs.webp","cover-dots":"img/cover-dots.webp","cover-dictation":"img/cover-dictation.webp","cover-shadow":"img/cover-shadow.webp","cover-odd":"img/cover-odd.webp","cover-sort":"img/cover-sort.webp","cover-riddles":"img/cover-riddles.webp","cover-pattern":"img/cover-pattern.webp","cover-count":"img/cover-count.webp","scene-forest":"img/scene-forest.webp","scene-sea":"img/scene-sea.webp","scene-farm":"img/scene-farm.webp","scene-space":"img/scene-space.webp","bg-day":"img/bg-day.webp","bg-night":"img/bg-night.webp","room-kids":"img/room-kids.webp","room-living":"img/room-living.webp","room-kitchen":"img/room-kitchen.webp","room-bath":"img/room-bath.webp","room-bed":"img/room-bed.webp"}/*END_IMG_FILES*/;
 const PIC_ALIAS = {'🐄': '🐮', '🐕': '🐶', '🐒': '🐵', '🌶': '🫑', '📖': '📕', '🌙': 'shape-moon'};
 function picSrc(k){ k = String(k).replace(/\ufe0f/g, ''); return IMG[PIC_ALIAS[k] || k] || null; }
 function pic(k, cls){
@@ -856,7 +872,9 @@ document.querySelectorAll('[data-owl]').forEach(n => {
   n.innerHTML = src ? `<img class="owl-img" src="${src}" alt="" draggable="false">` : OWL;
 });
 document.querySelectorAll('.perch .owl, .task .owl').forEach(n => { n.setAttribute('role', 'button'); n.setAttribute('tabindex', '0'); n.setAttribute('aria-label', 'Сова: послушать ещё раз'); n.classList.add('tappable'); });
-(function titleLetters(){
+(function logoTitle(){ const src = picSrc('logo'); if (!src) return; const t = $('#title');
+  t.innerHTML = `<img class="logo" src="${src}" alt="Hoot Quest" draggable="false">`; t.classList.add('has-logo'); })();
+(function titleLetters(){ if ($('#title').classList.contains('has-logo')) return;
   const t = $('#title'), cols = ['#FF7657', '#FFC53D', '#43B562', '#3BA7F0', '#9466E0', '#EE5C9B', '#FF9A3C', '#22ADA5'];
   let i = 0; t.textContent = '';
   'Hoot Quest'.split(' ').forEach(word => {
@@ -1053,8 +1071,8 @@ const sfx = {
   win(){ [523, 659, 784, 1047].forEach((f, i) => tone(f, i * 0.12, 0.32, 'triangle', 0.14)); }
 };
 function renderSound(){
-  document.querySelectorAll('.sound-btn').forEach(b => { b.textContent = state.muted ? '🔇' : '🔊'; b.setAttribute('aria-label', state.muted ? 'Включить звук' : 'Выключить звук'); });
-  document.querySelectorAll('.music-btn').forEach(b => { b.classList.toggle('off', !state.music); b.setAttribute('aria-pressed', String(state.music)); b.setAttribute('aria-label', state.music ? 'Выключить музыку' : 'Включить музыку'); });
+  document.querySelectorAll('.sound-btn').forEach(b => { b.replaceChildren(pic(state.muted ? 'ui-mute' : 'ui-sound')); b.setAttribute('aria-label', state.muted ? 'Включить звук' : 'Выключить звук'); });
+  document.querySelectorAll('.music-btn').forEach(b => { b.classList.toggle('off', !state.music); b.replaceChildren(pic(state.music ? 'ui-music' : 'ui-music-off')); b.setAttribute('aria-pressed', String(state.music)); b.setAttribute('aria-label', state.music ? 'Выключить музыку' : 'Включить музыку'); });
 }
 document.querySelectorAll('.sound-btn').forEach(b => b.addEventListener('click', () => {
   state.muted = !state.muted; save(); renderSound();
@@ -1091,7 +1109,7 @@ function applyTheme(){
   const night = isNight();
   document.body.classList.toggle('night', night);
   const tc = document.querySelector('meta[name="theme-color"]'); if (tc) tc.setAttribute('content', night ? '#0B1036' : '#8ED2F6');
-  document.querySelectorAll('.theme-btn').forEach(b => { b.textContent = night ? '☀️' : '🌙'; b.setAttribute('aria-label', night ? 'Включить день' : 'Включить ночь'); });
+  document.querySelectorAll('.theme-btn').forEach(b => { b.replaceChildren(pic(night ? 'ui-sun' : 'ui-moon')); b.setAttribute('aria-label', night ? 'Включить день' : 'Включить ночь'); });
 }
 (function makeStars(){
   const box = document.getElementById('stars'); if (!box) return;
@@ -1135,7 +1153,7 @@ const CATS = {
 };
 const NEAR = {fruits:['veg','sweets'], veg:['fruits'], pets:['wild','birds'], wild:['pets'], birds:['insects','pets'], insects:['birds'], sea:['birds','pets'], transport:['toys'], clothes:['toys'], music:['toys'], sweets:['fruits'], toys:['music','transport']};
 
-const STICKERS = [['🦄',3],['🦖',8],['🚒',15],['🐳',25],['🌈',35],['🚀',50],['🦁',70],['🎠',90],['🏆',120],['👑',150],['🐉',200],['🎉',250]];
+const STICKERS = [['🦄',3],['sticker-dino',8],['sticker-fire-engine',15],['sticker-whale',25],['sticker-rainbow',35],['sticker-rocket',50],['sticker-lion',70],['🎠',90],['🏆',120],['👑',150],['🐉',200],['🎉',250]];
 const stickersFor = (total) => STICKERS.filter(s => total >= s[1]).length;
 
 /* ---------- app shell ---------- */
@@ -1166,7 +1184,7 @@ function renderShelf(){
   box.innerHTML = '';
   STICKERS.forEach(([s, need], i) => {
     box.append(i < got
-      ? el('div', {class: 'sticker', style: `--r:${TILTS[i % TILTS.length]}`, title: `Наклейка за ${need} ${plural(need, 'звёздочку', 'звёздочки', 'звёздочек')}`}, pic(s))
+      ? el('div', {class: 'sticker round', style: `--r:${TILTS[i % TILTS.length]}`, title: `Наклейка за ${need} ${plural(need, 'звёздочку', 'звёздочки', 'звёздочек')}`}, pic(s))
       : el('div', {class: 'sticker locked'}, `${need} ⭐`));
   });
   const nxt = STICKERS[got];
@@ -1180,7 +1198,8 @@ function renderHome(){
   const box = $('#games'); box.innerHTML = '';
   GAMES.forEach((g, i) => {
     const s = state.stars[g.id] || 0;
-    const art = el('span', {class: 'art'}); art.innerHTML = ART[g.id];
+    const art = el('span', {class: 'art'}); const cover = picSrc('cover-' + g.id);
+    art.innerHTML = cover ? `<img class="cover" src="${cover}" alt="" draggable="false">` : ART[g.id];
     const b = el('button', {class: 'gcard', type: 'button', style: `--c:${g.color};--r:${TILTS[i % TILTS.length]}`},
       art,
       el('span', {class: 'gtext'},
@@ -1411,6 +1430,9 @@ function genMaze(n){
   }
   return cells;
 }
+const SCENE_PIC = {forest: 'scene-forest', sea: 'scene-sea', farm: 'scene-farm', space: 'scene-space',
+  kidsroom: 'room-kids', livingroom: 'room-living', kitchen: 'room-kitchen', bathroom: 'room-bath', bedroom: 'room-bed'};
+function sceneBg(art){ const src = picSrc(SCENE_PIC[art]); return src ? `url("${src}")` : svgUrl(SCENE_ART[art]); }
 const MAZE_PIC = 8.6;
 function mazeThing(k, cx, cy, cls){
   const src = picSrc(k);
@@ -1499,15 +1521,15 @@ const SCENES = [
   {art:'sea', items:['🐟','🐠','🐙','🦀','🐚','🐳','⛵','🐬','🦈','🐡','⚓','🦑']},
   {art:'farm', items:['🐄','🐷','🐔','🐑','🌻','🚜','🏠','🥕','🐴','🐣','🌽','🐕']},
   {art:'space', dark:true, items:['🚀','🌙','⭐','🪐','👽','🛸','☄️','🌍','🛰️','☀️','🌟','🔭']},
-  {art:'kidsroom', slots:[[134,58,6.5],[158,58,6.5],[182,58,6.5],[206,58,6.5],[40,88,6],[66,88,6],[250,72,7,"w"],[120,118,7],[152,118,7],[220,114,7.5],[248,114,7.5],[36,180,8.5],[92,192,8.5],[178,194,8.5],[250,186,8.5]], items:['🧸','⚽','🚗','🎲','🪁','🎈','📚','🖍️','ring-pyramid','🤖','🧩','🚂','⏰','🪴','🦖','🥁','🦆','🎨'], wall:['🖼️','⏰','⭐','🌈']},
-  {art:'livingroom', slots:[[30,28,6],[72,28,6],[30,64,6],[53,64,6],[76,64,6],[34,98,6],[70,98,6],[34,132,6],[70,132,6],[118,134,6.5],[146,134,6.5],[196,122,7.5],[262,122,7.5],[130,82,7,"w"],[229,86,8,"w"],[40,190,8],[176,194,8]], items:['📚','🪴','💐','☕','🍎','🧶','🐱','📻','🎁','🌵','🍊','🔑','📖','🎸','🧸','🍪','🎈','🎀'], wall:['🖼️','⏰','🪞']},
-  {art:'kitchen', slots:[[40,56,6],[68,56,6],[96,56,6],[122,56,6],[210,78,6],[238,78,6],[264,78,6],[24,138,7.5],[62,138,7.5],[100,138,7.5],[140,138,7.5],[180,138,7.5],[222,138,7.5],[264,138,7.5]], items:['🍎','🥛','🍞','🧀','🍳','🥄','🍌','🍪','🥕','🍉','🍯','☕','🍋','🧂','🥣','🍐','🥚','🫖']},
-  {art:'bathroom', slots:[[106,66,6],[132,66,6],[158,66,6],[26,106,7],[66,106,7],[106,106,7],[144,106,6.5],[212,112,5.5],[262,112,5.5],[70,194,8],[172,192,8],[272,194,8]], items:['🧼','🪥','🧴','🧽','🦆','🫧','🧺','🩴','🪣','🐳','🌸','🐠','⭐','🧸']},
-  {art:'bedroom', slots:[[22,40,6.5],[54,40,6.5],[91,118,6.5],[227,118,6.5],[134,116,7],[160,116,7],[186,116,7],[159,70,8,"w"],[244,86,6],[272,86,6],[40,188,8],[120,194,8],[200,194,8],[270,188,8]], items:['⏰','📖','🧸','🪴','👓','🧦','🩴','👕','🎀','💐','🥛','🐱','👟','📚','doll'], wall:['🖼️','⏰','⭐','🌙']}
+  {art:'kidsroom', slots:[[74,58,6],[92,58,6],[110,58,6],[35,122,6.5],[136,134,7],[164,134,7],[234,136,7],[264,140,7],[178,82,8,'w'],[250,102,7,'w'],[34,186,9],[106,180,8],[150,190,8.5],[196,178,8]], items:['🧸','⚽','🚗','🎲','🪁','🎈','📚','🖍️','ring-pyramid','🤖','🧩','🚂','⏰','🪴','🦖','🥁','🦆','🎨'], wall:['🖼️','wall-clock','⭐','🌈']},
+  {art:'livingroom', slots:[[46,88,5],[62,88,5],[46,122,5],[62,122,5],[46,156,5],[62,156,5],[98,141,7],[126,141,7],[216,134,7],[262,136,7.5],[150,92,8,'w'],[250,98,8,'w'],[160,190,8.5],[212,178,8]], items:['📚','🪴','💐','☕','🍎','🧶','🐱','📻','🎁','🌵','🍊','🔑','📖','🎸','🧸','🍪','🎈','🎀'], wall:['🖼️','wall-clock','🪞']},
+  {art:'kitchen', slots:[[32,75,6],[50,75,6],[68,75,6],[215,113,6],[238,113,6],[261,113,6],[20,132,7.5],[55,131,7.5],[90,131,7.5],[125,131,7.5],[160,131,7.5],[195,131,7.5],[232,131,7.5],[272,138,7.5]], items:['🍎','🥛','🍞','🧀','🍳','🥄','🍌','🍪','🥕','🍉','🍯','☕','🍋','🧂','🥣','🍐','🥚','🫖']},
+  {art:'bathroom', slots:[[132,54,5.5],[150,54,5.5],[168,54,5.5],[28,146,6],[60,146,6],[84,146,6],[220,116,5],[256,116,5],[110,184,7.5],[160,190,8],[270,190,7.5]], items:['🧼','🪥','🧴','🧽','🦆','🫧','🧺','🩴','🪣','🐳','🌸','🐠','⭐','🧸']},
+  {art:'bedroom', slots:[[28,46,6],[50,52,6],[95,131,6],[230,131,6],[130,138,7],[166,138,7],[200,138,7],[166,94,8,'w'],[283,124,6],[75,186,8],[255,186,8]], items:['⏰','📖','🧸','🪴','👓','🧦','🩴','👕','🎀','💐','🥛','🐱','👟','📚','doll'], wall:['🖼️','wall-clock','⭐','🌙']}
 ];
 function mountDiff(api){
   const lv = api.level, d = [3, 5, 7][lv - 1];
-  const sc = fromBag('scene', SCENES), bg = svgUrl(SCENE_ART[sc.art]), room = !!sc.slots;
+  const sc = fromBag('scene', SCENES), bg = sceneBg(sc.art), room = !!sc.slots;
   const cfg = room ? null : [{c: 4, r: 3}, {c: 5, r: 4}, {c: 6, r: 4}][lv - 1];
   const N = room ? sc.slots.length : cfg.c * cfg.r;
   const thing = () => ({e: pick(sc.items), jx: rnd(30) - 15, jy: rnd(30) - 15, rot: rnd(24) - 12, s: 1});
@@ -1825,9 +1847,9 @@ function mountDots(api){
   });
   const up = () => { if (pendingLift){ pen = null; render(); } dragging = false; pendingLift = false; lastBad = ''; };
   mySvg.addEventListener('pointerup', up); mySvg.addEventListener('pointercancel', up);
-  const undo = el('button', {class: 'btn', type: 'button'}, '↩️ Отменить');
+  const undo = el('button', {class: 'btn', type: 'button'}, pic('ui-undo', 'bi'), 'Отменить');
   undo.addEventListener('click', () => { if (finished) return; const s = strokes.pop(); if (!s) return; s.keys.forEach(k => drawn.delete(k)); pen = s.from; render(); });
-  const clear = el('button', {class: 'btn', type: 'button'}, '🧽 Стереть всё');
+  const clear = el('button', {class: 'btn', type: 'button'}, pic('ui-eraser', 'bi'), 'Стереть всё');
   clear.addEventListener('click', () => { if (finished) return; drawn.clear(); strokes = []; pen = null; render(); });
   api.controls.append(undo, clear);
   render();
@@ -2072,7 +2094,7 @@ function mountDictation(api){
     b.addEventListener('click', () => move(d));
     pad.append(b);
   });
-  const back = el('button', {class: 'btn', type: 'button'}, '↩️ Шаг назад');
+  const back = el('button', {class: 'btn', type: 'button'}, pic('ui-undo', 'bi'), 'Шаг назад');
   back.addEventListener('click', undo);
   api.controls.append(pad, back);
   api.onKey((e) => {
