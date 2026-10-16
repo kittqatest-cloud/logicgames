@@ -2171,21 +2171,46 @@ function mountMaze(api){
   const trail = svg.querySelector('.trail'), heroEl = svg.querySelector('.hero');
   let pos = {x: mz.start.x, y: mz.start.y}, won = false, bumpT = 0;
   const path = [{x: pos.x, y: pos.y}];
+  // mazeWalk: the game moves at once, and the picture walks after it cell by cell along the same path, with a
+  // little hop on each cell. A finger racing ahead queues the cells, and the walk speeds up with the queue so the
+  // hero is never far behind; the trail grows and shrinks with the walk. The win waits until the hero arrives.
+  const still = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const walk = [], seen = [{x: pos.x, y: pos.y}];
+  let at = {x: pos.x, y: pos.y}, part = 0, raf = 0, last = 0, reported = false;
   function draw(){
+    const leg = walk[0], hx = leg ? at.x + (leg.x - at.x) * part : at.x, hy = leg ? at.y + (leg.y - at.y) * part : at.y;
+    const hop = leg ? Math.sin(part * Math.PI) * 0.12 : 0;
     const off = heroEl.tagName === 'image' ? MAZE_PIC / 2 : 0;
-    heroEl.setAttribute('x', pos.x * S + S / 2 - off); heroEl.setAttribute('y', pos.y * S + S / 2 - off);
-    trail.setAttribute('points', path.map(p => `${p.x * S + S / 2},${p.y * S + S / 2}`).join(' '));
+    heroEl.setAttribute('x', hx * S + S / 2 - off); heroEl.setAttribute('y', (hy - hop) * S + S / 2 - off);
+    const pts = (leg && leg.back ? seen.slice(0, -1) : seen).concat([{x: hx, y: hy}]);
+    trail.setAttribute('points', pts.map(p => `${(p.x * S + S / 2).toFixed(2)},${(p.y * S + S / 2).toFixed(2)}`).join(' '));
   }
+  function arrive(leg){ at = {x: leg.x, y: leg.y}; if (leg.back) seen.pop(); else seen.push({x: leg.x, y: leg.y}); }
+  function frame(t){
+    const dt = Math.min(0.05, (t - (last || t)) / 1000); last = t;
+    part += dt * Math.min(30, 7 + 5 * (walk.length - 1));      // cells a second: 7 for one step, faster with a queue
+    while (walk.length && part >= 1){ part -= 1; arrive(walk.shift()); }
+    if (!walk.length) part = 0;
+    draw();
+    if (walk.length) raf = requestAnimationFrame(frame);
+    else { raf = 0; last = 0; arrived(); }
+  }
+  function go(x, y, back){
+    walk.push({x, y, back});
+    if (still){ while (walk.length) arrive(walk.shift()); draw(); arrived(); return; }
+    if (!raf) raf = requestAnimationFrame(frame);
+  }
+  function arrived(){ if (won && !reported){ reported = true; setTimeout(() => api.done(PH.wins.maze), 250); } }
   function bump(){ const t = Date.now(); if (t - bumpT > 450){ bumpT = t; sfx.bad(); restart(wrap, 'shake'); } }
   function step(dx, dy, quiet){
     if (won) return false;
     const dir = dx === 1 ? 'e' : dx === -1 ? 'w' : dy === 1 ? 's' : 'n';
     if (cells[pos.y][pos.x][dir]){ if (!quiet) bump(); return false; }
     pos = {x: pos.x + dx, y: pos.y + dy};
-    const prev = path[path.length - 2];
-    if (prev && prev.x === pos.x && prev.y === pos.y) path.pop(); else path.push({x: pos.x, y: pos.y});
-    draw();
-    if (pos.x === mz.goal.x && pos.y === mz.goal.y){ won = true; setTimeout(() => api.done(PH.wins.maze), 300); }
+    const prev = path[path.length - 2], back = !!(prev && prev.x === pos.x && prev.y === pos.y);
+    if (back) path.pop(); else path.push({x: pos.x, y: pos.y});
+    if (pos.x === mz.goal.x && pos.y === mz.goal.y) won = true;
+    go(pos.x, pos.y, back);
     return true;
   }
   function cellAt(ev){
@@ -2238,7 +2263,7 @@ function mountMaze(api){
   }
   fitMaze();
   window.addEventListener('resize', fitMaze);
-  api.onCleanup(() => { window.removeEventListener('resize', fitMaze); board.classList.remove('maze-mode'); });
+  api.onCleanup(() => { cancelAnimationFrame(raf); window.removeEventListener('resize', fitMaze); board.classList.remove('maze-mode'); });
 }
 
 /* ---------- 2. Найди отличия ---------- */
