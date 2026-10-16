@@ -707,6 +707,25 @@ body.night .coin,body.night .mystars{background:linear-gradient(180deg,#FFE88A 0
 @keyframes rkPuff{0%{opacity:.95;transform:translate(-50%,-50%) scale(.4)}100%{opacity:0;transform:translate(-50%,-75%) scale(1.15)}}
 @keyframes rkFlag{from{transform:scale(0)}to{transform:scale(1)}}
 @media (max-width:520px){.rk-task{min-height:48px;padding:4px 18px}.rk-track{top:84px;right:10px}}
+
+/* night: twinkling stars and floating z's over the night picture (nightFx) */
+.night-fx{position:absolute;inset:0;display:none;pointer-events:none;z-index:1}
+body.night .night-fx{display:block}
+.night-fx .twinkle{position:absolute;left:calc(var(--ox) + var(--x) * var(--s) * 1px);top:calc(var(--oy) + var(--y) * var(--s) * 1px);
+  width:calc(var(--w) * var(--s) * 2.4px);height:calc(var(--w) * var(--s) * 2.4px);border-radius:50%;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0 7%,rgba(200,245,255,.55) 16%,rgba(140,220,255,.18) 34%,transparent 60%),
+    linear-gradient(90deg,transparent 0 47%,rgba(255,255,255,.7) 50%,transparent 53% 100%),
+    linear-gradient(0deg,transparent 0 47%,rgba(255,255,255,.7) 50%,transparent 53% 100%);
+  transform:translate(-50%,-50%);animation:nightTwinkle 3s ease-in-out infinite}
+@keyframes nightTwinkle{0%,100%{opacity:.1;transform:translate(-50%,-50%) scale(.55) rotate(0)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(18deg)}}
+.night-fx .zzz{position:absolute;left:calc(var(--ox) + var(--x) * var(--s) * 1px);top:calc(var(--oy) + var(--y) * var(--s) * 1px)}
+.night-fx .zzz b{position:absolute;left:0;top:0;font-family:var(--font-hand);font-weight:400;color:#DDF1FF;opacity:0;
+  font-size:calc(var(--s) * 22px);text-shadow:0 0 8px rgba(160,215,255,.9),0 2px 0 rgba(10,20,60,.35);animation:nightZ 4s ease-in-out infinite}
+.night-fx .zzz b:nth-child(2){font-size:calc(var(--s) * 28px)}
+.night-fx .zzz b:nth-child(3){font-size:calc(var(--s) * 36px)}
+@keyframes nightZ{0%{opacity:0;transform:translate(0,0) rotate(-8deg) scale(.6)}15%{opacity:1}70%{opacity:.85}
+  100%{opacity:0;transform:translate(calc(var(--s) * 34px),calc(var(--s) * -80px)) rotate(10deg) scale(1.1)}}
+@media (prefers-reduced-motion: reduce){.night-fx{display:none !important}}
 </style>
 </head>
 <body>
@@ -1278,6 +1297,34 @@ document.querySelectorAll('.perch .owl, .task .owl').forEach(n => { n.setAttribu
   const r = (a, b) => (a + Math.random() * (b - a)).toFixed(1);
   for (let i = 0; i < 28; i++) ff.append(el('i', {style: `left:${r(0, 100)}%;top:${r(35, 96)}%;animation-duration:${r(7, 14)}s,${r(1.8, 4.2)}s;animation-delay:-${r(0, 10)}s,-${r(0, 4)}s`}));
   world.append(sway, bf, ff);
+})();
+
+/* night: the stars drawn in the night picture twinkle, and the three sleeping trees breathe out z's. The layer
+   follows the picture, which covers the screen anchored 12% from the top, so every spark sits on its star. */
+(function nightFx(){
+  const world = document.querySelector('.world'); if (!world) return;
+  const IW = 1260, IH = 1062;   // img/bg-night.webp
+  // x, y and width of each star in the picture (found by brightness, the moon and the clouds left out)
+  const STARS = [[455, 81, 34], [1042, 102, 33], [720, 352, 26], [424, 338, 21], [602, 274, 20], [527, 121, 16], [868, 346, 16],
+    [310, 124, 15], [1218, 332, 11], [148, 51, 12], [1099, 56, 11], [328, 169, 10], [938, 52, 7], [968, 346, 5], [206, 298, 6], [485, 226, 3]];
+  // just above and beside each sleeping face
+  const SLEEPERS = [[1128, 392], [1036, 500], [214, 398]];
+  const layer = el('div', {class: 'night-fx', 'aria-hidden': 'true'});
+  STARS.forEach(([x, y, w], i) => layer.append(el('i', {class: 'twinkle',
+    style: `--x:${x};--y:${y};--w:${Math.max(w, 8)};animation-duration:${(2.2 + (i * 0.61) % 2.4).toFixed(2)}s;animation-delay:-${((i * 0.83) % 3).toFixed(2)}s`})));
+  SLEEPERS.forEach(([x, y], i) => {
+    const z = el('span', {class: 'zzz', style: `--x:${x};--y:${y}`});
+    ['z', 'z', 'Z'].forEach((c, k) => z.append(el('b', {style: `animation-delay:${(k * 1.3 + i * 0.7).toFixed(1)}s`}, c)));
+    layer.append(z);
+  });
+  world.append(layer);
+  const place = () => {
+    const W = world.clientWidth, H = world.clientHeight, sc = Math.max(W / IW, H / IH);
+    layer.style.setProperty('--s', sc.toFixed(4));
+    layer.style.setProperty('--ox', ((W - IW * sc) / 2).toFixed(1) + 'px');
+    layer.style.setProperty('--oy', ((H - IH * sc) * 0.12).toFixed(1) + 'px');
+  };
+  place(); window.addEventListener('resize', place);
 })();
 
 /* the owl on the task of the day: tap her and she hops and says hello */
