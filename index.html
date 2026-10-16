@@ -536,6 +536,59 @@ body.night .daily-owl{animation-duration:7s}
 .daily-owl.hop{animation:owlHopUp .6s ease-out}
 @keyframes owlHopUp{0%{transform:translateY(0)}40%{transform:translateY(-16px)}100%{transform:translateY(0)}}
 @media (max-width:520px){.panel.daily,body.night .panel.daily{padding-left:134px;margin-top:78px}.daily-owl{width:100px;left:22px}}
+
+/* round 8: the Gemini interface kit */
+.bubble,.task .bubble{background:linear-gradient(180deg,#FFFBF2 0%,#FFF1DE 100%);border:5px solid #8E5B3A;border-radius:28px;box-shadow:0 6px 0 rgba(110,68,35,.28),0 12px 22px rgba(80,50,25,.18),inset 0 3px 0 #fff}
+.bubble::before,.task .bubble::before{background:#FFF4E3;border-color:#8E5B3A;border-width:5px}
+.bubble p{color:#4A2E1A}
+.panel.board{border:6px solid #F0A33A;border-radius:32px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 15l-5.2 2.7 1-5.9L1.5 7.7l5.9-.8z' fill='%23F7C98B' stroke='%23D9944A' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") top 12px left 12px / 20px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 15l-5.2 2.7 1-5.9L1.5 7.7l5.9-.8z' fill='%23F7C98B' stroke='%23D9944A' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") top 12px right 12px / 20px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 15l-5.2 2.7 1-5.9L1.5 7.7l5.9-.8z' fill='%23F7C98B' stroke='%23D9944A' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") bottom 12px left 12px / 20px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L10 15l-5.2 2.7 1-5.9L1.5 7.7l5.9-.8z' fill='%23F7C98B' stroke='%23D9944A' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") bottom 12px right 12px / 20px no-repeat,linear-gradient(180deg,#FFF3E2 0%,#FFE8CA 100%);
+  box-shadow:0 8px 0 #C97A22,0 18px 32px rgba(110,60,15,.25),inset 0 3px 0 rgba(255,255,255,.75),inset 0 0 0 4px rgba(255,255,255,.35)}
+.choice,.card:not(.back),.item,.row span{background:linear-gradient(180deg,#FFFAF1 0%,#FFEFD8 100%);border:4px solid #EBC796;border-radius:22px;box-shadow:0 5px 0 #D29C5E,0 10px 16px rgba(120,70,25,.18),inset 0 2px 0 #fff}
+.row span{border-radius:50%}
+.choice.num{color:#6B4423}
+.choice{position:relative}
+.choice.right,.card.open{background:linear-gradient(180deg,#F1FBEA 0%,#DDF3CF 100%);border-color:#4FAF45;box-shadow:0 5px 0 #3A8C33,0 10px 16px rgba(40,110,30,.2),inset 0 2px 0 #fff}
+.choice.miss,.card.miss,.item.miss{background:linear-gradient(180deg,#FFF1EF 0%,#FDDCD8 100%);border-color:#E5484D;box-shadow:0 5px 0 #B8323A,inset 0 2px 0 #fff}
+.choice.right::after,.choice.miss::after{position:absolute;right:-12px;bottom:-12px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 22px/1 var(--font-display);color:#fff;border:3px solid #fff;box-shadow:0 3px 6px rgba(0,0,0,.25)}
+.choice.right::after{content:'✓';background:linear-gradient(180deg,#6FD15A,#3DAA43)}
+.choice.miss::after{content:'✕';background:linear-gradient(180deg,#FF6B6B,#E0393F)}
+.card.back{border:4px solid #7FA9E6;border-radius:22px;box-shadow:0 5px 0 #4E79BF,inset 0 2px 0 rgba(255,255,255,.5)}
+.levels{background:#F3E4CE;border:4px solid #C29C72;border-radius:999px;padding:4px;gap:2px;box-shadow:inset 0 2px 5px rgba(120,80,40,.25),0 4px 0 #A57E55;overflow:visible}
+.levels button{border:0;border-radius:999px;background:transparent;font-weight:900;font-size:16px;padding:7px 14px;min-height:40px}
+.levels button + button{border-left:0}
+.levels button:nth-child(1){color:#3D8EE0}
+.levels button:nth-child(2){color:#EE8A1C}
+.levels button:nth-child(3){color:#E5484D}
+.levels button[aria-pressed="true"]{background:linear-gradient(180deg,#FFFDF8 0%,#FFF0DA 100%);box-shadow:0 3px 0 #D9B58A,inset 0 2px 0 #fff}
+.mystars,.coin{background:linear-gradient(180deg,#FFE88A 0%,#FFC93C 100%);border:4px solid #E3A21F;color:#7A4A00;box-shadow:0 4px 0 #C2860F,inset 0 2px 0 rgba(255,255,255,.7)}
+.btn{background:linear-gradient(180deg,#FFFDF7 0%,#FFEFD6 100%);border:4px solid #C29C72;color:#6B4423;box-shadow:0 5px 0 #A57E55,0 10px 16px rgba(110,70,30,.18),inset 0 2px 0 #fff}
+.btn.primary{background:linear-gradient(180deg,#86DE63 0%,#4CB43A 100%);border-color:#2F8A2A;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25);box-shadow:0 5px 0 #24701F,0 10px 16px rgba(30,90,20,.25),inset 0 2px 0 rgba(255,255,255,.5)}
+.wincard{background:linear-gradient(180deg,#FFF8EC 0%,#FFE9CC 100%);border:8px solid #A8703F;border-radius:34px;box-shadow:0 10px 0 #774C27,0 28px 50px rgba(40,20,5,.4),inset 0 3px 0 #fff}
+.wincard h2{font-size:clamp(38px,9vw,52px);color:#FFD23F;-webkit-text-stroke:2px #8B4A12;text-shadow:0 5px 0 #8B4A12,0 10px 16px rgba(0,0,0,.25);letter-spacing:.5px}
+.wincard p{color:#6B4423}
+body.night .bubble,body.night .task .bubble{background:linear-gradient(180deg,#3A428C 0%,#2E3672 100%);border-color:#141A45}
+body.night .bubble::before,body.night .task .bubble::before{background:#343C82;border-color:#141A45}
+body.night .bubble p{color:#F2F3FF}
+body.night .panel.board{border-color:#151A44;background:linear-gradient(180deg,#323A7E 0%,#283070 100%);box-shadow:0 8px 0 rgba(0,0,0,.35),0 18px 32px rgba(0,0,0,.3),inset 0 2px 0 rgba(255,255,255,.12)}
+body.night .choice,body.night .card:not(.back),body.night .item,body.night .row span{border-color:#151A44}
+body.night .choice.right,body.night .card.open{border-color:#3A8C33}
+body.night .choice.miss,body.night .card.miss,body.night .item.miss{border-color:#B8323A}
+body.night .levels{background:#2A3070;border-color:#151A44;box-shadow:inset 0 2px 5px rgba(0,0,0,.35),0 4px 0 rgba(0,0,0,.3)}
+body.night .levels button:nth-child(1){color:#8CC4FF}
+body.night .levels button:nth-child(2){color:#FFB65C}
+body.night .levels button:nth-child(3){color:#FF8A8E}
+body.night .levels button[aria-pressed="true"]{background:linear-gradient(180deg,#4A54A2,#3A428C);box-shadow:0 3px 0 rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.18)}
+body.night .btn{border-color:#151A44}
+body.night .btn.primary{border-color:#2F8A2A}
+body.night .wincard{background:linear-gradient(180deg,#3A428C,#2A3070);border-color:#151A44;box-shadow:0 10px 0 #0B0F2E,0 28px 50px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.12)}
+body.night .wincard p{color:#C9CFF5}
+
+/* round 9: soft clouds drift slowly over the painted sky */
+.world > .cloud{display:block;opacity:.88;filter:blur(.7px) drop-shadow(0 8px 12px rgba(80,120,170,.16))}
+.world > .c1{width:300px}.world > .c2{width:200px}.world > .c3{width:170px}.world > .c4{width:340px;opacity:.75}
+body.night .world > .cloud{opacity:.32;filter:hue-rotate(205deg) brightness(.78) saturate(.6) blur(.8px)}
+body.night .coin,body.night .mystars{background:linear-gradient(180deg,#FFE88A 0%,#FFC93C 100%);border-color:#E3A21F;color:#7A4A00;box-shadow:0 4px 0 #8A5E0A,inset 0 2px 0 rgba(255,255,255,.7)}
 </style>
 </head>
 <body>
