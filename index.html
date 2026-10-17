@@ -799,6 +799,10 @@ body.night .lmap{background-image:var(--night)}
 
 /* night: the white game title keeps a soft dark halo, so a twinkling star behind it never washes the letters out */
 body.night .bar h2{text-shadow:0 2px 0 rgba(8,12,48,.7),0 0 4px rgba(8,12,48,.85),0 0 14px rgba(8,12,48,.75)}
+
+/* the game title is never narrower than its longest word: when the row has no room for it, the difficulty buttons
+   and the counters move down a row instead of running over the title (the iPad showed "Космический счёт" under them) */
+.bar h2{min-width:min-content}
 </style>
 </head>
 <body>
@@ -3054,7 +3058,8 @@ function rocketQuestion(lv, prev){
   return q;
 }
 function mountRocket(api){
-  const lv = api.level, fall = [6.5, 5.6, 4.8][lv - 1];
+  // seconds a row takes to reach the rocket: time to hear the task, think, and steer (it waits there if nobody chose)
+  const lv = api.level, fall = [9.5, 8.5, 7.5][lv - 1];
   const reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
   const starWord = (COUNT_ITEMS.find(c => c[0] === '⭐') || ['', ''])[1];
   const sayOf = (q) => q.kind === 'count' ? PH.count(starWord)
@@ -3239,17 +3244,17 @@ function mountRocket(api){
 const PATHS = {
   ttt: [
     {who: 'owlet', intro: 'owlet', name: ['Совёнок', 'Совеня', 'Owlet'],
-      levels: [{skill: 0}, {skill: 0.1}, {skill: 0.15}, {skill: 0.2}, {skill: 0.25}, {skill: 0.3, games: 3, need: 2}]},
+      levels: [{skill: 0.3}, {skill: 0.35}, {skill: 0.4}, {skill: 0.45}, {skill: 0.5}, {skill: 0.55, games: 3, need: 2}]},
     {who: 'hedgehog', intro: 'hedgehog', name: ['Ёжик', 'Їжачок', 'Hedgehog'],
-      levels: [{skill: 0.35}, {skill: 0.4}, {skill: 0.45}, {skill: 0.5}, {skill: 0.55}, {skill: 0.6, games: 3, need: 2}]},
+      levels: [{skill: 0.5}, {skill: 0.55}, {skill: 0.6}, {skill: 0.65}, {skill: 0.7}, {skill: 0.7, games: 3, need: 2}]},
     {who: 'fox', intro: 'fox', name: ['Лиса', 'Лисичка', 'Fox'], cfg: {drawOk: true},
-      levels: [{skill: 0.72}, {skill: 0.76}, {skill: 0.8}, {skill: 0.84}, {skill: 0.88}, {skill: 0.9, games: 3, need: 2}]},
+      levels: [{skill: 0.8}, {skill: 0.84}, {skill: 0.88}, {skill: 0.9}, {skill: 0.93}, {skill: 0.95, games: 3, need: 2}]},
     {who: 'owl', intro: 'owl', name: ['Мудрая сова', 'Мудра сова', 'Wise Owl'], cfg: {drawOk: true, skill: 1},
       levels: [{first: 'child'}, {first: 'opp'}, {first: 'child'}, {first: 'opp'}, {first: 'child'}, {games: 3, need: 2}]},
     {who: 'fox', intro: 'big', badge: '5×5', name: ['Большое поле', 'Велике поле', 'Big Board'], cfg: {size: 5, line: 4},
-      levels: [{skill: 0}, {skill: 0.05}, {skill: 0.1}, {skill: 0.15}, {skill: 0.2}, {skill: 0.25, games: 3, need: 2}]},
+      levels: [{skill: 0.3}, {skill: 0.35}, {skill: 0.4}, {skill: 0.45}, {skill: 0.5}, {skill: 0.55, games: 3, need: 2}]},
     {who: 'owl', intro: 'vanish', badge: '3', name: ['Исчезающие фишки', 'Зникаючі фішки', 'Vanishing Pieces'], cfg: {rule: 'vanish'},
-      levels: [{skill: 0}, {skill: 0.1}, {skill: 0.2}, {skill: 0.3}, {skill: 0.35}, {skill: 0.4, games: 3, need: 2}]}
+      levels: [{skill: 0.2}, {skill: 0.3}, {skill: 0.4}, {skill: 0.5}, {skill: 0.55}, {skill: 0.6, games: 3, need: 2}]}
   ]
 };
 const TTT_LINES = {};
@@ -3332,8 +3337,8 @@ function tttVanishMoves(b, q, me, depth, lines){
     if (v > best){ best = v; moves = [i]; } else if (v === best) moves.push(i); });
   return moves;
 }
-// the opponent's move: a good one with the chance of its skill, otherwise any free cell - though even a careless
-// friend usually notices a line it can finish
+// the opponent's move. Even a weak friend usually finishes its own line and often blocks yours, more often the
+// more skilled it is; otherwise it plays a good move with the chance of its skill, or any free cell.
 function tttMove(b, q, me, cfg){
   const lines = tttLines(cfg.size, cfg.line), empty = b.map((c, i) => c ? -1 : i).filter(i => i >= 0);
   const smart = Math.random() < cfg.skill;
@@ -3341,9 +3346,11 @@ function tttMove(b, q, me, cfg){
     const good = tttVanishMoves(b, q, me, cfg.skill >= 0.85 ? 5 : 3, lines);
     return smart ? pick(good) : pick(empty);
   }
-  if (smart) return pick(cfg.size === 3 && cfg.line === 3 ? tttBestMoves(b, me, lines) : tttHeuristic(b, me, lines).moves);
   const h = tttHeuristic(b, me, lines);
-  return h.kind === 'win' && Math.random() < 0.7 ? pick(h.moves) : pick(empty);
+  if (h.kind === 'win' && Math.random() < 0.6 + 0.4 * cfg.skill) return pick(h.moves);
+  if (h.kind === 'block' && Math.random() < 0.3 + 0.7 * cfg.skill) return pick(h.moves);
+  if (smart) return pick(cfg.size === 3 && cfg.line === 3 ? tttBestMoves(b, me, lines) : h.moves);
+  return pick(empty);
 }
 function tttHintMoves(b, q, cfg){
   const lines = tttLines(cfg.size, cfg.line);
