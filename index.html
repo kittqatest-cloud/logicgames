@@ -851,6 +851,15 @@ body.night .blk-count{background:#353D85;color:#F2F3FF;border-color:#151A44;box-
 .blk-v.blk-bump .blk-rot{animation:blkBump .3s}
 @keyframes blkGlow{50%{filter:drop-shadow(0 0 10px #FFE066) drop-shadow(0 0 4px #FFF) brightness(1.15)}}
 @keyframes blkBump{25%{margin-left:-3px}75%{margin-left:3px}}
+
+/* the "New" sticker on the picture of a game added in the last two weeks */
+.gcard .art{position:relative}
+.gnew{position:absolute;left:10px;top:10px;z-index:2;display:inline-flex;align-items:center;gap:5px;padding:5px 12px 5px 8px;border-radius:999px;
+  background:linear-gradient(180deg,#FF7A5C 0%,#F0453A 100%);color:#FFFFFF;font-weight:900;font-size:15px;letter-spacing:.4px;text-transform:uppercase;
+  border:3px solid #FFFFFF;box-shadow:0 4px 0 #B8302A,0 8px 14px rgba(150,30,20,.3);transform:rotate(-6deg);animation:gnewPulse 2.4s ease-in-out infinite}
+.gnew .pi{width:18px;height:18px;filter:drop-shadow(0 1px 1px rgba(120,40,0,.4))}
+@keyframes gnewPulse{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(-6deg) scale(1.07)}}
+@media (prefers-reduced-motion: reduce){.gnew{animation:none}}
 </style>
 </head>
 <body>
@@ -1114,7 +1123,7 @@ ru: {
   greet: (n) => `Привет${n}! Выбери, во что поиграем сегодня.`,
   stickerFor: (n) => `Наклейка за ${n} ${plural(n, 'звёздочку', 'звёздочки', 'звёздочек')}`,
   nextSticker: (n) => `До следующей наклейки: ещё ${n} ${plural(n, 'звёздочка', 'звёздочки', 'звёздочек')}`,
-  allStickers: 'Все наклейки собраны!', newGame: 'Новая игра',
+  allStickers: 'Все наклейки собраны!', newGame: 'Сыграй!', newBadge: 'Новинка',
   youGot: (n) => `Ты получил ${n} ${plural(n, 'звёздочку', 'звёздочки', 'звёздочек')}.`,
   newSticker: 'Новая наклейка!', giftOfDay: 'Подарок дня от совы!',
   giftHave: 'Подарок дня уже у тебя! Приходи завтра за новым.',
@@ -1154,7 +1163,7 @@ uk: {
   greet: (n) => `Привіт${n}! Обери, у що пограємо сьогодні.`,
   stickerFor: (n) => `Наліпка за ${n} ${plural(n, 'зірочку', 'зірочки', 'зірочок')}`,
   nextSticker: (n) => `До наступної наліпки: ще ${n} ${plural(n, 'зірочка', 'зірочки', 'зірочок')}`,
-  allStickers: 'Усі наліпки зібрано!', newGame: 'Нова гра',
+  allStickers: 'Усі наліпки зібрано!', newGame: 'Зіграй!', newBadge: 'Новинка',
   youGot: (n) => `Ти отримав ${n} ${plural(n, 'зірочку', 'зірочки', 'зірочок')}.`,
   newSticker: 'Нова наліпка!', giftOfDay: 'Подарунок дня від сови!',
   giftHave: 'Подарунок дня вже в тебе! Приходь завтра по новий.',
@@ -1194,7 +1203,7 @@ en: {
   greet: (n) => `Hi${n}! Choose a game to play today.`,
   stickerFor: (n) => `Sticker for ${n} ${pluralEn(n, 'star', 'stars')}`,
   nextSticker: (n) => `${n} more ${pluralEn(n, 'star', 'stars')} to the next sticker`,
-  allStickers: 'You have all the stickers!', newGame: 'New game',
+  allStickers: 'You have all the stickers!', newGame: "Let's play!", newBadge: 'New',
   youGot: (n) => `You got ${n} ${pluralEn(n, 'star', 'stars')}.`,
   newSticker: 'New sticker!', giftOfDay: "The owl's gift of the day!",
   giftHave: 'You already have the gift of the day! Come back tomorrow for a new one.',
@@ -1774,9 +1783,9 @@ const GAMES = [
   {id:'riddles', nm:["Загадки", "Загадки", "Riddles"], ds:["Отгадай и найди картинку", "Відгадай і знайди картинку", "Guess and find the picture"], color:'var(--lilac)', mount: mountRiddles},
   {id:'pattern', nm:["Продолжи ряд", "Продовж ряд", "What Comes Next?"], ds:["Что будет дальше?", "Що буде далі?", "Continue the pattern"], color:'var(--teal)', mount: mountPattern},
   {id:'count', nm:["Сосчитай", "Порахуй", "Count"], ds:["Сколько здесь картинок?", "Скільки тут картинок?", "How many pictures are there?"], color:'var(--sun)', mount: mountCount},
-  {id:'rocket', nm:["Космический счёт", "Космічна лічба", "Math Rocket"], ds:["Лети к Луне и решай примеры", "Лети до Місяця й розв'язуй приклади", "Fly to the Moon and solve the sums"], color:'var(--indigo)', mount: mountRocket},
-  {id:'ttt', nm:["Крестики-нолики", "Хрестики-нулики", "Tic-Tac-Toe"], ds:["Обыграй друзей совы", "Обіграй друзів сови", "Beat the owl's friends"], color:'var(--berry)', mount: mountTtt, path: 'ttt'},
-  {id:'blocks', nm:["Выведи машинку", "Виведи машинку", "Car Escape"], ds:["Освободи дорогу красной машинке", "Звільни дорогу червоній машинці", "Clear the way for the red car"], color:'var(--sky)', mount: mountBlocks, path: 'blocks'}
+  {id:'rocket', nm:["Космический счёт", "Космічна лічба", "Math Rocket"], ds:["Лети к Луне и решай примеры", "Лети до Місяця й розв'язуй приклади", "Fly to the Moon and solve the sums"], color:'var(--indigo)', mount: mountRocket, added: '2026-10-16'},
+  {id:'ttt', nm:["Крестики-нолики", "Хрестики-нулики", "Tic-Tac-Toe"], ds:["Обыграй друзей совы", "Обіграй друзів сови", "Beat the owl's friends"], color:'var(--berry)', mount: mountTtt, path: 'ttt', added: '2026-10-16'},
+  {id:'blocks', nm:["Выведи машинку", "Виведи машинку", "Car Escape"], ds:["Освободи дорогу красной машинке", "Звільни дорогу червоній машинці", "Clear the way for the red car"], color:'var(--sky)', mount: mountBlocks, path: 'blocks', added: '2026-10-17'}
 ];
 const TILTS = ['-1deg', '0.8deg', '-0.5deg', '1deg', '-0.8deg', '0.5deg', '-1.2deg', '0.9deg', '-0.6deg'];
 const LEVELS_BY = {ru: ['Легко', 'Средне', 'Сложно'], uk: ["Легко", "Середньо", "Складно"], en: ["Easy", "Medium", "Hard"]};
@@ -1800,14 +1809,19 @@ function renderShelf(){
     ? T('nextSticker', nxt[1] - total)
     : T('allStickers');
 }
+const NEW_DAYS = 14;
+function gameIsNew(g){ return !!g.added && Date.now() - Date.parse(g.added + 'T00:00:00') < NEW_DAYS * 864e5; }
 function renderHome(){
   $('#total').textContent = totalStars();
   renderGreeting(); renderShelf(); renderDaily(); renderGifts(); renderAges();
   const box = $('#games'); box.innerHTML = '';
-  GAMES.forEach((g, i) => {
+  // a game added in the last two weeks comes first, newest first, with a "New" sticker on its picture
+  const fresh = GAMES.filter(gameIsNew).sort((a, b) => b.added.localeCompare(a.added));
+  fresh.concat(GAMES.filter(g => !gameIsNew(g))).forEach((g, i) => {
     const s = state.stars[g.id] || 0;
     const art = el('span', {class: 'art'}); const cover = picSrc('cover-' + g.id);
     art.innerHTML = cover ? `<img class="cover" src="${cover}" alt="" draggable="false">` : ART[g.id];
+    if (gameIsNew(g)) art.append(el('span', {class: 'gnew'}, pic('⭐'), T('newBadge')));
     const b = el('button', {class: 'gcard', type: 'button', style: `--c:${g.color};--r:${TILTS[i % TILTS.length]}`},
       art,
       el('span', {class: 'gtext'},
