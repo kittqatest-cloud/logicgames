@@ -803,6 +803,15 @@ body.night .bar h2{text-shadow:0 2px 0 rgba(8,12,48,.7),0 0 4px rgba(8,12,48,.85
 /* the game title is never narrower than its longest word: when the row has no room for it, the difficulty buttons
    and the counters move down a row instead of running over the title (the iPad showed "Космический счёт" under them) */
 .bar h2{min-width:min-content}
+
+/* the vine round the task of the day reaches 44px left and 38px right of its panel, more than the page's 16px
+   side gutter on screens narrower than ~1180px (every iPad): it made the page wider than the screen, so the whole
+   UI could be dragged sideways. There the panel steps in from the sides so the vine stays on screen. */
+@media (min-width:740px) and (max-width:1179px){.panel.daily,body.night .panel.daily{margin-left:30px;margin-right:24px}}
+/* below ~740px the panel is too narrow for the vine picture's two ends, and the frame balloons past the screen */
+@media (max-width:739px){.vine-frame{display:none}}
+/* and nothing may make the page scroll sideways: a touch drag on an iPad then moves the UI instead of the game */
+html,body{overflow-x:clip}
 </style>
 </head>
 <body>
@@ -1429,7 +1438,8 @@ document.querySelectorAll('.perch .owl, .task .owl').forEach(n => { n.setAttribu
     v.style.borderRightWidth = (h * 260 / 360).toFixed(1) + 'px';
   };
   // the border box: its size is set by the panel, never by the borders this writes
-  if ('ResizeObserver' in window) new ResizeObserver(fit).observe(v, {box: 'border-box'});
+  // fitted on the next frame, outside the observer's own delivery, so resizing the ends never re-triggers it in a loop
+  if ('ResizeObserver' in window) new ResizeObserver(() => requestAnimationFrame(fit)).observe(v, {box: 'border-box'});
   fit();
 })();
 
