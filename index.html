@@ -905,8 +905,9 @@ body.night .cnt-acorns{background:rgba(30,36,90,.75)}
 .cblock{--bc:#F08A1C;--bd:#B45E0A;width:calc((100% - 20px) / 3);max-width:124px;aspect-ratio:1;border-radius:22px;border:clamp(6px,.9vw,9px) solid var(--bc);cursor:pointer;
   background:repeating-linear-gradient(95deg,rgba(150,95,40,.07) 0 4px,transparent 4px 12px),linear-gradient(160deg,#FBE6C2 0%,#EBC28A 100%);
   box-shadow:0 8px 0 var(--bd),0 14px 20px rgba(70,40,15,.28),inset 0 3px 0 rgba(255,255,255,.7),inset 0 -4px 0 rgba(150,95,40,.18);
-  font:900 clamp(30px,4.2vw,58px)/1 var(--font-display);color:var(--bc);text-shadow:0 3px 0 #FFFFFF,0 -1px 0 #FFFFFF,2px 0 0 #FFFFFF,-2px 0 0 #FFFFFF;
-  transition:transform .12s;-webkit-tap-highlight-color:transparent}
+  container-type:inline-size;display:grid;place-items:center;padding:0;color:var(--bc);transition:transform .12s;-webkit-tap-highlight-color:transparent}
+.cblock span{font:900 80cqi/1 var(--font-display);letter-spacing:-.02em;text-shadow:0 3px 0 #FFFFFF,0 -1px 0 #FFFFFF,2px 0 0 #FFFFFF,-2px 0 0 #FFFFFF}
+.cblock.two span{font-size:58cqi;letter-spacing:-.05em}
 .cblock.c1{--bc:#43A834;--bd:#2A7420}.cblock.c2{--bc:#2F86E0;--bd:#1C5BA6}
 .cblock:active{transform:translateY(4px);box-shadow:0 4px 0 var(--bd),inset 0 3px 0 rgba(255,255,255,.7)}
 .cblock.right{animation:cntRight .7s ease-out;box-shadow:0 0 0 6px #FFE066,0 0 26px 8px rgba(255,214,70,.75),0 8px 0 var(--bd)}
@@ -917,7 +918,7 @@ body.night .cnt-acorns{background:rgba(30,36,90,.75)}
   .cnt-frame{width:100%}
   .cnt-abacus{align-self:center}
   .cnt-blocks{align-self:center;gap:clamp(8px,2vw,18px)}
-  .cblock{border-radius:18px;font-size:clamp(30px,7vw,56px)}
+  .cblock{border-radius:18px}
 }
 @media (prefers-reduced-motion: reduce){.cnt-it .cnt-pic,.cnt-acorn.cur{animation:none}}
 </style>
@@ -2943,7 +2944,7 @@ function mountCount(api){
       scene.append(it);
     });
     blocks.replaceChildren(...q.opts.map((o, i) => {
-      const b = el('button', {class: 'cblock c' + i, type: 'button', 'data-right': o === q.n ? '1' : null}, String(o));
+      const b = el('button', {class: 'cblock c' + i + (o >= 10 ? ' two' : ''), type: 'button', 'data-right': o === q.n ? '1' : null}, el('span', null, String(o)));
       b.addEventListener('click', () => answer(o === q.n, b, q));
       return b;
     }));
